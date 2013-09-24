@@ -18,10 +18,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class HauptFenster {
 
+    public static int messagesLeft = 10;
     static JFrame frame;
     private JTable table;
     private JTextField txtSuche;
     static String username="AdminTest";
+    //static int messagesLeft=0;
 
     /**
      * Launch the application.

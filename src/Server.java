@@ -1,79 +1,103 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+ 
 
-public class Server extends Thread{
 
-	static ServerSocket server;
-	static Thread thread;
-
-	public void run() {
-
-		// Server-Struktur
-		try {
-			server = new ServerSocket(5000);
-			System.out.println("Server wurde gestartet!");
-
-		} catch (IOException e) {
-			System.out.println("Server konnte den Port nicht erreichen!");
-			System.exit(1);
-		}
-
-		// Client-Verbindung
-		Socket client = null;
-		PrintWriter writer = null;
-		BufferedReader reader = null;
-		try {
-			client = server.accept();
-
-			OutputStream out = client.getOutputStream();
-			writer = new PrintWriter(out);
-
-			InputStream in = client.getInputStream();
-			reader = new BufferedReader(new InputStreamReader(in));
-
-		} catch (IOException e) {
-			System.out.println("Keine Verbindung zum Server möglich!");
-			System.exit(1);
-		}
-
-		// Kommunikation
-		String string = null;
-		try {
-			while ((string = reader.readLine()) != null) {
-				String income = "Empfangen von " + client.getInetAddress()
-						+ ": " + string;
-				System.out.println(income);
-
-				writer.write(client.getInetAddress() + ": " + string + "\n");
-				writer.flush();
-			}
-
-			writer.close();
-			reader.close();
-		} catch (IOException e) {
-			System.out.println("Fehler beim Lesen!");
-		}
-
-		try {
-			System.out.println("Schlafen!!");
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("Tot!");
+public class Server{// extends Thread{
+    
+    
+    public static void main(String[] args) {
+	try {
+	    mach();
+	} catch (ClassNotFoundException | IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
-
-	public static void main(String[] args) {
-
-		thread = new Thread(new Server());
-		thread.start();
-
+    }
+    
+    static Message messageIGot;
+    //static ServerSocket variable
+    private static ServerSocket server;
+    //socket server port on which it will listen
+    private static int port = 7866;
+    static String message;
+    
+  /*  public void run(){
+	try {
+	    mach();
+	} catch (ClassNotFoundException | IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
+    }*/
+    
+    public static void mach() throws IOException, ClassNotFoundException{
+ 
+        //create the socket server object
+        server = new ServerSocket(port);
+        //keep listens indefinitely until receives 'exit' call or program terminates
+        System.out.println("Waiting for client request." + " Meine IP ist: "+ InetAddress.getLocalHost().getHostAddress());
+        
+        while(true){
+            //creating socket and waiting for client connection
+           Socket socket = server.accept();
+            socket.setTcpNoDelay(true);
+            //read from socket to ObjectInputStream object
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            //convert ObjectInputStream object to String
+          
+  try{          
+ Object obj =  ois.readObject();
+            
+            
+ if (obj instanceof Message)
+ {
+ 	// Cast object to a Vector
+	messageIGot = (Message) obj;
+	//if(i%20==0){ HauptFenster.LinieLabel.setText("jooooo " +messageIGot.nextX);}
+	System.out.println(messageIGot.toString());
+	      	
+	   
+	
+ }
+ else
+ {
+     message = (String) ois.readObject();
+     System.out.println("***Message Received: " + message);
+     if(message.equalsIgnoreCase("exit")) break;
+ }
+  }catch(Exception e){
+      //nichts bekommen
+  }
+       /*     
+            //create ObjectOutputStream object
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            //write object to Socket
+           // oos.writeObject(HauptFenster.spieler.move); //"Hi Client der Spieler befindet sich auf posX:"+
+            oos.writeObject(new Message(HauptFenster.spieler));*/
+
+            
+           // System.out.println("***Message sent: Hi Client der Spieler befindet sich auf posX:"+HauptFenster.spieler.getX());
+            // oos.writeObject("Hi Client deine Nachricht war:"+message);
+            //close resources
+            ois.close();
+           // oos.close();
+            socket.close();
+            //terminate the server if client sends exit request
+           try {
+	    Thread.sleep(5);
+	} catch (InterruptedException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+        }
+        System.out.println("Shutting down Socket server!!");
+        //close the ServerSocket object
+        server.close();
+    }
+   
+     
 }

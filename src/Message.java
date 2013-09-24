@@ -7,7 +7,7 @@ public class Message implements Serializable{
     private static final long serialVersionUID = 7526472295622776147L; 
     private String from;
     private String to;
-    private String text;
+    String text;
 
   
     public Message(String from, String to, String text)
@@ -57,6 +57,12 @@ public class Message implements Serializable{
     public String getfrom()
     {
         return from;
+    }
+    
+    public String toString()
+    {
+	//System.out.println
+	return ("From: "+from+" |To: " + to + " |message: " + text);
     }
 
     public String getto()
