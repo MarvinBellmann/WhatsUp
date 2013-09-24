@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client {
+public class Client extends Thread{
 
 	static Socket client = null;
 	PrintWriter writer = null;
