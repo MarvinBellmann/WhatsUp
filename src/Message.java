@@ -62,7 +62,7 @@ public class Message implements Serializable{
     public String toString()
     {
 	//System.out.println
-	return ("From: "+from+" |To: " + to + " |message: " + text);
+	return ("From: "+from+" |To: " + to + " |message: " + System.getProperty("line.separator")+ text);
     }
 
     public String getto()
