@@ -2,12 +2,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class Message implements Serializable{
     private static final long serialVersionUID = 7526472295622776147L; 
     private String from;
     private String to;
     String text;
+    Date date;
+    
 
   
     public Message(String from, String to, String text)
@@ -15,6 +19,9 @@ public class Message implements Serializable{
         this.from = from;
         this.to = to;
         this.text = text;
+        Timestamp stamp = new Timestamp(System.currentTimeMillis());
+        this.date =  new Date(stamp.getTime());
+        
     }
 
     
@@ -62,7 +69,7 @@ public class Message implements Serializable{
     public String toString()
     {
 	//System.out.println
-	return ("From: "+from+" |To: " + to + " |message: " + System.getProperty("line.separator")+ text);
+	return ("From: "+from+" |To: " + to +" |Date: " + date + " |message: " + System.getProperty("line.separator")+ text);
     }
 
     public String getto()

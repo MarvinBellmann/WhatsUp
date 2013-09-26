@@ -3,6 +3,7 @@ import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
  
 
 
@@ -24,6 +25,8 @@ public class Server{// extends Thread{
     //socket server port on which it will listen
     private static int port = 7866;
     static String message;
+    public static ArrayList<Message> receivedMessageList= new ArrayList<Message>(); 
+    
     
   /*  public void run(){
 	try {
@@ -46,10 +49,12 @@ public class Server{// extends Thread{
            Socket socket = server.accept();
             socket.setTcpNoDelay(true);
             //read from socket to ObjectInputStream object
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            ObjectInputStream ois=null;
+            try{   
+          ois = new ObjectInputStream(socket.getInputStream());
             //convert ObjectInputStream object to String
           
-  try{          
+       
  Object obj =  ois.readObject();
             
             
@@ -57,6 +62,7 @@ public class Server{// extends Thread{
  {
  	// Cast object to a Vector
 	messageIGot = (Message) obj;
+	 receivedMessageList.add(messageIGot);
 	//if(i%20==0){ HauptFenster.LinieLabel.setText("jooooo " +messageIGot.nextX);}
 	System.out.println(messageIGot.toString());
 	      	
@@ -83,9 +89,13 @@ public class Server{// extends Thread{
            // System.out.println("***Message sent: Hi Client der Spieler befindet sich auf posX:"+HauptFenster.spieler.getX());
             // oos.writeObject("Hi Client deine Nachricht war:"+message);
             //close resources
+        try{
             ois.close();
            // oos.close();
             socket.close();
+        }catch(Exception e){
+            
+        }
             //terminate the server if client sends exit request
            try {
 	    Thread.sleep(5);

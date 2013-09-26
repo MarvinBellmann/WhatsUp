@@ -55,12 +55,12 @@ public class Client{
                // System.out.println("message send");
         	  if(messageList.size()>0){
         	  //    System.out.println(messageList.size());
-        	      oos.writeObject(messageList.get(0));
+        	      oos.writeObject(messageList.get(messageList.size()-1));
         	  
         	// oos.writeObject(new Message("Test1","Test2","Testcounter"+HauptFenster.messagesLeft)); //Hauptfenstermessageliste einpflegen!!!!!!!!!!
               //  oos.writeObject("nerv");
                 System.out.println("message send");
-                messageList.clear();
+                messageList.remove(messageList.size()-1);
         	  }
               // 
           //          }else{
