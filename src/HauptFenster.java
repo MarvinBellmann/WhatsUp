@@ -5,15 +5,17 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class HauptFenster {
@@ -30,6 +32,9 @@ public class HauptFenster {
 	private JTable table;
 	private JTextField txtSuche;
 	static String username = "AdminTest";
+
+	private Border raisedetched = BorderFactory.createEtchedBorder(
+			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
 
 	// static int messagesLeft=0;
 
@@ -70,11 +75,10 @@ public class HauptFenster {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(border, 150, width - 15, height - 185);
-		frame.getContentPane().add(scrollPane);
-
 		table = new JTable();
+		table.setBackground(Color.lightGray);
+		table.setBounds(border, 130 + (border * 4), width - 15, 400);
+		table.setBorder(raisedetched);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -88,22 +92,18 @@ public class HauptFenster {
 						+ " geöffnet.");
 			}
 		});
-		// table.setEditingColumn(false);
-		// table.setE
-		// table.
 		table.setModel(new DefaultTableModel(new Object[][] {
 				{ "Bild1", "Online", "Marvin" },
 				{ "Bild2", "Online", "Franz" },
 				{ "Bild3", "Offline", "Lappen" }, }, new String[] {
 				"Profilbild", "Status", "Name" }));
-		scrollPane.setViewportView(table);
+		frame.add(table);
 
 		// ProfilPanel
 		JPanel panelProfil = new JPanel();
-		panelProfil.setForeground(Color.ORANGE);
-		panelProfil.setBackground(Color.LIGHT_GRAY);
 		panelProfil.setBounds(border, border, width - 15, 80);
 		panelProfil.setLayout(null);
+		panelProfil.setOpaque(false);
 
 		JLabel label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(HauptFenster.class
@@ -128,10 +128,11 @@ public class HauptFenster {
 
 		// KontaktPanel
 		JPanel panelKontakt = new JPanel();
-		panelKontakt.setBackground(Color.LIGHT_GRAY);
-		panelKontakt.setForeground(Color.ORANGE);
+		// panelKontakt.setBackground(Color.LIGHT_GRAY);
+		// panelKontakt.setForeground(Color.ORANGE);
 		panelKontakt.setBounds(border, 80 + (border * 2), width - 15, 50);
 		panelKontakt.setLayout(null);
+		panelKontakt.setOpaque(false);
 
 		JLabel lblKontakte = new JLabel("Kontakte");
 		lblKontakte.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -142,10 +143,13 @@ public class HauptFenster {
 		txtSuche = new JTextField();
 		txtSuche.setForeground(Color.LIGHT_GRAY);
 		txtSuche.setText("Suche");
+		txtSuche.setBorder(raisedetched);
 		txtSuche.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSuche.setBounds(border, (border * 2) + 14, width - (border * 5), 20);
 		panelKontakt.add(txtSuche);
 
 		frame.getContentPane().add(panelKontakt);
+		frame.add(new Gradients(Color.green.darker(), Color.green, width,
+				height));
 	}
 }

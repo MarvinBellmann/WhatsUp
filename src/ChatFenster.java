@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 
 public class ChatFenster {
 
@@ -21,6 +26,20 @@ public class ChatFenster {
 	private JTextPane txtField;
 	public static String nameGespraech;
 	static JLabel name_lbl;
+	private static int width = 450;
+	private static int border = 7;
+	private static int height = 340;
+	private static int pictureSize = 69;
+	private static int textSize = 330;
+
+	private Border raisedetched = BorderFactory.createEtchedBorder(
+			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
+	private Border raisedbevel = BorderFactory.createRaisedBevelBorder();
+	private Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+	private CompoundBorder compound = BorderFactory.createCompoundBorder(
+			raisedbevel, loweredbevel);
+
+	LineBorder brd = new LineBorder(null, 5, true);
 
 	/**
 	 * Launch the application.
@@ -52,17 +71,26 @@ public class ChatFenster {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(HauptFenster.frame.getX() - 464,
-				HauptFenster.frame.getY(), 452, 339);
+		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),
+				HauptFenster.frame.getY(), width, height);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
 		frame.getContentPane().setLayout(null);
 
+		JPanel panel_1 = new JPanel();
+		panel_1.setForeground(Color.ORANGE);
+		panel_1.setBackground(Color.LIGHT_GRAY);
+		panel_1.setBounds(border, border, width - (border * 3), height
+				- (border * 6));
+		panel_1.setLayout(null);
+		panel_1.setOpaque(false);
+
 		JLabel online_lbl = new JLabel("Online");
-		online_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		online_lbl.setHorizontalAlignment(SwingConstants.LEFT);
 		online_lbl.setForeground(Color.GREEN);
 		online_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
-		online_lbl.setBounds(361, 124, 66, 14);
-		frame.getContentPane().add(online_lbl);
+		online_lbl.setBounds(textSize + (border * 2), pictureSize
+				+ (border * 3) + 14, 70, 14);
+		panel_1.add(online_lbl);
 
 		JButton send_btn = new JButton("Senden");
 		send_btn.addActionListener(new ActionListener() {
@@ -74,13 +102,14 @@ public class ChatFenster {
 
 			}
 		});
-		send_btn.setFont(new Font("Tahoma", Font.PLAIN, 7));
-		send_btn.setBounds(294, 286, 57, 13);
-		frame.getContentPane().add(send_btn);
+		send_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		send_btn.setBounds(textSize + border - 100, (border * 5) + 240, 100, 20);
+		panel_1.add(send_btn);
 
 		txtField = new JTextPane();
 		txtField.setContentType("text/html");
-		txtField.setBounds(19, 206, 332, 79);
+		txtField.setBounds(border, (border * 4) + 160, textSize, 80);
+		txtField.setBorder(raisedetched);
 		txtField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -91,45 +120,41 @@ public class ChatFenster {
 				}
 			}
 		});
-		frame.getContentPane().add(txtField);
+		panel_1.add(txtField);
 
 		JTextArea txtPanel = new JTextArea();
 		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 14));
 		txtPanel.setText("Marvin (10:26): Hey diggie ");
-		txtPanel.setBounds(19, 29, 332, 160);
-		frame.getContentPane().add(txtPanel);
+		txtPanel.setBounds(border, border, textSize, 160);
+		txtPanel.setEditable(false);
+		txtPanel.setBorder(raisedetched);
+		panel_1.add(txtPanel);
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(ChatFenster.class
 				.getResource("/data/2.png")));
-		label.setBounds(358, 31, 69, 69);
-		frame.getContentPane().add(label);
+		label.setBounds(textSize + (border * 2), border, pictureSize,
+				pictureSize);
+		panel_1.add(label);
 
 		JLabel ichbild_lbl = new JLabel("");
 		ichbild_lbl.setIcon(new ImageIcon(ChatFenster.class
 				.getResource("/data/1.jpg")));
-		ichbild_lbl.setBounds(358, 210, 69, 69);
-		frame.getContentPane().add(ichbild_lbl);
+		ichbild_lbl.setBounds(textSize + (border * 2), 160 + (border * 4),
+				pictureSize, pictureSize);
+		panel_1.add(ichbild_lbl);
 
 		name_lbl = new JLabel("test");
-		name_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		name_lbl.setHorizontalAlignment(SwingConstants.LEFT);
 		name_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
-		name_lbl.setBounds(357, 104, 72, 14);
-		frame.getContentPane().add(name_lbl);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setForeground(Color.ORANGE);
-		panel_1.setBackground(Color.LIGHT_GRAY);
-		panel_1.setBounds(10, 22, 424, 278);
-		frame.getContentPane().add(panel_1);
-
-		JPanel panel_3 = new JPanel();
-		panel_3.setForeground(Color.ORANGE);
-		panel_3.setBackground(Color.LIGHT_GRAY);
-		panel_3.setBounds(19, 11, 408, 10);
-		frame.getContentPane().add(panel_3);
+		name_lbl.setBounds(textSize + (border * 2), pictureSize + (border * 2),
+				70, 14);
+		panel_1.add(name_lbl);
 
 		name_lbl.setText(nameGespraech);
+		frame.getContentPane().add(panel_1);
+		frame.add(new Gradients(Color.green.darker(), Color.green, width,
+				height));
 	}
 
 	public String getLastWord() {
