@@ -12,13 +12,14 @@ public class Client{
  static String serverIP;   
  static Message messageIGot;
  public static ArrayList<Message> messageList= new ArrayList<Message>(); 
+ static boolean verbindungscheck;
  
  	public static void send(String From, String To, String Text){
 	  //  System.out.println("From: "+From+" |To: " + To + " |message: " + Text);
 	   // Message message = new Message(From,To,Text);
 	    messageList.add(new Message(From,To,Text));
 	    
-	    System.out.println("message added " + Text + " size: " + messageList.size());
+	    System.out.println(">>> Message added");// " + Text + " size: " + messageList.size());
 	}
 
     public Client(String serverIP) {
@@ -35,15 +36,19 @@ public class Client{
     
     public static void mach() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         //get the localhost IP address, if server is running on some other IP, you need to use that
-       System.out.println("verbinde an: " + InetAddress.getByName(serverIP));
+       System.out.println("Verbinde an: " + InetAddress.getByName(serverIP));
 	InetAddress host = InetAddress.getByName(serverIP);//InetAddress.getLocalHost();
         Socket socket = null;
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
        while(true){//for(int i=0;i<1500000;i++){
             //establish socket connection to server
+	   
+	   try{
+	       
+	       
             socket = new Socket(host.getHostName(), 7866);
-            
+            if(socket!=null && verbindungscheck==false){System.out.println("Erfolgreich verbunden."); verbindungscheck=true;}
             socket.setTcpNoDelay(true);
             
             ////////////////////////////////////////          
@@ -59,7 +64,7 @@ public class Client{
         	  
         	// oos.writeObject(new Message("Test1","Test2","Testcounter"+HauptFenster.messagesLeft)); //Hauptfenstermessageliste einpflegen!!!!!!!!!!
               //  oos.writeObject("nerv");
-                System.out.println("message send");
+                System.out.println(">>> Message send");
                 messageList.remove(messageList.size()-1);
         	  }
               // 
@@ -93,6 +98,10 @@ public class Client{
         	//System.out.println("keine neue nachricht");
             }*/
             oos.close();
+       }catch(Exception e){
+       System.out.println("Verbindungs Error! Server Offline? Neuversuch in 10 Sekunden");
+       Thread.sleep(10000);
+       }
             Thread.sleep(10);//100
         }
     }
