@@ -19,7 +19,7 @@ public class Client{
 	   // Message message = new Message(From,To,Text);
 	    messageList.add(new Message(From,To,Text));
 	    
-	    System.out.println(">>> Message added");// " + Text + " size: " + messageList.size());
+	    //System.out.println(">>> Message added");// " + Text + " size: " + messageList.size());
 	}
 
     public Client(String serverIP) {
@@ -46,22 +46,27 @@ public class Client{
 	   
 	   try{
 	       
-	       
-            socket = new Socket(host.getHostName(), 7866);
+	    
+	       if(socket==null){   
+		   socket = new Socket(host.getHostName(), 7866); 
+		   socket.setTcpNoDelay(true); 
+		   oos = new ObjectOutputStream(socket.getOutputStream());
+		   }
+	      
             if(socket!=null && verbindungscheck==false){System.out.println("Erfolgreich verbunden."); verbindungscheck=true;}
-            socket.setTcpNoDelay(true);
+           
             
             ////////////////////////////////////////          
             //write to socket using ObjectOutputStream
            
            
           
-        	 oos = new ObjectOutputStream(socket.getOutputStream());
+        	
                // System.out.println("message send");
         	  if(messageList.size()>0){
         	  //    System.out.println(messageList.size());
         	      oos.writeObject(messageList.get(messageList.size()-1));
-        	  
+        	 
         	// oos.writeObject(new Message("Test1","Test2","Testcounter"+HauptFenster.messagesLeft)); //Hauptfenstermessageliste einpflegen!!!!!!!!!!
               //  oos.writeObject("nerv");
                 System.out.println(">>> Message send");
@@ -97,10 +102,11 @@ public class Client{
         	e.printStackTrace();
         	//System.out.println("keine neue nachricht");
             }*/
-            oos.close();
+           // oos.close();
+           // oos.flush();
        }catch(Exception e){
-       System.out.println("Verbindungs Error! Server Offline? Neuversuch in 10 Sekunden");
-       Thread.sleep(10000);
+       System.out.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden" + e.getMessage());
+       Thread.sleep(5000);
        }
             Thread.sleep(10);//100
         }
