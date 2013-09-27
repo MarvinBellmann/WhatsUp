@@ -86,6 +86,9 @@ public class WorkerRunnable implements Runnable{
       clientAnwesend=false;
       //nichts bekommen
   }
+            
+            
+            
        /*     
             //create ObjectOutputStream object
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
