@@ -8,6 +8,7 @@ public class ServerStarter {
     
     
     static String serverip=null;
+    static int port = 7866;
     /**
      * @param args
      */
@@ -20,9 +21,9 @@ public class ServerStarter {
 	    e.printStackTrace();
 	}
 	// TODO Auto-generated method stub
-	MultiThreadedServer server = new MultiThreadedServer(7866);
+	MultiThreadedServer server = new MultiThreadedServer(port);
 	new Thread(server).start();
-System.out.println("Server gestartet. Server IP ist: "+ serverip);
+System.out.println("Server gestartet. Server IP ist: ["+ serverip+" |Port:"+port+"]");
 System.out.println("Warte auf Clients...");
 
 
