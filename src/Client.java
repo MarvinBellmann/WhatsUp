@@ -69,7 +69,7 @@ public class Client{
         	 
         	// oos.writeObject(new Message("Test1","Test2","Testcounter"+HauptFenster.messagesLeft)); //Hauptfenstermessageliste einpflegen!!!!!!!!!!
               //  oos.writeObject("nerv");
-                System.out.println(">>> Message send");
+                System.out.println(">>> Message send to "+messageList.get(messageList.size()-1).to +" ("+messageList.get(messageList.size()-1).date+")");
                 messageList.remove(messageList.size()-1);
         	  }
               // 
@@ -105,7 +105,7 @@ public class Client{
            // oos.close();
            // oos.flush();
        }catch(Exception e){
-       System.out.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden" + e.getMessage());
+       System.out.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:" + e.getMessage());
        Thread.sleep(5000);
        }
             Thread.sleep(10);//100

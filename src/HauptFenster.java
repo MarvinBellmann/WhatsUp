@@ -44,6 +44,15 @@ public class HauptFenster {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+			   /* String test;
+			    String result;
+			    test = "abc(abc)abc";
+			    result = test.replaceAll("[()]", "");
+
+			    System.out.println(result);*/
+			    
+		                
+		                
 				try {
 					HauptFenster window = new HauptFenster();
 					window.frame.setVisible(true);

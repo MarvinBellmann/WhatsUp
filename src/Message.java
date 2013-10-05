@@ -4,11 +4,13 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Message implements Serializable{
     private static final long serialVersionUID = 7526472295622776147L; 
-    private String from;
-    private String to;
+    String from;
+    String to;
     String text;
     Date date;
     
@@ -68,8 +70,22 @@ public class Message implements Serializable{
     
     public String toString()
     {
-	//System.out.println
-	return ("From: "+from+" |To: " + to +" |Date: " + date + " |message: " + System.getProperty("line.separator")+ text);
+	//html to string umformung der nachricht
+	String kurztext=text;
+	Pattern p = Pattern.compile("<(.*?)>");
+        Matcher m = p.matcher(kurztext);        
+        while (m.find()) {             
+           kurztext= kurztext.replaceAll(m.group(), "");
+        }            
+        kurztext = kurztext.replaceAll(System.getProperty("line.separator"), ""); //("\\\n", "");//Replace(Nz(meinString, ""), vbCrLf, "")//string= string.replaceAll("\\\n", "<br />");
+        kurztext = kurztext.replaceAll("    ", " ");
+        kurztext = kurztext.replaceAll("   ", " ");
+        kurztext = kurztext.replaceAll("  ", " ");
+        kurztext = kurztext.replaceAll("  ", " ");
+        kurztext = kurztext.substring(1);
+        
+        //rückgabe
+	return ("(From: "+from+" |To: " + to +" |Date: " + date + " |"+"Message: " + kurztext+")");//+ System.getProperty("line.separator")
     }
 
     public String getto()

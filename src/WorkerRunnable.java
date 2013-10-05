@@ -61,7 +61,7 @@ public class WorkerRunnable implements Runnable{
             
  if (obj instanceof Message)
  {
-     System.out.println("***Nachricht von: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort()+"]"  );
+     System.out.print("***Nachricht von: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort()+"] "  );
 	
  	// Cast object to a Vector
 	messageIGot = (Message) obj;
