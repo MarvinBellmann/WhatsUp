@@ -34,7 +34,7 @@ public class WorkerRunnable implements Runnable{
     }
 
     public void run() {
-	System.out.println("***Neue Client Verbindung steht: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort() +"]" );
+	System.out.println("***Anmeldung Client: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort() +"]" );
 	ObjectInputStream ois=null;
 	try {
 		ois = new ObjectInputStream(clientSocket.getInputStream());
@@ -61,7 +61,7 @@ public class WorkerRunnable implements Runnable{
             
  if (obj instanceof Message)
  {
-     System.out.print("***Nachricht von: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort()+"] "  );
+     System.out.print("---Nachricht von Cl: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort()+"] "  );
 	
  	// Cast object to a Vector
 	messageIGot = (Message) obj;
@@ -79,7 +79,7 @@ public class WorkerRunnable implements Runnable{
      if(message.equalsIgnoreCase("exit")) break;
  }*/
   }catch(Exception e){
-      System.out.println("***Client [" + clientIP + " |Port:"+clientPort + "] abgemeldet - schlieﬂe Thread; Grund: "+e.getMessage());
+      System.out.println("!!!Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
      //this.stop();
      // e.printStackTrace();
       //System.exit(0);

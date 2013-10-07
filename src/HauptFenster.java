@@ -24,19 +24,23 @@ public class HauptFenster {
 			.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	private static int maxHeight = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
-	public static int messagesLeft = 10;
+	private Border raisedetched = BorderFactory.createEtchedBorder(
+		EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
+	
 	static JFrame frame;
+	public static int messagesLeft = 10;
 	private static int width = 250;
 	private static int height = 600;
 	private static int border = 5;
 	private JTable table;
 	private JTextField txtSuche;
+	
 	static String username = "AdminTest";
+	static String serverIP = "localhost"; //SERVER IP!
 
-	private Border raisedetched = BorderFactory.createEtchedBorder(
-			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
+	
 
-	// static int messagesLeft=0;
+	
 
 	/**
 	 * Launch the application.
@@ -63,7 +67,7 @@ public class HauptFenster {
 		});
 
 		// Server server = new Server();
-		Client client = new Client("localhost");
+		Client client = new Client(serverIP);
 	}
 
 	/**
