@@ -34,6 +34,7 @@ public class HauptFenster {
 	private static int border = 5;
 	private JTable table;
 	private JTextField txtSuche;
+	public static JLabel statuslabel;
 	
 	static String username = "AdminTest";
 	static String serverIP = "localhost"; //SERVER IP!
@@ -75,6 +76,24 @@ public class HauptFenster {
 	 */
 	public HauptFenster() {
 		initialize();
+	}
+	
+	public static void StatusChanger() throws InterruptedException{
+	   
+	Thread.sleep(1000);	    
+	    statuslabel.setForeground(Color.GREEN);	    	    
+	    statuslabel.setText("O");
+	Thread.sleep(120);
+	    statuslabel.setText("On");
+	Thread.sleep(120);
+	    statuslabel.setText("Onl");
+	Thread.sleep(120);
+	    statuslabel.setText("Onli");
+	Thread.sleep(120);
+	    statuslabel.setText("Onlin");
+	Thread.sleep(120);
+	    statuslabel.setText("Online");
+       
 	}
 
 	/**
@@ -130,12 +149,12 @@ public class HauptFenster {
 		lblSvenole.setBounds((border * 2) + (69 + border), border, 90, 14);
 		panelProfil.add(lblSvenole);
 
-		JLabel label = new JLabel("Online");
-		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setForeground(Color.GREEN);
-		label.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label.setBounds((border * 2) + (69 + border), (border * 2) + 14, 90, 14);
-		panelProfil.add(label);
+		statuslabel = new JLabel("Offline");
+		statuslabel.setHorizontalAlignment(SwingConstants.LEFT);
+		statuslabel.setForeground(Color.RED);
+		statuslabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		statuslabel.setBounds((border * 2) + (69 + border), (border * 2) + 14, 90, 14);
+		panelProfil.add(statuslabel);
 
 		frame.getContentPane().add(panelProfil);
 

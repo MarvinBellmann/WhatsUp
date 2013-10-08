@@ -15,8 +15,7 @@ public class Client{
  static boolean verbindungscheck;
  
  	public static void send(String From, String To, String Text){
-	  //  System.out.println("From: "+From+" |To: " + To + " |message: " + Text);
-	   // Message message = new Message(From,To,Text);
+	 
 	    messageList.add(new Message(From,To,Text));
 	    
 	    //System.out.println(">>> Message added");// " + Text + " size: " + messageList.size());
@@ -44,25 +43,20 @@ public class Client{
        while(true){//for(int i=0;i<1500000;i++){
             //establish socket connection to server
 	   
-	   try{
-	       
-	    
+	   try{	       
+	       //socket.
+	    //System.out.println(socket);
 	       if(socket==null){   
 		   socket = new Socket(host.getHostName(), 7866); 
 		   socket.setTcpNoDelay(true); 
 		   oos = new ObjectOutputStream(socket.getOutputStream());
 		   }
 	      
-            if(socket!=null && verbindungscheck==false){System.out.println("Erfolgreich verbunden."); verbindungscheck=true;}
-           
-            
+            if(socket!=null && verbindungscheck==false){System.out.println("Erfolgreich verbunden."); HauptFenster.StatusChanger();verbindungscheck=true; }
             ////////////////////////////////////////          
             //write to socket using ObjectOutputStream
            
-           
-          
-        	
-               // System.out.println("message send");
+                  // System.out.println("message send");
         	  if(messageList.size()>0){
         	  //    System.out.println(messageList.size());
         	      oos.writeObject(messageList.get(messageList.size()-1));
@@ -72,11 +66,7 @@ public class Client{
                 System.out.println(">>> Message send to "+messageList.get(messageList.size()-1).to +" ("+messageList.get(messageList.size()-1).date+")");
                 messageList.remove(messageList.size()-1);
         	  }
-              // 
-          //          }else{
-         //       	System.out.println("noch nichts");
-                 //   }
-          //
+            
             
        ////////////////////////////////////////     
            
@@ -106,9 +96,10 @@ public class Client{
            // oos.flush();
        }catch(Exception e){
        System.out.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:" + e.getMessage());
+       //e.printStackTrace();
        Thread.sleep(5000);
        }
-            Thread.sleep(10);//100
+            Thread.sleep(60);//100
         }
     }
     
