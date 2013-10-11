@@ -136,7 +136,7 @@ public class ChatFenster {
 
 		txtPanel = new JTextArea();
 		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 14));
-		txtPanel.setText("Marvin (10:26): Hey diggie ");
+		txtPanel.setText("Test (XX:XX:XX): Hey diggie ");
 		txtPanel.setBounds(border, border, textSize, 160);
 		//txtPanel.setEditable(false);
 		txtPanel.setBorder(raisedetched);

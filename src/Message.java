@@ -106,8 +106,25 @@ public class Message implements Serializable{
         kurztext = kurztext.replaceAll("  ", " ");
         kurztext = kurztext.substring(1);
         
+       /* String min;
+        String hrs;
+        if(date.getMinutes()<10){
+        min = "0"+String.valueOf(date.getMinutes());
+        }
+        else{
+           min =   String.valueOf(date.getMinutes());
+        }
+        
+        if(date.getHours()<10){
+            hrs = "0"+String.valueOf(date.getHours());
+            }
+            else{
+               hrs =   String.valueOf(date.getHours());
+            }
+        */
+        //+ hrs+":"+ min+
         //rückgabe
-	return (kurztext);//+ System.getProperty("line.separator")
+	return (from + " ("+date.toString().substring(11, 19)+"): "+ kurztext);//+ System.getProperty("line.separator")
     }
     
 

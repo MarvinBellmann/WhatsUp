@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class HauptFenster {
 
-	static String username = "B"; //ändere hier
+	static String username = "A"; //ändere hier
 	private static int maxWidth = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	private static int maxHeight = GraphicsEnvironment
@@ -86,7 +86,7 @@ public class HauptFenster {
 	  //  chatFenster.panel_1.repaint();
 	    for(ChatFenster c: ChatFensterList){
 		if(c.nameGespraech.equalsIgnoreCase(str)){
-		    c.txtPanel.setText(text);
+		    c.txtPanel.setText(c.txtPanel.getText()+"\n"+text);
 			  //  chatFenster.panel_1.repaint();
 		}
 	    }

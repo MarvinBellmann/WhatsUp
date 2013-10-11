@@ -81,6 +81,10 @@ public class WorkerRunnable implements Runnable{
       //   }
        
      }     
+     
+  
+     
+     
  }
  if(gecheckt==true){
      MultiThreadedServer.messageList.remove(index);
