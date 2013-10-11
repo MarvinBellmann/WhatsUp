@@ -20,8 +20,8 @@ public class ServerStarter {
 	// TODO Auto-generated method stub
 	MultiThreadedServer server = new MultiThreadedServer(port);
 	new Thread(server).start();
-System.out.println("Server gestartet. Server IP ist: ["+ serverip+" |Port:"+port+"]");
-System.out.println("Warte auf Clients...");
+	System.out.println("Server gestartet. Server IP ist: ["+ serverip+" |Port:"+port+"]");
+	System.out.println("Warte auf Clients...");
 
 
 	/*try {

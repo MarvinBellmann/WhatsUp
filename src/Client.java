@@ -41,12 +41,11 @@ public class Client{
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
       //  Object obj =  null;
-       while(true){//for(int i=0;i<1500000;i++){
+       while(true){
             //establish socket connection to server
 	   
 	   try{	       
-	       //socket.
-	    //System.out.println(socket);
+	     
 	       if(socket==null){   
 		   socket = new Socket(host.getHostName(), 7866); 
 		   socket.setTcpNoDelay(true); 
@@ -65,12 +64,11 @@ public class Client{
         	clientReaderThread.start();
         	
             }
-            ////////////////////////////////////////          
-            
+            ////////////////////////////////////////  
     	
             
             //write to socket using ObjectOutputStream           
-                  // System.out.println("message send");
+                 
         if(messageList.size()>0){
         	  //    System.out.println(messageList.size());
         	oos.writeObject(messageList.get(messageList.size()-1));        	
@@ -98,98 +96,3 @@ public class Client{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-( new Thread() {
-
- 	       public void run() {
-
- 	      // for(;;) System.out.println(“Stop the world!”);
- 	       
- 	       
- 	       
- 	  // try{ 
- 	       System.out.println("1");
-           Object obj =  ois.readObject();
-            System.out.println("2");
-            
-            
-            if(socket!=null){
-        	
-    	  if (obj instanceof Message)
-              {
-            	// Cast object zur message
-          	messageIGot = (Message) obj;      	
-          	 System.out.println("Message vom Server: " + messageIGot.toString());
-         	}
-            }
-       // }catch(Exception e1){
- 	//   e1.printStackTrace();
- 	//   System.out.println("read problem");
-      //  }
- 	   
- 	  
-
- 	       }
-
- 	       }
-
- 	       ).start();
-
- 
-	  // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/
-
-	  
-	  
-////////////////////////////////////////     
-
- //read the server response message            
-/*   try{
- ois = new ObjectInputStream(socket.getInputStream());
- Object obj =  ois.readObject();
-
- if (obj instanceof Message)
- {
-	// Cast object zur message
-	messageIGot = (Message) obj;      	
-	 System.out.println("Message vom Server: " + messageIGot.text);
-		}
- 
-             
- //////////////////////////////////////////////////
- //close resources
- ois.close();       
- 
- }
- catch(Exception e){
-	e.printStackTrace();
-	//System.out.println("keine neue nachricht");
- }*/
-// oos.close();
-// oos.flush();

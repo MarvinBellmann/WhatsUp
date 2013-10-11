@@ -28,6 +28,8 @@ public class WorkerRunnable implements Runnable{
     InetAddress clientIP;
     int clientPort;
     public String user;
+    int gecheckt=0;
+    int genutztegecheckt=1;
 
     public WorkerRunnable(Socket clientSocket, String serverText) {
         this.clientSocket = clientSocket;
@@ -42,118 +44,55 @@ public class WorkerRunnable implements Runnable{
 	ObjectOutputStream oos = null;
 	try {
 		ois = new ObjectInputStream(clientSocket.getInputStream());
+		
+		
+		if(clientAnwesend==true){
+			WorkerRunnableRead serverReaderThread = new WorkerRunnableRead(clientSocket,ois,this);
+			serverReaderThread.setName("1A serverReaderThread");
+			serverReaderThread.start();
+		}
+		
+		
 		oos = new ObjectOutputStream(clientSocket.getOutputStream());
 	    } catch (IOException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	    }
+	
+	
         while(clientAnwesend==true){
-            //creating socket and waiting for client connection
-         //  Socket socket = server.accept();
-         //   socket.setTcpNoDelay(true);
-            //read from socket to ObjectInputStream object
-            
             
             try{   
-        	
-        	
-       
-            //convert ObjectInputStream object to String
-          
-  //     System.out.println("1");
- Object obj =  ois.readObject();
- //System.out.println("2");
-            
-            
- if (obj instanceof Message)
- {
-     System.out.print("<<< Nachricht von Cl: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort()+"] "  );
-	
- 	// Cast object to a Vector
-	messageIGot = (Message) obj;
-	 receivedMessageList.add(messageIGot);
-	 MultiThreadedServer.messageList.add(messageIGot);
-	//if(i%20==0){ HauptFenster.LinieLabel.setText("jooooo " +messageIGot.nextX);}
-	System.out.println(messageIGot.toString());
-	Thread.sleep(15);
-	      	
-	   
-	
- }
- if (obj instanceof StartData)
- {
-     startdata = (StartData) obj;
-     this.user=startdata.user;
-     System.out.println("*** Client nennt sich: " + this.user);
- }
- 
- 
- 
- 
- 
- 
- 
  // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- /*
+ 
  for (Message m : MultiThreadedServer.messageList){
-   //  if (m.from == this.user){
-	 //create ObjectOutputStream object        
-    //     oos.writeObject(m);
-        // MultiThreadedServer.messageList
-     //}
-     if (m.to == this.user && gecheckt=genutztegecheckt){
-	 //create ObjectOutputStream object        
-         oos.writeObject(m);
-        // MultiThreadedServer.messageList.remove(m);
+   
+     if (m.to.equalsIgnoreCase(this.user)){
+	
+	 gecheckt++;//trixxen
+	 
+	 if(gecheckt==genutztegecheckt){ // damit er es nur einmal weiterleitet
+	     System.out.println("An: ("+m.to+ ") Derzeitiger Client:(" +this.user+")");
+	     oos.writeObject(m);
+	     System.out.println("<>< Message weitergeleitet!");
+	     // MultiThreadedServer.messageList.remove(m); //SINNVOLLER!
+         }
+       
      }
  }
- */
+ 
  // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  
  
- 
- 
- 
- 
- //MultiThreadedServer.messageList.add(messageIGot);
- 
- /*else
- {
-     message = (String) ois.readObject();
-     System.out.println("***Message Received: " + message);
-     if(message.equalsIgnoreCase("exit")) break;
- }*/
   }catch(Exception e){
       System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schließe Thread; Grund: "+e.getMessage());
-      
-     //this.stop();
       e.printStackTrace();
       //System.exit(0);
       clientAnwesend=false;
-      //nichts bekommen
+
   }
             
-            
-            
-       /*     
-            //create ObjectOutputStream object
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            //write object to Socket
-           // oos.writeObject(HauptFenster.spieler.move); //"Hi Client der Spieler befindet sich auf posX:"+
-            oos.writeObject(new Message(HauptFenster.spieler));*/
-
-            
-           // System.out.println("***Message sent: Hi Client der Spieler befindet sich auf posX:"+HauptFenster.spieler.getX());
-            // oos.writeObject("Hi Client deine Nachricht war:"+message);
-            //close resources
-    //    try{
-          //  ois.close();
-           // oos.close();
-          //  socket.close();
-     //   }catch(Exception e){
-            
-      //  }
-            //terminate the server if client sends exit request
+        
            try {
 	    Thread.sleep(15);
 	} catch (InterruptedException e) {
@@ -163,20 +102,5 @@ public class WorkerRunnable implements Runnable{
         }
 	
 	
-      /*  try {
-            InputStream input  = clientSocket.getInputStream();
-            OutputStream output = clientSocket.getOutputStream();
-            long time = System.currentTimeMillis();
-            output.write(("HTTP/1.1 200 OK\n\nWorkerRunnable: " +
-                    this.serverText + " - " +
-                    time +
-                    "").getBytes());
-            output.close();
-            input.close();
-            System.out.println("Request processed: " + time);
-        } catch (IOException e) {
-            //report exception somewhere.
-            e.printStackTrace();
-        }*/
     }
 }

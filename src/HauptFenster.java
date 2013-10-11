@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class HauptFenster {
 
+	static String username = "A"; //ändere hier
 	private static int maxWidth = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	private static int maxHeight = GraphicsEnvironment
@@ -36,7 +37,7 @@ public class HauptFenster {
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
 	
-	static String username = "B";
+
 	static String serverIP = "localhost"; //SERVER IP!
 
 	
@@ -143,7 +144,7 @@ public class HauptFenster {
 		label_2.setBounds(border, border, 69, 69);
 		panelProfil.add(label_2);
 
-		JLabel lblSvenole = new JLabel("Sven-Ole");
+		JLabel lblSvenole = new JLabel(this.username);
 		lblSvenole.setHorizontalAlignment(SwingConstants.LEFT);
 		lblSvenole.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblSvenole.setBounds((border * 2) + (69 + border), border, 90, 14);
