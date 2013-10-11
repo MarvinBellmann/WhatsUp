@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class HauptFenster {
 
-	static String username = "A"; //ändere hier
+	static String username = "B"; //ändere hier
 	private static int maxWidth = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	private static int maxHeight = GraphicsEnvironment
