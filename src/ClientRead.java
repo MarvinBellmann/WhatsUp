@@ -17,7 +17,8 @@ public class ClientRead extends Thread {
 				Thread.sleep(100);
 			} catch (Exception e) {
 			    ServerAnwesend=false;
-			    e.printStackTrace();
+			  // e.printStackTrace();
+			    System.out.println("Client read Problem.");
 			}
 
 		}
@@ -32,9 +33,9 @@ public class ClientRead extends Thread {
 	public void Empfange() throws ClassNotFoundException, IOException {
 	   	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	    	   
-	    	      System.out.println("X<< Warte auf Message");
+	    	   //  System.out.println("X<< Warte auf Message");
 	              Object obj =  ois.readObject();
-	               System.out.println("<<< Message erhalten");
+	           //   System.out.println("<<< Message erhalten");
 	               
 	               
 	            //   if(socket!=null){
@@ -44,6 +45,9 @@ public class ClientRead extends Thread {
 	               	// Cast object zur message
 	             	messageIGot = (Message) obj;      	
 	             	 System.out.println("Message vom Server: " + messageIGot.toString());
+	             	 //HauptFenster.chatFenster.
+	             	// HauptFenster.chatFenster.txtPanel.setText(messageIGot.toString());
+	             	 HauptFenster.Chatparser(messageIGot.from,messageIGot.toText());
 	            	}
 	       //        }
 	          // }catch(Exception e1){

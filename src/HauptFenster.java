@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class HauptFenster {
 
-	static String username = "A"; //ändere hier
+	static String username = "B"; //ändere hier
 	private static int maxWidth = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	private static int maxHeight = GraphicsEnvironment
@@ -36,9 +37,10 @@ public class HauptFenster {
 	private JTable table;
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
-	
+	//public static ChatFenster chatFenster;
+	    public static ArrayList<ChatFenster> ChatFensterList= new ArrayList<ChatFenster>(); 
 
-	static String serverIP = "localhost"; //SERVER IP!
+	static String serverIP = "192.168.0.73";//"localhost"; //SERVER IP!
 
 	
 
@@ -79,6 +81,17 @@ public class HauptFenster {
 		initialize();
 	}
 	
+	public static void Chatparser(String str, String text){
+	  //  chatFenster.txtPanel.setText("juhuuu");
+	  //  chatFenster.panel_1.repaint();
+	    for(ChatFenster c: ChatFensterList){
+		if(c.nameGespraech.equalsIgnoreCase(str)){
+		    c.txtPanel.setText(text);
+			  //  chatFenster.panel_1.repaint();
+		}
+	    }
+	}
+	
 	public static void StatusChanger() throws InterruptedException{
 	   
 	Thread.sleep(1000);	    
@@ -101,6 +114,9 @@ public class HauptFenster {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+	    
+	    System.out.println("Anmeldungsversuch als: " + username);
+	    
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(maxWidth - width - 50, (maxHeight - height) / 2, width,
@@ -117,9 +133,13 @@ public class HauptFenster {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 
-				ChatFenster chatFenster = new ChatFenster();
-				chatFenster.domain((String) table.getValueAt(
-						table.getSelectedRow(), 2));
+			    ChatFenster c = new ChatFenster();
+			   
+			    c.domain((String) table.getValueAt(table.getSelectedRow(), 2));
+			    ChatFensterList.add(c);
+				//ChatFenster chatFenster = new ChatFenster();
+				//chatFenster.domain((String) table.getValueAt(
+				//		table.getSelectedRow(), 2));
 				System.out.println("Chatfenster mit "
 						+ table.getValueAt(table.getSelectedRow(), 2)
 						+ " geöffnet.");
@@ -184,5 +204,8 @@ public class HauptFenster {
 		frame.getContentPane().add(panelKontakt);
 		frame.add(new Gradients(Color.green.darker(), Color.green, width,
 				height));
+		
+		
+		//Chatparser("A");
 	}
 }

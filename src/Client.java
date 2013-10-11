@@ -24,7 +24,7 @@ public class Client{
     public Client(String serverIP) {
 	this.serverIP = serverIP;
 	
-	System.out.println("runnt");
+	//System.out.println("runnt");
 	    try {
 		mach();
 	   } catch ( ClassNotFoundException | IOException | InterruptedException e) {
@@ -35,7 +35,7 @@ public class Client{
     
     public static void mach() throws UnknownHostException, IOException, ClassNotFoundException, InterruptedException{
         //get the localhost IP address, if server is running on some other IP, you need to use that
-       System.out.println("Verbinde an: " + InetAddress.getByName(serverIP));
+       System.out.println("*** Verbinde an: " + InetAddress.getByName(serverIP));
 	InetAddress host = InetAddress.getByName(serverIP);//InetAddress.getLocalHost();
         Socket socket = null;
         ObjectOutputStream oos = null;
@@ -55,7 +55,7 @@ public class Client{
 	      
 	       //ERFOLGREICH VERBINDUNG: DANN EINMAL FOLGENDES
             if(socket!=null && verbindungscheck==false){
-        	System.out.println("Erfolgreich verbunden.");
+        	System.out.println("*** Erfolgreich verbunden.");
         	HauptFenster.StatusChanger();
         	verbindungscheck=true;
         	oos.writeObject(new StartData(HauptFenster.username)); 
@@ -80,7 +80,7 @@ public class Client{
         
        }catch(Exception e){
        System.out.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:" + e.getMessage());
-       e.printStackTrace();
+      // e.printStackTrace();
        Thread.sleep(5000);
        }
 	   

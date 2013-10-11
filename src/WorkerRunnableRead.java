@@ -19,8 +19,9 @@ public class WorkerRunnableRead extends Thread {
 			    Empfange();
 				Thread.sleep(100);
 			} catch (Exception e) {
-			    e.printStackTrace();
+			//    e.printStackTrace();
 			    clientAnwesend=false;
+			    System.out.println("Server read Problem.");
 			}
 
 		}

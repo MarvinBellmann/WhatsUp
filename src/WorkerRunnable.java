@@ -24,11 +24,12 @@ public class WorkerRunnable implements Runnable{
     private static int port = 7866;
     static String message;
     public static ArrayList<Message> receivedMessageList= new ArrayList<Message>();
+    ArrayList<Message> messageListChecken= new ArrayList<Message>(); 
     boolean clientAnwesend=true;
     InetAddress clientIP;
     int clientPort;
     public String user;
-    int gecheckt=0;
+    boolean gecheckt;
     int genutztegecheckt=1;
 
     public WorkerRunnable(Socket clientSocket, String serverText) {
@@ -64,21 +65,26 @@ public class WorkerRunnable implements Runnable{
             
             try{   
  // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
- for (Message m : MultiThreadedServer.messageList){
-   
+        	messageListChecken.clear();
+        	messageListChecken.addAll(MultiThreadedServer.messageList);
+        	int index=-1;
+ for (Message m : messageListChecken){
+   index++;
      if (m.to.equalsIgnoreCase(this.user)){
 	
-	 gecheckt++;//trixxen
-	 
-	 if(gecheckt==genutztegecheckt){ // damit er es nur einmal weiterleitet
-	     System.out.println("An: ("+m.to+ ") Derzeitiger Client:(" +this.user+")");
+	//     System.out.println("An: ("+m.to+ ") Derzeitiger Client:(" +this.user+")");
 	     oos.writeObject(m);
 	     System.out.println("<>< Message weitergeleitet!");
+	     gecheckt=true;
+	     break;
 	     // MultiThreadedServer.messageList.remove(m); //SINNVOLLER!
-         }
+      //   }
        
-     }
+     }     
+ }
+ if(gecheckt==true){
+     MultiThreadedServer.messageList.remove(index);
+     gecheckt=false;
  }
  
  // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -86,7 +92,7 @@ public class WorkerRunnable implements Runnable{
  
   }catch(Exception e){
       System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schließe Thread; Grund: "+e.getMessage());
-      e.printStackTrace();
+    //  e.printStackTrace();
       //System.exit(0);
       clientAnwesend=false;
 

@@ -23,7 +23,7 @@ import javax.swing.border.LineBorder;
 public class ChatFenster {
 
 	private JFrame frame;
-	private JTextPane txtField;
+	JTextPane txtField;
 	public static String nameGespraech;
 	static JLabel name_lbl;
 	private static int width = 450;
@@ -31,6 +31,8 @@ public class ChatFenster {
 	private static int height = 340;
 	private static int pictureSize = 69;
 	private static int textSize = 330;
+	public static JTextArea txtPanel;
+	JPanel panel_1;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
@@ -46,6 +48,7 @@ public class ChatFenster {
 	 */
 	public static void domain(String name) {
 		nameGespraech = name;
+		//System.out.println(nameGespraech);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -61,9 +64,18 @@ public class ChatFenster {
 	/**
 	 * Create the application.
 	 */
-	public ChatFenster() {
+	public ChatFenster(String name) {
+	    
 		initialize();
+		domain(name);
 	}
+	
+	public ChatFenster() {
+	    
+		initialize();
+		//domain(name);
+	}
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -76,7 +88,7 @@ public class ChatFenster {
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
 		frame.getContentPane().setLayout(null);
 
-		JPanel panel_1 = new JPanel();
+		panel_1 = new JPanel();
 		panel_1.setForeground(Color.ORANGE);
 		panel_1.setBackground(Color.LIGHT_GRAY);
 		panel_1.setBounds(border, border, width - (border * 3), height
@@ -122,11 +134,11 @@ public class ChatFenster {
 		});
 		panel_1.add(txtField);
 
-		JTextArea txtPanel = new JTextArea();
+		txtPanel = new JTextArea();
 		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 14));
 		txtPanel.setText("Marvin (10:26): Hey diggie ");
 		txtPanel.setBounds(border, border, textSize, 160);
-		txtPanel.setEditable(false);
+		//txtPanel.setEditable(false);
 		txtPanel.setBorder(raisedetched);
 		panel_1.add(txtPanel);
 

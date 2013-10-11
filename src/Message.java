@@ -87,6 +87,29 @@ public class Message implements Serializable{
         //rückgabe
 	return ("(From: "+from+" |To: " + to +" |Date: " + date + " |"+"Message: " + kurztext+")");//+ System.getProperty("line.separator")
     }
+    
+    
+    
+    public String toText()
+    {
+	//html to string umformung der nachricht
+	String kurztext=text;
+	Pattern p = Pattern.compile("<(.*?)>");
+        Matcher m = p.matcher(kurztext);        
+        while (m.find()) {             
+           kurztext= kurztext.replaceAll(m.group(), "");
+        }            
+        kurztext = kurztext.replaceAll(System.getProperty("line.separator"), ""); //("\\\n", "");//Replace(Nz(meinString, ""), vbCrLf, "")//string= string.replaceAll("\\\n", "<br />");
+        kurztext = kurztext.replaceAll("    ", " ");
+        kurztext = kurztext.replaceAll("   ", " ");
+        kurztext = kurztext.replaceAll("  ", " ");
+        kurztext = kurztext.replaceAll("  ", " ");
+        kurztext = kurztext.substring(1);
+        
+        //rückgabe
+	return (kurztext);//+ System.getProperty("line.separator")
+    }
+    
 
     public String getto()
     {
