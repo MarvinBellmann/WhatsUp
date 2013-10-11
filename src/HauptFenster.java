@@ -36,7 +36,7 @@ public class HauptFenster {
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
 	
-	static String username = "AdminTest";
+	static String username = "B";
 	static String serverIP = "localhost"; //SERVER IP!
 
 	
@@ -125,9 +125,9 @@ public class HauptFenster {
 			}
 		});
 		table.setModel(new DefaultTableModel(new Object[][] {
-				{ "Bild1", "Online", "Marvin" },
-				{ "Bild2", "Online", "Franz" },
-				{ "Bild3", "Offline", "Lappen" }, }, new String[] {
+				{ "Bild1", "Online", "A" },
+				{ "Bild2", "Online", "B" },
+				{ "Bild3", "Offline", "C" }, }, new String[] {
 				"Profilbild", "Status", "Name" }));
 		frame.add(table);
 

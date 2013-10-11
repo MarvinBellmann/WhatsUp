@@ -4,9 +4,6 @@ import java.net.UnknownHostException;
 
 
 public class ServerStarter {
-
-    
-    
     static String serverip=null;
     static int port = 7866;
     /**

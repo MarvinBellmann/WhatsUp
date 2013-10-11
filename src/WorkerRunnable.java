@@ -3,6 +3,7 @@
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,6 +17,7 @@ public class WorkerRunnable implements Runnable{
     protected Socket clientSocket = null;
     protected String serverText   = null;
     static Message messageIGot;
+    static StartData startdata;
     //static ServerSocket variable
     private static ServerSocket server;
     //socket server port on which it will listen
@@ -25,6 +27,7 @@ public class WorkerRunnable implements Runnable{
     boolean clientAnwesend=true;
     InetAddress clientIP;
     int clientPort;
+    public String user;
 
     public WorkerRunnable(Socket clientSocket, String serverText) {
         this.clientSocket = clientSocket;
@@ -35,9 +38,11 @@ public class WorkerRunnable implements Runnable{
 
     public void run() {
 	System.out.println("*** Anmeldung Client: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort() +"]" );
-	ObjectInputStream ois=null;
+	ObjectInputStream ois = null;
+	ObjectOutputStream oos = null;
 	try {
 		ois = new ObjectInputStream(clientSocket.getInputStream());
+		oos = new ObjectOutputStream(clientSocket.getOutputStream());
 	    } catch (IOException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -55,8 +60,9 @@ public class WorkerRunnable implements Runnable{
        
             //convert ObjectInputStream object to String
           
-       
+  //     System.out.println("1");
  Object obj =  ois.readObject();
+ //System.out.println("2");
             
             
  if (obj instanceof Message)
@@ -66,12 +72,51 @@ public class WorkerRunnable implements Runnable{
  	// Cast object to a Vector
 	messageIGot = (Message) obj;
 	 receivedMessageList.add(messageIGot);
+	 MultiThreadedServer.messageList.add(messageIGot);
 	//if(i%20==0){ HauptFenster.LinieLabel.setText("jooooo " +messageIGot.nextX);}
 	System.out.println(messageIGot.toString());
+	Thread.sleep(15);
 	      	
 	   
 	
  }
+ if (obj instanceof StartData)
+ {
+     startdata = (StartData) obj;
+     this.user=startdata.user;
+     System.out.println("*** Client nennt sich: " + this.user);
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ /*
+ for (Message m : MultiThreadedServer.messageList){
+   //  if (m.from == this.user){
+	 //create ObjectOutputStream object        
+    //     oos.writeObject(m);
+        // MultiThreadedServer.messageList
+     //}
+     if (m.to == this.user && gecheckt=genutztegecheckt){
+	 //create ObjectOutputStream object        
+         oos.writeObject(m);
+        // MultiThreadedServer.messageList.remove(m);
+     }
+ }
+ */
+ // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 
+ 
+ 
+ 
+ 
+ 
+ //MultiThreadedServer.messageList.add(messageIGot);
+ 
  /*else
  {
      message = (String) ois.readObject();
@@ -80,8 +125,9 @@ public class WorkerRunnable implements Runnable{
  }*/
   }catch(Exception e){
       System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
+      
      //this.stop();
-     // e.printStackTrace();
+      e.printStackTrace();
       //System.exit(0);
       clientAnwesend=false;
       //nichts bekommen

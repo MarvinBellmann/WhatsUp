@@ -4,6 +4,7 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class MultiThreadedServer implements Runnable{
 
@@ -11,6 +12,7 @@ public class MultiThreadedServer implements Runnable{
     protected ServerSocket serverSocket = null;
     protected boolean      isStopped    = false;
     protected Thread       runningThread= null;
+    public static ArrayList<Message> messageList= new ArrayList<Message>(); 
 
     public MultiThreadedServer(int port){
         this.serverPort = port;
