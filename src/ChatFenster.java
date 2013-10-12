@@ -1,10 +1,11 @@
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,7 +25,7 @@ public class ChatFenster {
 
 	private JFrame frame;
 	JTextPane txtField;
-	public static String nameGespraech;
+	public String nameGespraech;
 	static JLabel name_lbl;
 	private static int width = 450;
 	private static int border = 7;
@@ -46,10 +47,11 @@ public class ChatFenster {
 	/**
 	 * Launch the application.
 	 */
-	public static void domain(String name) {
-		nameGespraech = name;
+	public void domain(String name) {
+		
+		frame.setVisible(true);
 		//System.out.println(nameGespraech);
-		EventQueue.invokeLater(new Runnable() {
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					ChatFenster window = new ChatFenster();
@@ -58,29 +60,32 @@ public class ChatFenster {
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 	}
 
 	/**
 	 * Create the application.
 	 */
 	public ChatFenster(String name) {
-	    
+	    this.nameGespraech = name;
+	   
 		initialize();
-		domain(name);
-	}
-	
-	public ChatFenster() {
-	    
-		initialize();
+		 frame.setVisible(true);
 		//domain(name);
 	}
-
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @return 
 	 */
-	private void initialize() {
+	
+	//private void
+	
+	
+	
+	private JFrame initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),
@@ -167,6 +172,29 @@ public class ChatFenster {
 		frame.getContentPane().add(panel_1);
 		frame.add(new Gradients(Color.green.darker(), Color.green, width,
 				height));
+		
+		
+		frame.addWindowListener(new WindowAdapter() {
+	            public void windowClosing(WindowEvent e) {
+	                //ExitAction.getInstance().actionPerformed(null);
+	        	
+	        	
+	        	int index=0;
+	        	for(ChatFenster CF: HauptFenster.ChatFensterList){
+	        	    
+	        	    if(CF.nameGespraech.equals(nameGespraech)){
+	        		
+	        		break;
+	        		//HauptFenster.ChatFensterList.remove(CF);
+	        	    }
+	        	    index++;
+	        	}
+	        	
+	        	
+	        	HauptFenster.ChatFensterList.remove(HauptFenster.ChatFensterList.get(index));
+	            }
+	       });
+		return frame;
 	}
 
 	public String getLastWord() {

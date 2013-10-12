@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class HauptFenster {
 
-	static String username = "B"; //ändere hier
+	static String username = "A"; //ändere hier
 	private static int maxWidth = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
 	private static int maxHeight = GraphicsEnvironment
@@ -40,7 +40,7 @@ public class HauptFenster {
 	//public static ChatFenster chatFenster;
 	    public static ArrayList<ChatFenster> ChatFensterList= new ArrayList<ChatFenster>(); 
 
-	static String serverIP = "192.168.0.73";//"localhost"; //SERVER IP!
+	static String serverIP = "localhost";//"localhost"; //SERVER IP!
 
 	
 
@@ -82,8 +82,7 @@ public class HauptFenster {
 	}
 	
 	public static void Chatparser(String str, String text){
-	  //  chatFenster.txtPanel.setText("juhuuu");
-	  //  chatFenster.panel_1.repaint();
+	 	    
 	    for(ChatFenster c: ChatFensterList){
 		if(c.nameGespraech.equalsIgnoreCase(str)){
 		    c.txtPanel.setText(c.txtPanel.getText()+"\n"+text);
@@ -91,6 +90,20 @@ public class HauptFenster {
 		}
 	    }
 	}
+	
+	
+	public static void Chatparserecho(String str, String text){
+ 	    
+	    for(ChatFenster c: ChatFensterList){
+		if(c.nameGespraech.equalsIgnoreCase(str)){
+		    c.txtPanel.setText(c.txtPanel.getText()+"\n"+text);
+			  //  chatFenster.panel_1.repaint();
+		}
+	    }
+	}
+	
+	
+	
 	
 	public static void StatusChanger() throws InterruptedException{
 	   
@@ -133,9 +146,21 @@ public class HauptFenster {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 
-			    ChatFenster c = new ChatFenster();
+			    boolean abbruch = false;
+			    
+			    for( ChatFenster CF : ChatFensterList){
+				
+				System.out.println(CF.nameGespraech + " " +((String) table.getValueAt(table.getSelectedRow(), 2)));
+				
+				if(CF.nameGespraech.equalsIgnoreCase((String) table.getValueAt(table.getSelectedRow(), 2))){
+				    
+				    abbruch=true;
+				}
+			    }
+			    if(abbruch==false){
+			    ChatFenster c = new ChatFenster((String) table.getValueAt(table.getSelectedRow(), 2));
 			   
-			    c.domain((String) table.getValueAt(table.getSelectedRow(), 2));
+			   
 			    ChatFensterList.add(c);
 				//ChatFenster chatFenster = new ChatFenster();
 				//chatFenster.domain((String) table.getValueAt(
@@ -143,6 +168,7 @@ public class HauptFenster {
 				System.out.println("Chatfenster mit "
 						+ table.getValueAt(table.getSelectedRow(), 2)
 						+ " geöffnet.");
+			    }
 			}
 		});
 		table.setModel(new DefaultTableModel(new Object[][] {

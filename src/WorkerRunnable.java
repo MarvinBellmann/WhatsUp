@@ -67,29 +67,28 @@ public class WorkerRunnable implements Runnable{
  // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         	messageListChecken.clear();
         	messageListChecken.addAll(MultiThreadedServer.messageList);
-        	int index=-1;
+        	int index=0;
  for (Message m : messageListChecken){
-   index++;
+   
      if (m.to.equalsIgnoreCase(this.user)){
 	
-	//     System.out.println("An: ("+m.to+ ") Derzeitiger Client:(" +this.user+")");
+	//   System.out.println("An: ("+m.to+ ") Derzeitiger Client:(" +this.user+")");
 	     oos.writeObject(m);
 	     System.out.println("<>< Message weitergeleitet!");
-	     gecheckt=true;
+	     MultiThreadedServer.messageList.remove(index);
+	    // gecheckt=true;
 	     break;
 	     // MultiThreadedServer.messageList.remove(m); //SINNVOLLER!
       //   }
        
-     }     
-     
-  
-     
+     }   
+     index++;
      
  }
- if(gecheckt==true){
-     MultiThreadedServer.messageList.remove(index);
-     gecheckt=false;
- }
+// if(gecheckt==true){
+ //    MultiThreadedServer.messageList.remove(index);
+ //    gecheckt=false;
+ //}
  
  // IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  

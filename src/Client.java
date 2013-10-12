@@ -73,6 +73,11 @@ public class Client{
         	  //    System.out.println(messageList.size());
         	oos.writeObject(messageList.get(messageList.size()-1));        	
                 System.out.println(">>> Message send to "+messageList.get(messageList.size()-1).to +" ("+messageList.get(messageList.size()-1).date+")");
+                                  	 
+            	 
+            	 HauptFenster.Chatparserecho(messageList.get(messageList.size()-1).to,messageList.get(messageList.size()-1).toText());               
+                                
+                
                 messageList.remove(messageList.size()-1);
          }
             

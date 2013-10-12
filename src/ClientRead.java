@@ -47,6 +47,45 @@ public class ClientRead extends Thread {
 	             	 System.out.println("Message vom Server: " + messageIGot.toString());
 	             	 //HauptFenster.chatFenster.
 	             	// HauptFenster.chatFenster.txtPanel.setText(messageIGot.toString());
+	             	 
+	             	
+	             	 boolean checkopen=true;
+	             	 for(ChatFenster CF: HauptFenster.ChatFensterList){
+    	             	 	if(CF.nameGespraech.equals(messageIGot.from))
+    	             	 	{
+    	             	 	   checkopen=false;
+    	             	 	   break;
+    	             	 	} 
+    	             	     	             	
+	                 }
+	             	 if(checkopen==true)
+    	             	 {
+    	             	     ChatFenster c = new ChatFenster(messageIGot.from);			    
+    	             	     HauptFenster.ChatFensterList.add(c);
+    	             	     
+    	             	 }
+	             	 
+	             	 
+	             	 
+	             	 
+	             	 /*
+	             	  * 
+	             	  * 	int checkOpen=0;
+	             	 for(ChatFenster CF: HauptFenster.ChatFensterList){
+    	             	 	if(CF.nameGespraech.equals(messageIGot.from))
+    	             	 	{
+    	             	 	    	checkOpen++;
+    	             	 	} 
+	             	 }
+	             	 
+	             	 if(checkOpen==HauptFenster.ChatFensterList.size())
+	             	 {
+	             	ChatFenster c = new ChatFenster(messageIGot.from);			    
+         	 	    	HauptFenster.ChatFensterList.add(c);
+	                 }
+	             	  */
+	             	 
+	             	 
 	             	 HauptFenster.Chatparser(messageIGot.from,messageIGot.toText());
 	            	}
 	       //        }
