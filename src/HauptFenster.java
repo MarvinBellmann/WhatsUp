@@ -162,7 +162,7 @@ public class HauptFenster {
 		frame.getContentPane().setLayout(null);
 
 		table = new JTable();
-		table.setBackground(Color.lightGray);
+		table.setBackground(new Color(0, 255, 147));
 		table.setBounds(border, 130 + (border * 4), width - 15, 400);
 		table.setBorder(raisedetched);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -252,8 +252,8 @@ public class HauptFenster {
 		panelKontakt.add(txtSuche);
 
 		frame.getContentPane().add(panelKontakt);
-		frame.add(new Gradients(Color.green.darker(), Color.green, width,
-				height));
+		//frame.add(new Gradients(Color.green.darker(), Color.green, width,height));
+		frame.add(new Gradients(Color.green.darker(), new Color(0, 255, 127), width,height));
 		
 		frame.setVisible(true);
 		frame.repaint();

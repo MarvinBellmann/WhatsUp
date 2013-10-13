@@ -114,9 +114,11 @@ public class ChatFenster {
 		send_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
+			  //  if(txtField.getText().equals("\n")==false && txtField.getText().equals("")==false){
 				Client.send(HauptFenster.username, name_lbl.getText(),
 						txtField.getText());
 				txtField.setText("");
+			   // }
 
 			}
 		});
@@ -145,8 +147,10 @@ public class ChatFenster {
 				}
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				   
+				  //  if(txtField.getText().equals("\n")==false && txtField.getText().equals("")==false){
 				    Client.send(HauptFenster.username, name_lbl.getText(),txtField.getText());
 				    txtField.setText("");
+				  //  }
 				   
 				}
 				 
@@ -198,8 +202,8 @@ public class ChatFenster {
 
 		name_lbl.setText(nameGespraech);
 		frame.getContentPane().add(panel_1);
-		frame.add(new Gradients(Color.green.darker(), Color.green, width,
-				height));
+		//frame.add(new Gradients(Color.green.darker(), Color.green, width,height));
+		frame.add(new Gradients(Color.green.darker(), new Color(0, 255, 127), width,height));
 		
 		
 		frame.addWindowListener(new WindowAdapter() {

@@ -16,8 +16,9 @@ public class Client extends Thread{
  
  	public static void send(String From, String To, String Text){
 	 
+ 	    
 	    messageList.add(new Message(From,To,Text));
-	    
+ 	    
 	    //System.out.println(">>> Message added");// " + Text + " size: " + messageList.size());
 	}
 
