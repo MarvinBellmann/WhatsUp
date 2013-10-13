@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
@@ -49,15 +48,11 @@ public class HauptFenster {
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-			   /* String test;
-			    String result;
-			    test = "abc(abc)abc";
-			    result = test.replaceAll("[()]", "");
-
-			    System.out.println(result);*/
+			 
 			    
 		                
 		                
@@ -73,20 +68,42 @@ public class HauptFenster {
 		// Server server = new Server();
 		Client client = new Client(serverIP);
 	}
-
+*/
 	/**
 	 * Create the application.
 	 */
+	public HauptFenster(String user, String pw, String Server) {
+	    this.username=user;
+	    this.serverIP=Server;
+	    initialize();
+	    
+	    
+	    Client client = new Client(serverIP);
+	    client.setName("1A clientThread");
+    	    client.start();
+		//frame.setVisible(true);
+		
+	}
+	
 	public HauptFenster() {
-		initialize();
+	   
+	    initialize();    
+		
 	}
 	
 	public static void Chatparser(String str, String text){
 	 	    
 	    for(ChatFenster c: ChatFensterList){
 		if(c.nameGespraech.equalsIgnoreCase(str)){
+		  //  System.out.println("("+c.txtPanel.getText()+")");
+		   if(c.txtPanel.getText().equals("")){
+		       c.txtPanel.setText(text);
+		   }
+		   else{
 		    c.txtPanel.setText(c.txtPanel.getText()+"\n"+text);
+		    c.txtPanel.setCaretPosition(c.txtPanel.getDocument().getLength());
 			  //  chatFenster.panel_1.repaint();
+		   }
 		}
 	    }
 	}
@@ -96,7 +113,14 @@ public class HauptFenster {
  	    
 	    for(ChatFenster c: ChatFensterList){
 		if(c.nameGespraech.equalsIgnoreCase(str)){
-		    c.txtPanel.setText(c.txtPanel.getText()+"\n"+text);
+		    if(c.txtPanel.getText().equals("")){
+			       c.txtPanel.setText(text);
+			   }
+			   else{
+			    c.txtPanel.setText(c.txtPanel.getText()+"\n"+text);
+			    c.txtPanel.setCaretPosition(c.txtPanel.getDocument().getLength());
+				  //  chatFenster.panel_1.repaint();
+			   }
 			  //  chatFenster.panel_1.repaint();
 		}
 	    }
@@ -230,6 +254,12 @@ public class HauptFenster {
 		frame.getContentPane().add(panelKontakt);
 		frame.add(new Gradients(Color.green.darker(), Color.green, width,
 				height));
+		
+		frame.setVisible(true);
+		frame.repaint();
+		
+		
+		
 		
 		
 		//Chatparser("A");

@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
@@ -123,29 +124,56 @@ public class ChatFenster {
 		send_btn.setBounds(textSize + border - 100, (border * 5) + 240, 100, 20);
 		panel_1.add(send_btn);
 
-		txtField = new JTextPane();
+		
+		txtField = new JTextPane(){
+		    public boolean getScrollableTracksViewportWidth()
+		    {
+		        return getUI().getPreferredSize(this).width 
+		            <= getParent().getSize().width;
+		    }
+		};
 		txtField.setContentType("text/html");
 		txtField.setBounds(border, (border * 4) + 160, textSize, 80);
 		txtField.setBorder(raisedetched);
 		txtField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyTyped(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 					// Letztes Word auslesen
 					// Nach Smiley Code aussuchen
 					// ggf. Smiley Icon Kreieren
 				}
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				   
+				    Client.send(HauptFenster.username, name_lbl.getText(),txtField.getText());
+				    txtField.setText("");
+				   
+				}
+				 
 			}
-		});
+		});		
 		panel_1.add(txtField);
 
+		
 		txtPanel = new JTextArea();
 		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 14));
-		txtPanel.setText("Test (XX:XX:XX): Hey diggie ");
+		//txtPanel.setText("Test (XX:XX:XX): Hey diggie ");
 		txtPanel.setBounds(border, border, textSize, 160);
-		//txtPanel.setEditable(false);
-		txtPanel.setBorder(raisedetched);
-		panel_1.add(txtPanel);
+		txtPanel.setEditable(false);
+		//txtPanel.setBorder(raisedetched);		
+		txtPanel.setLineWrap(true);
+		txtPanel.setWrapStyleWord(true);
+		//panel_1.add(txtPanel);
+		JScrollPane sp = new JScrollPane(txtPanel);
+		sp.add(txtPanel);			
+		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		sp.setViewportView(txtPanel);
+		sp.setBounds(border, border, textSize, 160);
+		sp.setBorder(raisedetched);
+		panel_1.add(sp);
+	
+		
+		
 
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(ChatFenster.class

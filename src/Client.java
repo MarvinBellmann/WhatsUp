@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
  
 
-public class Client{
+public class Client extends Thread{
     
  static String serverIP;   
 // static Message messageIGot;
@@ -21,9 +21,18 @@ public class Client{
 	    //System.out.println(">>> Message added");// " + Text + " size: " + messageList.size());
 	}
 
-    public Client(String serverIP) {
+    public Client(String serverIP){
 	this.serverIP = serverIP;
 	
+	 /* try {
+			mach();
+		   } catch ( ClassNotFoundException | IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    }*/
+    }
+    
+    public void run(){
 	//System.out.println("runnt");
 	    try {
 		mach();
@@ -51,6 +60,8 @@ public class Client{
 		   socket.setTcpNoDelay(true); 
 		   oos = new ObjectOutputStream(socket.getOutputStream());
 		   ois = new ObjectInputStream(socket.getInputStream());
+		   
+		   
 		   }
 	      
 	       //ERFOLGREICH VERBINDUNG: DANN EINMAL FOLGENDES
