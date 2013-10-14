@@ -18,9 +18,11 @@ public class DBConnectorThread extends Thread {
     public void run() {
 
 	ConnectToDB();
+	//SQLBefehl("INSERT INTO user (username, email, password, create_time)  VALUES ('E','E@gmx.com',1234,now());");
 	SQLBefehl("SELECT * FROM user"); 
 	SQLBefehl("SELECT username FROM user"); 
-
+	SQLBefehl("SELECT password FROM user where username like 'A'");
+	
     }
     DBConnectorThread() {
 
@@ -28,29 +30,52 @@ public class DBConnectorThread extends Thread {
 
     public void SQLBefehl(String sql){
 	try {
-	    rs = stmt.executeQuery(sql);
-	    System.out.println("*DB* '"+sql+"'");
-
-	    ResultSetMetaData rsmd = rs.getMetaData();
-
-	    int spalten = rsmd.getColumnCount();
-
-	    while (rs.next()){
-		int i = 1;
-		System.out.print("*DB->* ");
-		while(i<spalten+1){
-		    System.out.print(rs.getString(i)+" | ");
-		    i++;
-		}
-		System.out.print("\n");
-		
+	    
+	    if(sql.substring(0,10).contains("INSERT") | sql.substring(0,10).contains("UPDATE") | sql.substring(0,10).contains("DELETE")){
+		SQLManipulation(sql);
+		//sql.su
 	    }
-	    rs.close();
+	    else{   
+	    
+        	    rs = stmt.executeQuery(sql);//.executeQuery(sql);
+        	    System.out.println("*DB<-* '"+sql+"'");
+        
+        	    ResultSetMetaData rsmd = rs.getMetaData();
+        
+        	    int spalten = rsmd.getColumnCount();
+        
+        	    while (rs.next()){
+        		int i = 1;
+        		System.out.print("*DB->* ");
+        		while(i<spalten+1){
+        		    System.out.print(rs.getString(i)+" | ");
+        		    i++;
+        		}
+        		System.out.print("\n");
+        		
+        	    }
+        	    rs.close();
+	    }
+	    
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
+    
+    public void SQLManipulation(String sql){
+   	try {
+   	    
+   	    //Executes the given SQL statement, which may be an 
+   	    //INSERT, UPDATE, or DELETE statement or an SQL statement that returns nothing, such as an SQL DDL statement.
+   	    stmt.executeUpdate(sql);//.executeQuery(sql);
+   	    System.out.println("*DB<-* '"+sql+"'");
+   	    
+   	} catch (SQLException e) {
+   	    // TODO Auto-generated catch block
+   	    e.printStackTrace();
+   	}
+       }
 
     public void ConnectToDB() {
 	try{	   
