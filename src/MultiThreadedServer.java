@@ -16,6 +16,10 @@ public class MultiThreadedServer implements Runnable{
 
     public MultiThreadedServer(int port){
         this.serverPort = port;
+        
+        DBConnectorThread dBConnectorThread = new DBConnectorThread();
+        dBConnectorThread.setName("1A clientReadThread");
+        dBConnectorThread.start();
     }
 
     public void run(){
