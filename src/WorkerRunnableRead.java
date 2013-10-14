@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class WorkerRunnableRead extends Thread {
@@ -11,6 +12,8 @@ public class WorkerRunnableRead extends Thread {
     public String user;
     boolean clientAnwesend=true;
     WorkerRunnable w;
+    InetAddress clientIP;
+    int clientPort;
 
 	public void run() {
 		while (clientAnwesend==true) {
@@ -21,7 +24,9 @@ public class WorkerRunnableRead extends Thread {
 			} catch (Exception e) {
 			//    e.printStackTrace();
 			    clientAnwesend=false;
-			    System.out.println("Server read Problem.");
+			   // System.out.println("Server read Problem.");
+			    System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
+			    
 			}
 
 		}
@@ -31,6 +36,8 @@ public class WorkerRunnableRead extends Thread {
 		this.clientSocket = socket;
 		this.ois = ois;
 		this.w=w;
+		 this.clientIP= clientSocket.getInetAddress() ;
+		 this.clientPort=clientSocket.getPort();
 
 	}
 

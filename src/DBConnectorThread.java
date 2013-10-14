@@ -18,7 +18,7 @@ public class DBConnectorThread extends Thread {
     public void run() {
 
 	ConnectToDB();
-	//SQLBefehl("INSERT INTO user (username, email, password, create_time)  VALUES ('E','E@gmx.com',1234,now());");
+	//SQLBefehl("INSERT INTO user (username, email, password, create_time)  VALUES ('F','F@gmx.com',1234,now());");
 	SQLBefehl("SELECT * FROM user"); 
 	SQLBefehl("SELECT username FROM user"); 
 	SQLBefehl("SELECT password FROM user where username like 'A'");
@@ -46,7 +46,7 @@ public class DBConnectorThread extends Thread {
         
         	    while (rs.next()){
         		int i = 1;
-        		System.out.print("*DB->* ");
+        		System.out.print("*DB->* | ");
         		while(i<spalten+1){
         		    System.out.print(rs.getString(i)+" | ");
         		    i++;
