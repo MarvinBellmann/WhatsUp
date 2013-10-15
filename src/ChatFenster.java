@@ -133,8 +133,10 @@ public class ChatFenster {
 		            <= getParent().getSize().width;
 		    }
 		};
+		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
 		txtField.setContentType("text/html");
 		txtField.setBounds(border, (border * 4) + 160, textSize, 80);
+		
 		txtField.setBorder(raisedetched);
 		txtField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -156,11 +158,13 @@ public class ChatFenster {
 				 
 			}
 		});		
+		//txtField.setFont(new Font("Miriam", Font.PLAIN, 8));
+		//txtField.setFont(new Font("Arial",Font.PLAIN,6));
 		panel_1.add(txtField);
 
 		
 		txtPanel = new JTextArea();
-		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 14));
+		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 12));
 		//txtPanel.setText("Test (XX:XX:XX): Hey diggie ");
 		txtPanel.setBounds(border, border, textSize, 160);
 		txtPanel.setEditable(false);

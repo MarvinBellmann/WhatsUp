@@ -7,8 +7,9 @@ public class WorkerRunnableRead extends Thread {
 
     Socket clientSocket = null;
     ObjectInputStream ois = null;
-    static Message messageIGot;
-    static StartData startdata;
+    Message messageIGot;
+    StartData startdata;
+    SQLData sqldata;
     public String user;
     boolean clientAnwesend=true;
     WorkerRunnable w;
@@ -69,6 +70,13 @@ public class WorkerRunnableRead extends Thread {
 	    this.user=startdata.user;
 	    w.user=startdata.user;
 	    System.out.println("*** Client nennt sich: " + this.user);
+	}
+	if (obj instanceof SQLData)
+	{
+	    sqldata = (SQLData) obj;
+	    if(sqldata.to.equals("AnmeldeDbChecker")){
+		MultiThreadedServer.sqlBefehlsListeAnmeldung.add(sqldata.sqlBefehl);
+	    }
 	}
 
 	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

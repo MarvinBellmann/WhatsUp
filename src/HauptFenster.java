@@ -116,7 +116,7 @@ public class HauptFenster {
 	    for(ChatFenster c: ChatFensterList){
 		if(c.nameGespraech.equalsIgnoreCase(sto)){
 		    System.out.println("Client:" + username +" Chatparserecho kriegt: "+sto + " füer fenster " + c.nameGespraech + " text: " + text);
-		    if(c.nameGespraech.equals("")){
+		    if(c.txtPanel.getText().equals("")){
 			       c.txtPanel.setText(text);
 			   }
 			   else{
@@ -260,8 +260,8 @@ public class HauptFenster {
 		//frame.add(new Gradients(Color.green.darker(), Color.green, width,height));
 		frame.add(new Gradients(Color.green.darker(), new Color(0, 255, 127), width,height));
 		
-		frame.setVisible(true);
-		frame.repaint();
+		//frame.setVisible(true);
+		//frame.repaint();
 		
 		
 		

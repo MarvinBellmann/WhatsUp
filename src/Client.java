@@ -10,9 +10,14 @@ import java.util.ArrayList;
 public class Client extends Thread{
     
  static String serverIP;   
+ String anmeldeuser;
+ String anmeldepw;
 // static Message messageIGot;
  public static ArrayList<Message> messageList= new ArrayList<Message>(); 
  static boolean verbindungscheck;
+ static String erfolg = "Noch ungewiss";
+ boolean nurAnmeldeClient=false;
+ static boolean amLaufen = true;
  
  	public static void send(String From, String To, String Text){
 	 
@@ -33,6 +38,14 @@ public class Client extends Thread{
 		    }*/
     }
     
+    public Client(String serverIP, String user, String pw){
+	this.serverIP = serverIP;
+	this.anmeldeuser=user;
+	this.anmeldepw=pw;
+	nurAnmeldeClient=true;
+	
+    }
+    
     public void run(){
 	//System.out.println("runnt");
 	    try {
@@ -51,7 +64,8 @@ public class Client extends Thread{
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
       //  Object obj =  null;
-       while(true){
+        
+       while(amLaufen==true){
             //establish socket connection to server
 	   
 	   try{	       
@@ -94,8 +108,9 @@ public class Client extends Thread{
          }
             
         //Hier auskommentiertes
-        
+        erfolg="Erfolg";
        }catch(Exception e){
+	  erfolg="Fehschlag";
        System.out.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:" + e.getMessage());
       // e.printStackTrace();
        Thread.sleep(5000);

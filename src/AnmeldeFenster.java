@@ -3,7 +3,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JButton;
@@ -23,6 +26,7 @@ public class AnmeldeFenster {
     private JTextField textPW;
     private JTextField textServer;
     private JFrame frame;
+    Message sqlMessage;
 
     /**
      * Launch the application.
@@ -110,7 +114,35 @@ public class AnmeldeFenster {
 		    //Anmeldung
 		    
 		  // HauptFenster window = new HauptFenster(txtName.getText(),textPW.getText(),textServer.getText());
+		 boolean anmeldeDatenAkzeptiert = false;
+		 try{
+		     InetAddress host = InetAddress.getByName(textServer.getText());//InetAddress.getLocalHost();
+		     Socket socket = new Socket(host.getHostName(), 7866); 
+		     socket.setTcpNoDelay(true); 
+		     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+		     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+		     oos.writeObject(new StartData("Anmelder")); 
+		     oos.writeObject(new SQLData("AnmeldeDbChecker","Select * From user where username like '" +txtName.getText()+"' and password like '"+textPW.getText()+"';")); 
+		     Object obj =  ois.readObject();
+		     if (obj instanceof Message)
+		     {
+			 sqlMessage = (Message) obj; 
+			 System.out.println(sqlMessage.text);
+		     }
+		     if(sqlMessage.text.equals("Keine Einträge")==false){
+			 anmeldeDatenAkzeptiert = true;
+		     }
+		     oos.close();
+		     ois.close();
+		     socket.close();
+		     
+
+		 }catch(Exception e){
+		    System.out.println("Anmeldung nich möglich: " +e.getMessage());		     
+		 }
+
 		   
+		 if(anmeldeDatenAkzeptiert==true){
 		    EventQueue.invokeLater(new Runnable() {
 			public void run() {
 			
@@ -126,6 +158,9 @@ public class AnmeldeFenster {
 			}
 		});
 		    frame.hide();
+		 }else{
+		     JOptionPane.showMessageDialog(null, "Anmeldung Fehlgeschlagen! Name oder Passwort vergessen? ServerIP falsch?");
+		 }
 		}
 	});
 	btnAnmelden.setFont(new Font("Tahoma", Font.BOLD, 12));

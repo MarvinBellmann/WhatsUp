@@ -19,6 +19,13 @@ public class SQLData implements Serializable{
  
     }
 
+    public SQLData(String to, String sql)
+    {
+	this.to = to;
+        this.sqlBefehl = sql;
+
+    }
+    
     public SQLData(String to, String sql, String antwort)
     {
 	this.to = to;

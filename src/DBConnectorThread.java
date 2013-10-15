@@ -15,6 +15,7 @@ public class DBConnectorThread extends Thread {
     ResultSet rs;
     String antwort;
     public static ArrayList<String> sqlBefehlsListeChecken= new ArrayList<String>(); 
+    public static ArrayList<String> sqlBefehlsListeAnmeldungChecken= new ArrayList<String>();
     
     public void run() {
 
@@ -31,6 +32,17 @@ public class DBConnectorThread extends Thread {
 		    SQLBefehl(sqlBefehlsListeChecken.get(0)); 
 		    MultiThreadedServer.sqlBefehlsListe.remove(0);
 		}
+		
+		sqlBefehlsListeAnmeldungChecken.clear();
+		sqlBefehlsListeAnmeldungChecken.addAll(MultiThreadedServer.sqlBefehlsListeAnmeldung);				
+		if(sqlBefehlsListeAnmeldungChecken.size()>0){
+		    System.out.println("<>< SQL Befehl weitergeleitet!");
+		    System.out.println("|"+sqlBefehlsListeAnmeldungChecken.get(0)+"|");
+		    SQLBefehlAnmeldung(sqlBefehlsListeAnmeldungChecken.get(0)); 
+		    MultiThreadedServer.sqlBefehlsListeAnmeldung.remove(0);
+		}
+		
+		
 		Thread.sleep(100);
 	    } catch (Exception e) {
 		// TODO Auto-generated catch block
@@ -62,7 +74,18 @@ public class DBConnectorThread extends Thread {
 
 		int spalten = rsmd.getColumnCount();
 		 antwort="\n\n";
-		 antwort=antwort+sql;
+		 antwort=antwort+"*DB<-* "+sql;
+		 antwort=antwort+"\n";
+		 
+		 antwort=antwort+"*DB>>* /";
+		 System.out.print("*DB>>* /");
+		 int j = 1;
+		 while(j<spalten+1){
+		     System.out.print(rsmd.getColumnName(j)+"/");
+		     antwort=antwort+rsmd.getColumnName(j)+"/";
+		     j++;
+		 }
+		 System.out.println("");
 		 antwort=antwort+"\n";
 		while (rs.next()){
 		    int i = 1;
@@ -70,12 +93,14 @@ public class DBConnectorThread extends Thread {
 		    antwort=antwort+"*DB->* | ";
 		    System.out.print("*DB->* | ");
 		    while(i<spalten+1){
+			
 			antwort=antwort+rs.getString(i)+" | ";
 			System.out.print(rs.getString(i)+" | ");
 			i++;
 		    }
 		    antwort=antwort+"\n";
 		    System.out.print("\n");
+		    //System.out.println();
 
 		}
 		MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
@@ -89,6 +114,91 @@ public class DBConnectorThread extends Thread {
 	    e.printStackTrace();
 	}
     }
+    
+    
+    
+    public void SQLBefehlAnmeldung(String sql){
+	try {
+
+	    if(sql.length()<11){sql="Select * from user";}
+	    if(sql.substring(0,10).contains("INSERT") | sql.substring(0,10).contains("UPDATE") | sql.substring(0,10).contains("DELETE")){
+		SQLManipulation(sql);
+		//sql.su
+	    }
+	    else{   
+
+		rs = stmt.executeQuery(sql);//.executeQuery(sql);
+		
+		System.out.println("*DB<-* '"+sql+"'");
+
+		ResultSetMetaData rsmd = rs.getMetaData();
+
+		int spalten = rsmd.getColumnCount();
+		
+		//rsmd.get
+		 antwort="\n\n";
+		 antwort=antwort+"*DB<-* "+sql;
+		 antwort=antwort+"\n";
+		 
+		 antwort=antwort+"*DB>>* /";
+		 System.out.print("*DB>>* /");
+		 int j = 1;
+		 while(j<spalten+1){
+		     System.out.print(rsmd.getColumnName(j)+"/");
+		     antwort=antwort+rsmd.getColumnName(j)+"/";
+		     j++;
+		 }
+		 System.out.println("");
+		 antwort=antwort+"\n";
+		 
+		//System.out.println("huuuuuuuhuuuuuuuu"+rs.getRow());
+		/*rs.last();
+		 
+		 System.out.println(rs.getRow());
+		 if(rs.getRow()==0){antwort="Keine Einträge";}
+		 rs.beforeFirst();*/
+		 
+		while (rs.next()){
+		    int i = 1;
+		   
+		    antwort=antwort+"*DB->* | ";
+		    System.out.print("*DB->* | ");
+		    while(i<spalten+1){
+			
+			antwort=antwort+rs.getString(i)+" | ";
+			System.out.print(rs.getString(i)+" | ");
+			i++;
+		    }
+		    
+		   
+		    
+		    
+		    
+		    antwort=antwort+"\n";
+		    System.out.print("\n");
+		    
+		    
+		    
+		    //System.out.println();
+		   
+		}
+		rs.last();
+		System.out.println(rs.getRow());
+		if(rs.getRow()==0){antwort="Keine Einträge";}
+		rs.beforeFirst();
+		MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder",antwort));
+		rs.close();
+	    }
+
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    System.out.println("SQL PROBLEM!");
+	    MultiThreadedServer.messageList.add(new Message("ServerDB","Admin"," SQL FEHLER: "+e.getMessage()));
+	    e.printStackTrace();
+	}
+    }
+    
+    
 
     public void SQLManipulation(String sql){
 	try {
