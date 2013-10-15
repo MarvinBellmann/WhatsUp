@@ -33,7 +33,7 @@ public class ChatFenster {
 	private static int height = 340;
 	private static int pictureSize = 69;
 	private static int textSize = 330;
-	public static JTextArea txtPanel;
+	public  JTextArea txtPanel;
 	JPanel panel_1;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
@@ -115,8 +115,7 @@ public class ChatFenster {
 			public void actionPerformed(ActionEvent arg0) {
 
 			  //  if(txtField.getText().equals("\n")==false && txtField.getText().equals("")==false){
-				Client.send(HauptFenster.username, name_lbl.getText(),
-						txtField.getText());
+				Client.send(HauptFenster.username,nameGespraech,txtField.getText());
 				txtField.setText("");
 			   // }
 
@@ -148,7 +147,8 @@ public class ChatFenster {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				   
 				  //  if(txtField.getText().equals("\n")==false && txtField.getText().equals("")==false){
-				    Client.send(HauptFenster.username, name_lbl.getText(),txtField.getText());
+				    Client.send(HauptFenster.username, nameGespraech,txtField.getText());
+				   //System.out.println(HauptFenster.username + " an "+  name_lbl.getText());
 				    txtField.setText("");
 				  //  }
 				   

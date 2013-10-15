@@ -91,12 +91,12 @@ public class HauptFenster {
 		
 	}
 	
-	public static void Chatparser(String str, String text){
-	 	    
+	public static void Chatparser(String sfrom, String text){
+	  //  System.out.println("Chatparser kriegt: "+sfrom + " : " + text);
 	    for(ChatFenster c: ChatFensterList){
-		if(c.nameGespraech.equalsIgnoreCase(str)){
-		  //  System.out.println("("+c.txtPanel.getText()+")");
-		   if(c.txtPanel.getText().equals("")){
+		if(c.nameGespraech.equalsIgnoreCase(sfrom)){
+		    System.out.println("Client:" + username +" Chatparserecho kriegt: "+sfrom + " füer fenster " + c.nameGespraech + " text: " + text);
+		    if(c.txtPanel.getText().equals("")){
 		       c.txtPanel.setText(text);
 		   }
 		   else{
@@ -104,16 +104,19 @@ public class HauptFenster {
 		    c.txtPanel.setCaretPosition(c.txtPanel.getDocument().getLength());
 			  //  chatFenster.panel_1.repaint();
 		   }
+		    
 		}
 	    }
 	}
 	
 	
-	public static void Chatparserecho(String str, String text){
+	public static void Chatparserecho(String sto, String text){
  	    
+	   // System.out.println("Chatparserecho kriegt: "+sto);
 	    for(ChatFenster c: ChatFensterList){
-		if(c.nameGespraech.equalsIgnoreCase(str)){
-		    if(c.txtPanel.getText().equals("")){
+		if(c.nameGespraech.equalsIgnoreCase(sto)){
+		    System.out.println("Client:" + username +" Chatparserecho kriegt: "+sto + " füer fenster " + c.nameGespraech + " text: " + text);
+		    if(c.nameGespraech.equals("")){
 			       c.txtPanel.setText(text);
 			   }
 			   else{
@@ -196,9 +199,11 @@ public class HauptFenster {
 			}
 		});
 		table.setModel(new DefaultTableModel(new Object[][] {
+				{ "BildDB", "Online", "ServerDB" },
+				{ "BildAd", "Online", "Admin" },
 				{ "Bild1", "Online", "A" },
 				{ "Bild2", "Online", "B" },
-				{ "Bild3", "Offline", "C" }, }, new String[] {
+				{ "Bild3", "Online", "C" }, }, new String[] {
 				"Profilbild", "Status", "Name" }));
 		frame.add(table);
 
