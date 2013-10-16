@@ -29,7 +29,7 @@ public class DBConnectorThread extends Thread {
 		if(sqlBefehlsListeChecken.size()>0){
 		    //System.out.println("<>< SQL Befehl weitergeleitet!");
 		    System.out.println("|"+sqlBefehlsListeChecken.get(0)+"|");
-		    SQLBefehl(sqlBefehlsListeChecken.get(0)); 
+		    SQLBefehl(sqlBefehlsListeChecken.get(0),"normal"); 
 		    MultiThreadedServer.sqlBefehlsListe.remove(0);
 		}
 
@@ -38,7 +38,7 @@ public class DBConnectorThread extends Thread {
 		if(sqlBefehlsListeAnmeldungChecken.size()>0){
 		    //System.out.println("<>< SQL Befehl weitergeleitet!");
 		    System.out.println("|"+sqlBefehlsListeAnmeldungChecken.get(0)+"|");
-		    SQLBefehlAnmeldung(sqlBefehlsListeAnmeldungChecken.get(0)); 
+		    SQLBefehl(sqlBefehlsListeAnmeldungChecken.get(0),"anmelden"); 
 		    MultiThreadedServer.sqlBefehlsListeAnmeldung.remove(0);
 		}
 
@@ -57,7 +57,7 @@ public class DBConnectorThread extends Thread {
 
     }
 
-    public void SQLBefehl(String sql){
+    public void SQLBefehl(String sql, String typ){
 	try {
 
 	    if(sql.length()<11){sql="Select * from user";}
@@ -110,130 +110,65 @@ public class DBConnectorThread extends Thread {
 			System.out.print(rs.getString(i)+" | ");
 			i++;
 		    }
+		    
+		    if(typ.equals("normal")){
 		    antwort=antwort+"\n";
 		    System.out.print("\n");
 		    //System.out.println();
+		    }
 
 		}
+		
+		
+		
+	
+		
+		if(typ.equals("normal")){
 		 antwort= antwort.substring(0, antwort.length()-2);
 		MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
 		rs.close();
+		}
+		if(typ.equals("anmelden")){
+		    rs.last();
+			//System.out.println("Datensätze gefunden: "+rs.getRow());
+			if(rs.getRow()==0){
+			    antwort="\n";
+			    antwort=antwort+"*DB<-* "+sql;
+			    antwort=antwort+"\n";
+			    antwort=antwort+"*DB->* ";
+			    antwort=antwort+"Keine Einträge";
+			    }
+			rs.beforeFirst();
+			
+			//if(antwort.substring(antwort.length()-2, antwort.length()).equalsIgnoreCase("\n"))
+			if(antwort.contains("DB->* Keine Einträge")==false){ antwort= antwort.substring(0, antwort.length()-2);}
+			MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder",antwort));
+			//MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
+			
+			rs.close();	
+		}
+		
 	    }
 
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    System.out.println("SQL PROBLEM!");
 	    MultiThreadedServer.messageList.add(new Message("ServerDB","Admin"," SQL FEHLER: "+e.getMessage()));
-	    e.printStackTrace();
-	}
-    }
-
-
-
-    public void SQLBefehlAnmeldung(String sql){
-	try {
-
-	    if(sql.length()<11){sql="Select * from user";}
-	    if(sql.substring(0,10).contains("CREATE") | sql.substring(0,10).contains("INSERT") | sql.substring(0,10).contains("UPDATE") | sql.substring(0,10).contains("DELETE")){
-
-		if(sql.substring(0,10).contains("CREATE")){
-
-		    System.out.println("create!");
-		    SQLCreate(sql);
-
-		    //sql.su
-		}else{
-		    SQLManipulation(sql);
-		}
-
-		//sql.su
-	    }
-
-	    else{
-
-		rs = stmt.executeQuery(sql);//.executeQuery(sql);
-
-		System.out.println("*DB<-* '"+sql+"'");
-
-		ResultSetMetaData rsmd = rs.getMetaData();
-
-		int spalten = rsmd.getColumnCount();
-
-		//rsmd.get
-		antwort="\n";
-		antwort=antwort+"*DB<-* "+sql;
-		antwort=antwort+"\n";
-
-		antwort=antwort+"*DB>>* /";
-		System.out.print("*DB>>* /");
-		int j = 1;
-		while(j<spalten+1){
-		    System.out.print(rsmd.getColumnName(j)+"/");
-		    antwort=antwort+rsmd.getColumnName(j)+"/";
-		    j++;
-		}
-		System.out.println("");
-		antwort=antwort+"\n";
-
-		//System.out.println("huuuuuuuhuuuuuuuu"+rs.getRow());
-		/*rs.last();
-
-		 System.out.println(rs.getRow());
-		 if(rs.getRow()==0){antwort="Keine Einträge";}
-		 rs.beforeFirst();*/
-
-		while (rs.next()){
-		    int i = 1;
-
-		    antwort=antwort+"*DB->* | ";
-		    System.out.print("*DB->* | ");
-		    while(i<spalten+1){
-
-			antwort=antwort+rs.getString(i)+" | ";
-			System.out.print(rs.getString(i)+" | ");
-			i++;
-		    }
-
-
-
-
-
-		    antwort=antwort+"\n";
-		    System.out.print("\n");
-
-
-
-		    //System.out.println();
-
-		}
-		rs.last();
-		//System.out.println("Datensätze gefunden: "+rs.getRow());
-		if(rs.getRow()==0){
-		    antwort="\n";
-		    antwort=antwort+"*DB<-* "+sql;
-		    antwort=antwort+"\n";
-		    antwort=antwort+"*DB->* ";
-		    antwort=antwort+"Keine Einträge";
-		    }
-		rs.beforeFirst();
-		
-		//if(antwort.substring(antwort.length()-2, antwort.length()).equalsIgnoreCase("\n"))
-		if(antwort.contains("DB->* Keine Einträge")==false){ antwort= antwort.substring(0, antwort.length()-2);}
-		MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder",antwort));
-		//MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
-		
-		rs.close();
-	    }
-
-	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
-	    System.out.println("SQL PROBLEM!");
-	    MultiThreadedServer.messageList.add(new Message("ServerDB","Admin"," SQL FEHLER: "+e.getMessage()));
+	    if(typ.equals("anmelden")){
 	    MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder"," SQL FEHLER: "+e.getMessage()));
+	    }
 	    
 	    e.printStackTrace();
+	    
+	    
+	 
+	    
+	    
 	}
     }
+
+
+
 
 
 
