@@ -45,10 +45,12 @@ public class ClientRead extends Thread {
 	               	// Cast object zur message
 	             	messageIGot = (Message) obj;      	
 	             	 System.out.println("Message vom Server: " + messageIGot.toString());
-	             	 //HauptFenster.chatFenster.
-	             	// HauptFenster.chatFenster.txtPanel.setText(messageIGot.toString());
-	             	 
 	             	
+	             	if(messageIGot.from.equals("KontaktDBAntwort")){
+	             	     HauptFenster.KontaktListeUpdater(messageIGot.text,messageIGot.typ);
+	             	 }else{
+	             	 
+	             	 
 	             	 boolean checkopen=true;
 	             	 for(ChatFenster CF: HauptFenster.ChatFensterList){
     	             	 	if(CF.nameGespraech.equals(messageIGot.from))
@@ -61,33 +63,12 @@ public class ClientRead extends Thread {
 	             	 if(checkopen==true)
     	             	 {
     	             	     ChatFenster c = new ChatFenster(messageIGot.from);			    
-    	             	     HauptFenster.ChatFensterList.add(c);
-    	             	     
+    	             	     HauptFenster.ChatFensterList.add(c);    	             	     
     	             	 }
-	             	 
-	             	 
-	             	 
-	             	 
-	             	 /*
-	             	  * 
-	             	  * 	int checkOpen=0;
-	             	 for(ChatFenster CF: HauptFenster.ChatFensterList){
-    	             	 	if(CF.nameGespraech.equals(messageIGot.from))
-    	             	 	{
-    	             	 	    	checkOpen++;
-    	             	 	} 
-	             	 }
-	             	 
-	             	 if(checkOpen==HauptFenster.ChatFensterList.size())
-	             	 {
-	             	ChatFenster c = new ChatFenster(messageIGot.from);			    
-         	 	    	HauptFenster.ChatFensterList.add(c);
-	                 }
-	             	  */
-	             	 
-	             	 
+	             	
 	             	 HauptFenster.Chatparser(messageIGot.from,messageIGot.toText());
-	            	}
+	             	 }
+	             	 }
 	       //        }
 	          // }catch(Exception e1){
 	    	//   e1.printStackTrace();

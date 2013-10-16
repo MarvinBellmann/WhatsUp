@@ -27,7 +27,7 @@ public class WorkerRunnableRead extends Thread {
 		clientAnwesend=false;
 		// System.out.println("Server read Problem.");
 		System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
-		    MultiThreadedServer.sqlBefehlsListeAnmeldung.add("UPDATE user set status='Offline' where username like '"+this.user+"'");
+		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Offline' where username like '"+this.user+"'",'a'));
 			
 	    }
 
@@ -56,7 +56,7 @@ public class WorkerRunnableRead extends Thread {
 	    
 	    if(messageIGot.from.equalsIgnoreCase("Admin") && messageIGot.to.equalsIgnoreCase("ServerDB")){
 		System.out.println("|"+messageIGot.toText()+"");
-		MultiThreadedServer.sqlBefehlsListe.add(messageIGot.toTextString());
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(messageIGot.toTextString(),'n'));
 		   
 	    }else{
 		    MultiThreadedServer.messageList.add(messageIGot);		
@@ -71,17 +71,23 @@ public class WorkerRunnableRead extends Thread {
 	    this.user=startdata.user;
 	    w.user=startdata.user;
 	    System.out.println("*** Client nennt sich: " + this.user);
-	    MultiThreadedServer.sqlBefehlsListe.add("UPDATE user set status='Online' where username like '"+this.user+"'");
-	    if(this.user.equals("Admin")){MultiThreadedServer.sqlBefehlsListe.add("SELECT * FROM user"); }
+	    MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
+	    if(this.user.equals("Admin")){MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT * FROM user",'n')); }
+	   
+	    if(this.user.contains("Anmelder")==false){
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT username from user",'k',this.user));
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT status from user",'k',this.user));
+	    }
+	    
 	}
 	if (obj instanceof SQLData)
 	{
 	    sqldata = (SQLData) obj;
 	    if(sqldata.to.equals("AnmeldeDbChecker")){
-		MultiThreadedServer.sqlBefehlsListeAnmeldung.add(sqldata.sqlBefehl);
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'a'));
 	    }else{
 		System.out.println(sqldata.sqlBefehl);
-		MultiThreadedServer.sqlBefehlsListe.add(sqldata.sqlBefehl);
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'n'));
 	    }
 	}
 

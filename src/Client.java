@@ -76,7 +76,7 @@ public class Client extends Thread{
 		   oos = new ObjectOutputStream(socket.getOutputStream());
 		   ois = new ObjectInputStream(socket.getInputStream());
 		   
-		   oos.writeObject(new StartData(HauptFenster.username)); 
+		  // oos.writeObject(new StartData(HauptFenster.username)); 
 		   }
 	      
 	       //ERFOLGREICH VERBINDUNG: DANN EINMAL FOLGENDES

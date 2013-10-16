@@ -14,8 +14,8 @@ public class DBConnectorThread extends Thread {
     Statement stmt;	    
     ResultSet rs;
     String antwort;
-    public static ArrayList<String> sqlBefehlsListeChecken= new ArrayList<String>(); 
-    public static ArrayList<String> sqlBefehlsListeAnmeldungChecken= new ArrayList<String>();
+    public static ArrayList<SQLData> sqlBefehlsListeChecken= new ArrayList<SQLData>(); 
+    //public static ArrayList<String> sqlBefehlsListeAnmeldungChecken= new ArrayList<String>();
 
     public void run() {
 
@@ -29,18 +29,11 @@ public class DBConnectorThread extends Thread {
 		if(sqlBefehlsListeChecken.size()>0){
 		    //System.out.println("<>< SQL Befehl weitergeleitet!");
 		    System.out.println("|"+sqlBefehlsListeChecken.get(0)+"|");
-		    SQLBefehl(sqlBefehlsListeChecken.get(0),"normal"); 
+		    SQLBefehl(sqlBefehlsListeChecken.get(0)); 
 		    MultiThreadedServer.sqlBefehlsListe.remove(0);
 		}
 
-		sqlBefehlsListeAnmeldungChecken.clear();
-		sqlBefehlsListeAnmeldungChecken.addAll(MultiThreadedServer.sqlBefehlsListeAnmeldung);				
-		if(sqlBefehlsListeAnmeldungChecken.size()>0){
-		    //System.out.println("<>< SQL Befehl weitergeleitet!");
-		    System.out.println("|"+sqlBefehlsListeAnmeldungChecken.get(0)+"|");
-		    SQLBefehl(sqlBefehlsListeAnmeldungChecken.get(0),"anmelden"); 
-		    MultiThreadedServer.sqlBefehlsListeAnmeldung.remove(0);
-		}
+		
 
 
 		Thread.sleep(100);
@@ -57,20 +50,20 @@ public class DBConnectorThread extends Thread {
 
     }
 
-    public void SQLBefehl(String sql, String typ){
+    public void SQLBefehl(SQLData sqldata){
 	try {
 
-	    if(sql.length()<11){sql="Select * from user";}
-	    if(sql.substring(0,10).contains("CREATE") | sql.substring(0,10).contains("INSERT") | sql.substring(0,10).contains("UPDATE") | sql.substring(0,10).contains("DELETE")){
+	    if(sqldata.sqlBefehl.length()<11){sqldata.sqlBefehl="Select * from user";}
+	    if(sqldata.sqlBefehl.substring(0,10).contains("CREATE") | sqldata.sqlBefehl.substring(0,10).contains("INSERT") | sqldata.sqlBefehl.substring(0,10).contains("UPDATE") | sqldata.sqlBefehl.substring(0,10).contains("DELETE")){
 
-		if(sql.substring(0,10).contains("CREATE")){
+		if(sqldata.sqlBefehl.substring(0,10).contains("CREATE")){
 
 		    System.out.println("create!");
-		    SQLCreate(sql);
+		    SQLCreate(sqldata.sqlBefehl);
 
 		    //sql.su
 		}else{
-		    SQLManipulation(sql);
+		    SQLManipulation(sqldata.sqlBefehl);
 		}
 
 
@@ -79,14 +72,14 @@ public class DBConnectorThread extends Thread {
 
 	    else{ 
 
-		rs = stmt.executeQuery(sql);//.executeQuery(sql);
-		System.out.println("*DB<-* '"+sql+"'");
+		rs = stmt.executeQuery(sqldata.sqlBefehl);//.executeQuery(sql);
+		System.out.println("*DB<-* '"+sqldata.sqlBefehl+"'");
 
 		ResultSetMetaData rsmd = rs.getMetaData();
 
 		int spalten = rsmd.getColumnCount();
 		antwort="\n";
-		antwort=antwort+"*DB<-* "+sql;
+		antwort=antwort+"*DB<-* "+sqldata.sqlBefehl;
 		antwort=antwort+"\n";
 
 		antwort=antwort+"*DB>>* /";
@@ -99,8 +92,13 @@ public class DBConnectorThread extends Thread {
 		}
 		System.out.println("");
 		antwort=antwort+"\n";
+		 if(sqldata.typ=='k'){antwort="";}
 		while (rs.next()){
 		    int i = 1;
+		    
+		    if(sqldata.typ!='k'){
+			
+		    
 
 		    antwort=antwort+"*DB->* | ";
 		    System.out.print("*DB->* | ");
@@ -111,11 +109,22 @@ public class DBConnectorThread extends Thread {
 			i++;
 		    }
 		    
-		    if(typ.equals("normal")){
+		    
+		    }else{
+			 while(i<spalten+1){
+
+				antwort=antwort+rs.getString(i)+",";
+				System.out.print(rs.getString(i)+",");
+				i++;
+			    }
+		    }
+		    if(sqldata.typ=='n'){
 		    antwort=antwort+"\n";
 		    System.out.print("\n");
 		    //System.out.println();
 		    }
+		    
+		    
 
 		}
 		
@@ -123,17 +132,17 @@ public class DBConnectorThread extends Thread {
 		
 	
 		
-		if(typ.equals("normal")){
+		 if(sqldata.typ=='n'){
 		 antwort= antwort.substring(0, antwort.length()-2);
 		MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
-		rs.close();
+		
 		}
-		if(typ.equals("anmelden")){
+		 if(sqldata.typ=='a'){
 		    rs.last();
 			//System.out.println("Datensätze gefunden: "+rs.getRow());
 			if(rs.getRow()==0){
 			    antwort="\n";
-			    antwort=antwort+"*DB<-* "+sql;
+			    antwort=antwort+"*DB<-* "+sqldata.sqlBefehl;
 			    antwort=antwort+"\n";
 			    antwort=antwort+"*DB->* ";
 			    antwort=antwort+"Keine Einträge";
@@ -145,8 +154,16 @@ public class DBConnectorThread extends Thread {
 			MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder",antwort));
 			//MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
 			
-			rs.close();	
+				
 		}
+		 if(sqldata.typ=='k'){
+		    if(sqldata.sqlBefehl.contains("status")){ 
+			MultiThreadedServer.messageList.add(new Message("KontaktDBAntwort",sqldata.user,antwort,'s'));}
+		    else{
+		     MultiThreadedServer.messageList.add(new Message("KontaktDBAntwort",sqldata.user,antwort,'u'));}
+		 }
+		 
+		 rs.close();
 		
 	    }
 
@@ -154,7 +171,7 @@ public class DBConnectorThread extends Thread {
 	    // TODO Auto-generated catch block
 	    System.out.println("SQL PROBLEM!");
 	    MultiThreadedServer.messageList.add(new Message("ServerDB","Admin"," SQL FEHLER: "+e.getMessage()));
-	    if(typ.equals("anmelden")){
+	    if(sqldata.typ=='a'){
 	    MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder"," SQL FEHLER: "+e.getMessage()));
 	    }
 	    

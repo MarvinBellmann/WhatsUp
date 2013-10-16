@@ -9,13 +9,24 @@ public class SQLData implements Serializable{
     String sqlBefehl;
     String antwort;
     String to;
+    char typ;
+
    
     
 
-  
-    public SQLData(String sql)
+    
+    public SQLData(String sql, char typ)
     {
         this.sqlBefehl = sql;
+        this.typ = typ;
+ 
+    }
+    
+    public SQLData(String sql, char typ, String from)
+    {
+        this.sqlBefehl = sql;
+        this.typ = typ;
+        this.user = from;
  
     }
 

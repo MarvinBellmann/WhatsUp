@@ -13,9 +13,17 @@ public class Message implements Serializable{
     String to;
     String text;
     Date date;
+    char typ;
     
 
-  
+
+    public void setTyp(char typ) {
+        this.typ = typ;
+	
+    }
+
+
+
     public Message(String from, String to, String text)
     {
         this.from = from;
@@ -26,7 +34,17 @@ public class Message implements Serializable{
         
     }
 
-    
+    public Message(String from, String to, String text, char typ)
+    {
+        this.from = from;
+        this.to = to;
+        this.text = text;
+        Timestamp stamp = new Timestamp(System.currentTimeMillis());
+        this.date =  new Date(stamp.getTime());
+        this.typ=typ;
+        
+        
+    }
     
     private void readObject(
 	       ObjectInputStream aInputStream

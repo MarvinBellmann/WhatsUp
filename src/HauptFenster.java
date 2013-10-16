@@ -4,6 +4,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -33,7 +34,7 @@ public class HauptFenster {
 	private static int width = 250;
 	private static int height = 600;
 	private static int border = 5;
-	private JTable table;
+	private static JTable table;
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
 	int startX,startY;
@@ -133,7 +134,35 @@ public class HauptFenster {
 	}
 	
 	
+	public static void KontaktListeUpdater(String text, char typ){
+	    
+	    
+	    //public static ArrayList<String> gesplittet= new ArrayList<String>(); 
+
+	    
+	    Pattern p = Pattern.compile( "[/.,]" );
+	    
+	    String[] gesplittet = p.split(text);
+	    System.out.println(gesplittet);
+	    
+	    //text.spl
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    int index=0;
+	    if(username.equals("Admin")){index++;}
+	    for(String s: gesplittet){
+		
+	if(typ=='u'){model.addRow(new Object[]{"Bild", "Unbekannt",s});}
+	if(typ=='s'){
+	   
+	    model.setValueAt(s, index, 1);
+	    index++;
+	}
 	
+	    }
+	
+	
+	    
+	}
 	
 	public static void StatusChanger() throws InterruptedException{
 	   
@@ -200,14 +229,19 @@ public class HauptFenster {
 			    }
 			}
 		});
-		table.setModel(new DefaultTableModel(new Object[][] {
+		/*table.setModel(new DefaultTableModel(new Object[][] {
 				{ "BildDB", "Online", "ServerDB" },
 				{ "BildAd", "Online", "Admin" },
 				{ "Bild1", "Online", "A" },
 				{ "Bild2", "Online", "B" },
 				{ "Bild3", "Online", "C" }, }, new String[] {
-				"Profilbild", "Status", "Name" }));
+				"Profilbild", "Status", "Name" }));*/
+		table.setModel(new DefaultTableModel(new Object[][] {, }, new String[] {"Profilbild", "Status", "Name" }));
 		frame.add(table);
+		
+		if(username.equals("Admin")){
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.addRow(new Object[]{"Bild", "online", "ServerDB"});}
 
 		// ProfilPanel
 		JPanel panelProfil = new JPanel();

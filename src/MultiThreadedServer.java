@@ -13,8 +13,8 @@ public class MultiThreadedServer implements Runnable{
     protected boolean      isStopped    = false;
     protected Thread       runningThread= null;
     public static ArrayList<Message> messageList= new ArrayList<Message>(); 
-    public static ArrayList<String> sqlBefehlsListe= new ArrayList<String>(); 
-    public static ArrayList<String> sqlBefehlsListeAnmeldung= new ArrayList<String>(); 
+    public static ArrayList<SQLData> sqlBefehlsListe= new ArrayList<SQLData>(); 
+   // public static ArrayList<String> sqlBefehlsListeAnmeldung= new ArrayList<String>(); 
     public MultiThreadedServer(int port){
         this.serverPort = port;
         
