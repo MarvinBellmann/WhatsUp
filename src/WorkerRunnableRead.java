@@ -27,7 +27,8 @@ public class WorkerRunnableRead extends Thread {
 		clientAnwesend=false;
 		// System.out.println("Server read Problem.");
 		System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
-
+		    MultiThreadedServer.sqlBefehlsListeAnmeldung.add("UPDATE user set status='Offline' where username like '"+this.user+"'");
+			
 	    }
 
 	}
@@ -70,12 +71,17 @@ public class WorkerRunnableRead extends Thread {
 	    this.user=startdata.user;
 	    w.user=startdata.user;
 	    System.out.println("*** Client nennt sich: " + this.user);
+	    MultiThreadedServer.sqlBefehlsListe.add("UPDATE user set status='Online' where username like '"+this.user+"'");
+	    if(this.user.equals("Admin")){MultiThreadedServer.sqlBefehlsListe.add("SELECT * FROM user"); }
 	}
 	if (obj instanceof SQLData)
 	{
 	    sqldata = (SQLData) obj;
 	    if(sqldata.to.equals("AnmeldeDbChecker")){
 		MultiThreadedServer.sqlBefehlsListeAnmeldung.add(sqldata.sqlBefehl);
+	    }else{
+		System.out.println(sqldata.sqlBefehl);
+		MultiThreadedServer.sqlBefehlsListe.add(sqldata.sqlBefehl);
 	    }
 	}
 

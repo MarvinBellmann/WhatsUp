@@ -45,13 +45,12 @@ public class AnmeldeFenster {
     }
 
     /**
-     * Create the frame.
      */
     public AnmeldeFenster() {
 	frame = new JFrame();
 	frame.setResizable(false);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setBounds(frame.getGraphicsConfiguration().getBounds().width/2 - 120, 100, 254, 268);
+	frame.setBounds(frame.getGraphicsConfiguration().getBounds().width - 300, 67, 254, 268);
 	frame.setVisible(true);
 	
 	contentPane = new JPanel();
@@ -91,13 +90,13 @@ public class AnmeldeFenster {
 	contentPane.add(lblServerip);
 	
 	txtName = new JTextField();
-	txtName.setText("A");
+	txtName.setText("Admin");
 	txtName.setBounds(10, 78, 228, 20);
 	contentPane.add(txtName);
 	txtName.setColumns(10);
 	
 	textPW = new JTextField();
-	textPW.setText("1234");
+	textPW.setText("Test");
 	textPW.setColumns(10);
 	textPW.setBounds(10, 120, 228, 20);
 	contentPane.add(textPW);
@@ -129,7 +128,7 @@ public class AnmeldeFenster {
 			 sqlMessage = (Message) obj; 
 			 System.out.println(sqlMessage.text);
 		     }
-		     if(sqlMessage.text.equals("Keine Einträge")==false){
+		     if(sqlMessage.text.contains("DB->* Keine Einträge")==false){
 			 anmeldeDatenAkzeptiert = true;
 		     }
 		     oos.close();
@@ -150,7 +149,7 @@ public class AnmeldeFenster {
 		                
 		                
 				try {
-				    HauptFenster window = new HauptFenster(txtName.getText(),textPW.getText(),textServer.getText());
+				    HauptFenster window = new HauptFenster(txtName.getText(),textPW.getText(),textServer.getText(),frame.getBounds().x,frame.getBounds().y);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -168,6 +167,50 @@ public class AnmeldeFenster {
 	contentPane.add(btnAnmelden);
 	
 	JButton btnRegistrieren = new JButton("Registrieren");
+	btnRegistrieren.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+		    //Anmeldung
+		    
+		  // HauptFenster window = new HauptFenster(txtName.getText(),textPW.getText(),textServer.getText());
+		 boolean registrierungsDatenAkzeptiert = false;
+		 try{
+		     InetAddress host = InetAddress.getByName(textServer.getText());//InetAddress.getLocalHost();
+		     Socket socket = new Socket(host.getHostName(), 7866); 
+		     socket.setTcpNoDelay(true); 
+		     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+		     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+		     oos.writeObject(new StartData("Anmelder")); 
+		     oos.writeObject(new SQLData("AnmeldeDbChecker","Select * From user where username like '" +txtName.getText()+"';")); 
+		     Object obj =  ois.readObject();
+		     if (obj instanceof Message)
+		     {
+			 sqlMessage = (Message) obj; 
+			 System.out.println(sqlMessage.text);
+		     }
+		     if(sqlMessage.text.contains("DB->* Keine Einträge")){
+			 registrierungsDatenAkzeptiert = true;
+			 System.out.println("darf inserten");
+			 oos.writeObject(new SQLData("AnmeldeDbChecker","INSERT INTO user (username,password,create_time) VALUES ('" +txtName.getText() +"','"+textPW.getText()+"',now())")); 
+			    
+		     }
+		     oos.close();
+		     ois.close();
+		     socket.close();
+		     
+
+		 }catch(Exception e){
+		    System.out.println("Registrierung nich möglich: " +e.getMessage());		     
+		 }
+
+		   
+		 if(registrierungsDatenAkzeptiert==false){
+		     JOptionPane.showMessageDialog(null, "Registrierung Fehlgeschlagen! Nutzer bereits registriert? ServerIP falsch?");
+		 }else{
+		     JOptionPane.showMessageDialog(null, "Registrierung Erfolgreich! :)");
+			 
+		 }
+		}
+	});
 	btnRegistrieren.setFont(new Font("Tahoma", Font.BOLD, 12));
 	btnRegistrieren.setBounds(117, 195, 121, 23);
 	contentPane.add(btnRegistrieren);
@@ -176,17 +219,28 @@ public class AnmeldeFenster {
 	btnPing.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent arg0) {
 		    
-		    boolean pingchecker = false;
+		  //  boolean pingchecker = false;
 		    try{
 			   //pingchecker= ping(textServer.getText());
-			  pingchecker = (InetAddress.getByName(textServer.getText()).isReachable(5000));
+			  //pingchecker = (InetAddress.getByName(textServer.getText()).isReachable(5000));
+			
+			InetAddress host = InetAddress.getByName(textServer.getText());//InetAddress.getLocalHost();
+			Socket socket = new Socket(host.getHostName(), 7866); 
+			ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+			ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+			oos.close();
+			ois.close();
+			socket.close();
+			JOptionPane.showMessageDialog(null, "Ping erfolgreich!");
+			    
 		    	}catch(Exception e){
 				//e.printStackTrace();
 		    	    System.out.println("Konnte nicht anpingen!");
+		    	 JOptionPane.showMessageDialog(null, "Ping fehlgeschlagen. Es läuft kein JavaServer auf der IP");
+			    
 			}
 		
-		    JOptionPane.showMessageDialog(null, "Ping erfolgreich: "+pingchecker);
-		    
+		   
 		   
 		    }
 	});

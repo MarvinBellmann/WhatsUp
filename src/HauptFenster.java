@@ -36,6 +36,7 @@ public class HauptFenster {
 	private JTable table;
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
+	int startX,startY;
 	//public static ChatFenster chatFenster;
 	    public static ArrayList<ChatFenster> ChatFensterList= new ArrayList<ChatFenster>(); 
 
@@ -72,9 +73,11 @@ public class HauptFenster {
 	/**
 	 * Create the application.
 	 */
-	public HauptFenster(String user, String pw, String Server) {
+	public HauptFenster(String user, String pw, String Server, int x, int y) {
 	    this.username=user;
 	    this.serverIP=Server;
+	    startX=x;
+	    startY=y;
 	    initialize();
 	    
 	    
@@ -95,7 +98,7 @@ public class HauptFenster {
 	  //  System.out.println("Chatparser kriegt: "+sfrom + " : " + text);
 	    for(ChatFenster c: ChatFensterList){
 		if(c.nameGespraech.equalsIgnoreCase(sfrom)){
-		    System.out.println("Client:" + username +" Chatparserecho kriegt: "+sfrom + " füer fenster " + c.nameGespraech + " text: " + text);
+		 //   System.out.println("Client:" + username +" Chatparserecho kriegt: "+sfrom + " füer fenster " + c.nameGespraech + " text: " + text);
 		    if(c.txtPanel.getText().equals("")){
 		       c.txtPanel.setText(text);
 		   }
@@ -115,7 +118,7 @@ public class HauptFenster {
 	   // System.out.println("Chatparserecho kriegt: "+sto);
 	    for(ChatFenster c: ChatFensterList){
 		if(c.nameGespraech.equalsIgnoreCase(sto)){
-		    System.out.println("Client:" + username +" Chatparserecho kriegt: "+sto + " füer fenster " + c.nameGespraech + " text: " + text);
+		  //  System.out.println("Client:" + username +" Chatparserecho kriegt: "+sto + " füer fenster " + c.nameGespraech + " text: " + text);
 		    if(c.txtPanel.getText().equals("")){
 			       c.txtPanel.setText(text);
 			   }
@@ -159,8 +162,7 @@ public class HauptFenster {
 	    
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(maxWidth - width - 50, (maxHeight - height) / 2, width,
-				height);
+		frame.setBounds(startX,startY, width,height); //frame.setBounds(maxWidth - width - 50, (maxHeight - height) / 2, width,height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 

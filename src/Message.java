@@ -82,7 +82,7 @@ public class Message implements Serializable{
         kurztext = kurztext.replaceAll("   ", " ");
         kurztext = kurztext.replaceAll("  ", " ");
         kurztext = kurztext.replaceAll("  ", " ");
-        kurztext = kurztext.substring(1);
+        if(kurztext.substring(0,1).equalsIgnoreCase(" ")){ kurztext = kurztext.substring(1);}
         
         //rückgabe
 	return ("(From: "+from+" |To: " + to +" |Date: " + date + " |"+"Message: " + kurztext+")");//+ System.getProperty("line.separator")
@@ -104,7 +104,9 @@ public class Message implements Serializable{
         kurztext = kurztext.replaceAll("   ", " ");
         kurztext = kurztext.replaceAll("  ", " ");
         kurztext = kurztext.replaceAll("  ", " ");
-        kurztext = kurztext.substring(1);
+        
+        
+        if(kurztext.substring(0,1).equalsIgnoreCase(" ")){ kurztext = kurztext.substring(1);}
         
        /* String min;
         String hrs;
