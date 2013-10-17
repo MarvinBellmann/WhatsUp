@@ -19,9 +19,15 @@ public class DBConnectorThread extends Thread {
 
     public void run() {
 
-	ConnectToDB();
-	//SQLBefehl("SELECT * FROM user"); 
-
+	ConnectToDB(); 
+	try {
+	    stmt.executeUpdate("UPDATE user set status='Offline'");
+	} catch (SQLException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	
+	
 	while(true){
 	    try {
 		sqlBefehlsListeChecken.clear();

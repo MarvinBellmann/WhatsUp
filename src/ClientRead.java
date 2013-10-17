@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -19,6 +20,8 @@ public class ClientRead extends Thread {
 			    ServerAnwesend=false;
 			  // e.printStackTrace();
 			    System.out.println("Client read Problem.");
+			    HauptFenster.statuslabel.setText("Offline");
+				  HauptFenster.statuslabel.setForeground(Color.RED);
 			}
 
 		}

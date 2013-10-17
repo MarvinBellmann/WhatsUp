@@ -198,6 +198,8 @@ public class ChatFenster {
 		panel_1.add(ichbild_lbl);
 
 		name_lbl = new JLabel("test");
+		name_lbl.setForeground(Color.white);
+		
 		name_lbl.setHorizontalAlignment(SwingConstants.LEFT);
 		name_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
 		name_lbl.setBounds(textSize + (border * 2), pictureSize + (border * 2),
@@ -207,7 +209,8 @@ public class ChatFenster {
 		name_lbl.setText(nameGespraech);
 		frame.getContentPane().add(panel_1);
 		//frame.add(new Gradients(Color.green.darker(), Color.green, width,height));
-		frame.add(new Gradients(Color.green.darker(), new Color(0, 255, 127), width,height));
+		frame.add(new Gradients(new Color(27, 130, 165),new Color(204, 204, 255), width,height));
+		//Color.green.darker(), new Color(0, 255, 127), width,height));
 		
 		
 		frame.addWindowListener(new WindowAdapter() {

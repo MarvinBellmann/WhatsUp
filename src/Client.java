@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,6 +15,7 @@ public class Client extends Thread{
  String anmeldepw;
 // static Message messageIGot;
  public static ArrayList<Message> messageList= new ArrayList<Message>(); 
+ public static ArrayList<SQLData> sqlBefehlsListe= new ArrayList<SQLData>(); 
  static boolean verbindungscheck;
  static String erfolg = "Noch ungewiss";
  boolean nurAnmeldeClient=false;
@@ -25,6 +27,11 @@ public class Client extends Thread{
 	    messageList.add(new Message(From,To,Text));
  	    
 	    //System.out.println(">>> Message added");// " + Text + " size: " + messageList.size());
+	}
+ 	
+ 	
+ 	public static void sendSQL(SQLData sqldata){
+ 	sqlBefehlsListe.add(sqldata);
 	}
 
     public Client(String serverIP){
@@ -106,11 +113,18 @@ public class Client extends Thread{
                 
                 messageList.remove(messageList.size()-1);
          }
+        
+        if(sqlBefehlsListe.size()>0){
+  	oos.writeObject(sqlBefehlsListe.get(sqlBefehlsListe.size()-1)); 
+  	sqlBefehlsListe.remove(sqlBefehlsListe.size()-1);
+        }
             
         //Hier auskommentiertes
         erfolg="Erfolg";
        }catch(Exception e){
 	  erfolg="Fehschlag";
+	  HauptFenster.statuslabel.setText("Offline");
+	  HauptFenster.statuslabel.setForeground(Color.RED);
        System.out.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:" + e.getMessage());
       // e.printStackTrace();
        Thread.sleep(5000);

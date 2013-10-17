@@ -50,16 +50,16 @@ public class AnmeldeFenster {
 	frame = new JFrame();
 	frame.setResizable(false);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setBounds(frame.getGraphicsConfiguration().getBounds().width - 300, 67, 254, 268);
+	frame.setBounds(frame.getGraphicsConfiguration().getBounds().width - 300, 47, 254, 268);
 	frame.setVisible(true);
 	
 	contentPane = new JPanel();
-	contentPane.setBackground(new Color(0, 255, 127));
+	contentPane.setBackground(new Color(154, 164, 255));
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	frame.setContentPane(contentPane);
 	contentPane.setLayout(null);
 	
-	JLabel lblWhatsup = new JLabel("Whatsup!");
+	JLabel lblWhatsup = new JLabel("W\u00C4Kenger!");
 	lblWhatsup.setHorizontalAlignment(SwingConstants.CENTER);
 	lblWhatsup.setFont(new Font("Tahoma", Font.BOLD, 16));
 	lblWhatsup.setBounds(10, 0, 228, 32);
@@ -72,6 +72,7 @@ public class AnmeldeFenster {
 	contentPane.add(lblAnmeldung);
 	
 	JLabel lblName = new JLabel("Name");
+	
 	lblName.setHorizontalAlignment(SwingConstants.LEFT);
 	lblName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	lblName.setBounds(10, 59, 213, 20);
@@ -121,7 +122,7 @@ public class AnmeldeFenster {
 		     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 		     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 		     oos.writeObject(new StartData("Anmelder")); 
-		     oos.writeObject(new SQLData("AnmeldeDbChecker","Select * From user where username like '" +txtName.getText()+"' and password like '"+textPW.getText()+"';")); 
+		     oos.writeObject(new SQLData("AnmeldeDbChecker","Select * From user where username like '" +txtName.getText()+"' and password like '"+textPW.getText()+"' and status like 'Offline';")); 
 		     Object obj =  ois.readObject();
 		     if (obj instanceof Message)
 		     {
@@ -158,7 +159,7 @@ public class AnmeldeFenster {
 		});
 		    frame.hide();
 		 }else{
-		     JOptionPane.showMessageDialog(null, "Anmeldung Fehlgeschlagen! Name oder Passwort vergessen? ServerIP falsch?");
+		     JOptionPane.showMessageDialog(null, "Anmeldung Fehlgeschlagen! Name oder Passwort vergessen? ServerIP falsch? Benutzer bereits angemeldet?");
 		 }
 		}
 	});
@@ -190,7 +191,7 @@ public class AnmeldeFenster {
 		     if(sqlMessage.text.contains("DB->* Keine Einträge")){
 			 registrierungsDatenAkzeptiert = true;
 			 System.out.println("darf inserten");
-			 oos.writeObject(new SQLData("AnmeldeDbChecker","INSERT INTO user (username,password,create_time) VALUES ('" +txtName.getText() +"','"+textPW.getText()+"',now())")); 
+			 oos.writeObject(new SQLData("AnmeldeDbChecker","INSERT INTO user (username,password,create_time,status) VALUES ('" +txtName.getText() +"','"+textPW.getText()+"',now(),'Offline')")); 
 			    
 		     }
 		     oos.close();

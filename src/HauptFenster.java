@@ -32,7 +32,7 @@ public class HauptFenster {
 	static JFrame frame;
 	public static int messagesLeft = 10;
 	private static int width = 250;
-	private static int height = 600;
+	private static int height = 587;
 	private static int border = 5;
 	private static JTable table;
 	private JTextField txtSuche;
@@ -148,7 +148,14 @@ public class HauptFenster {
 	    //text.spl
 	    DefaultTableModel model = (DefaultTableModel) table.getModel();
 	    int index=0;
-	    if(username.equals("Admin")){index++;}
+	    if(username.equals("Admin")){
+		index++;
+		if(username.equals("Admin")){
+			
+		    if(typ=='u'){model.addRow(new Object[]{"Bild", "Online", "ServerDB"});}}
+	    
+	    
+	    }
 	    for(String s: gesplittet){
 		
 	if(typ=='u'){model.addRow(new Object[]{"Bild", "Unbekannt",s});}
@@ -196,7 +203,7 @@ public class HauptFenster {
 		frame.getContentPane().setLayout(null);
 
 		table = new JTable();
-		table.setBackground(new Color(0, 255, 147));
+		table.setBackground(new Color(190, 190, 255));
 		table.setBounds(border, 130 + (border * 4), width - 15, 400);
 		table.setBorder(raisedetched);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -239,9 +246,7 @@ public class HauptFenster {
 		table.setModel(new DefaultTableModel(new Object[][] {, }, new String[] {"Profilbild", "Status", "Name" }));
 		frame.add(table);
 		
-		if(username.equals("Admin")){
-			DefaultTableModel model = (DefaultTableModel) table.getModel();
-		model.addRow(new Object[]{"Bild", "online", "ServerDB"});}
+		
 
 		// ProfilPanel
 		JPanel panelProfil = new JPanel();
@@ -255,11 +260,12 @@ public class HauptFenster {
 		label_2.setBounds(border, border, 69, 69);
 		panelProfil.add(label_2);
 
-		JLabel lblSvenole = new JLabel(this.username);
-		lblSvenole.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSvenole.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblSvenole.setBounds((border * 2) + (69 + border), border, 90, 14);
-		panelProfil.add(lblSvenole);
+		JLabel lblUsername = new JLabel(this.username);
+		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblUsername.setForeground(Color.white);
+		lblUsername.setBounds((border * 2) + (69 + border), border, 90, 14);
+		panelProfil.add(lblUsername);
 
 		statuslabel = new JLabel("Offline");
 		statuslabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -278,10 +284,27 @@ public class HauptFenster {
 		panelKontakt.setLayout(null);
 		panelKontakt.setOpaque(false);
 
-		JLabel lblKontakte = new JLabel("Kontakte");
+		JLabel lblKontakte = new JLabel("Kontakte aktualisieren");
 		lblKontakte.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblKontakte.setForeground(Color.white);
 		lblKontakte.setHorizontalAlignment(SwingConstants.CENTER);
 		lblKontakte.setBounds(border, border, width - (border * 5), 14);
+		lblKontakte.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			   
+			    Client.sendSQL(new SQLData("SELECT status from user where username not like '"+ username+ "' order by username",'k',username));
+			}
+		});
+		
+		
+		//MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT status from user order by username",'k',this.user));
+		    
+		
+		
+		
+		
+		
 		panelKontakt.add(lblKontakte);
 
 		txtSuche = new JTextField();
@@ -294,7 +317,7 @@ public class HauptFenster {
 
 		frame.getContentPane().add(panelKontakt);
 		//frame.add(new Gradients(Color.green.darker(), Color.green, width,height));
-		frame.add(new Gradients(Color.green.darker(), new Color(0, 255, 127), width,height));
+		frame.add(new Gradients(new Color(27, 130, 165),new Color(204, 204, 255),  width,height));
 		
 		//frame.setVisible(true);
 		//frame.repaint();

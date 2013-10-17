@@ -27,8 +27,9 @@ public class WorkerRunnableRead extends Thread {
 		clientAnwesend=false;
 		// System.out.println("Server read Problem.");
 		System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
-		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Offline' where username like '"+this.user+"'",'a'));
-			
+		if(this.user.contains("Anmelder")==false){
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Offline' where username like '"+this.user+"'",'a'));
+		}
 	    }
 
 	}
@@ -71,23 +72,31 @@ public class WorkerRunnableRead extends Thread {
 	    this.user=startdata.user;
 	    w.user=startdata.user;
 	    System.out.println("*** Client nennt sich: " + this.user);
+	    if(this.user.contains("Anmelder")==false){
 	    MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
+	    }
 	    if(this.user.equals("Admin")){MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT * FROM user",'n')); }
 	   
 	    if(this.user.contains("Anmelder")==false){
-		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT username from user",'k',this.user));
-		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT status from user",'k',this.user));
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT username from user where username not like '"+ this.user+ "' order by username",'k',this.user));
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT status from user where username not like '"+ this.user+ "' order by username",'k',this.user));
 	    }
 	    
 	}
 	if (obj instanceof SQLData)
 	{
 	    sqldata = (SQLData) obj;
-	    if(sqldata.to.equals("AnmeldeDbChecker")){
-		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'a'));
+	    if(sqldata.typ=='\u0000'){
+		if(sqldata.to.equals("AnmeldeDbChecker")){
+		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'a'));
+		}else{
+		    System.out.println(sqldata.sqlBefehl);
+
+		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'n'));
+
+		}
 	    }else{
-		System.out.println(sqldata.sqlBefehl);
-		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'n'));
+		MultiThreadedServer.sqlBefehlsListe.add(sqldata);
 	    }
 	}
 
