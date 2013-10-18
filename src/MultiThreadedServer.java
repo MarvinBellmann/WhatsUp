@@ -12,6 +12,8 @@ public class MultiThreadedServer implements Runnable{
     protected ServerSocket serverSocket = null;
     protected boolean      isStopped    = false;
     protected Thread       runningThread= null;
+    public static ArrayList<String> AngemeldeteUser= new ArrayList<String>();
+    public static ArrayList<WorkerRunnableRead> AngemeldeteWorkerRunnableRead= new ArrayList<WorkerRunnableRead>();
     public static ArrayList<Message> messageList= new ArrayList<Message>(); 
     public static ArrayList<SQLData> sqlBefehlsListe= new ArrayList<SQLData>(); 
    // public static ArrayList<String> sqlBefehlsListeAnmeldung= new ArrayList<String>(); 

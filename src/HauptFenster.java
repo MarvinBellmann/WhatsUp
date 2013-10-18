@@ -34,7 +34,7 @@ public class HauptFenster {
 	private static int width = 250;
 	private static int height = 587;
 	private static int border = 5;
-	private static JTable table;
+	static JTable table;
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
 	int startX,startY;
@@ -185,12 +185,12 @@ public class HauptFenster {
 	       System.out.println("removed: " +i + " von "+rowCount);
 	    }*/
 	    System.out.println("### Tablelleneinträge gelöscht!");
-	    try {
+	   /* try {
 		Thread.sleep(100);
 	    } catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	    }
+	    }*/
 	   // System.out.println("----------");
 	    }
 	   
@@ -214,6 +214,13 @@ public class HauptFenster {
             }
 	    
 	    System.out.println("### Tablelleneinträge inkl neuer Stati geladen aus DB!");
+	    
+	    
+	    for(ChatFenster CF: ChatFensterList){
+	    CF.UpdateStatus();
+	    }
+	    
+	    
 	    
 	    }catch(ArrayIndexOutOfBoundsException e){
 		System.out.println("Tableleerungsproblem: "+e.getMessage());
@@ -276,7 +283,7 @@ public class HauptFenster {
 				}
 			    }
 			    if(abbruch==false){
-			    ChatFenster c = new ChatFenster((String) table.getValueAt(table.getSelectedRow(), 2));
+			    ChatFenster c = new ChatFenster((String) table.getValueAt(table.getSelectedRow(), 2),(String) table.getValueAt(table.getSelectedRow(), 1));
 			   
 			   
 			    ChatFensterList.add(c);

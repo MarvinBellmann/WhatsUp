@@ -27,7 +27,9 @@ public class ChatFenster {
 	private JFrame frame;
 	JTextPane txtField;
 	public String nameGespraech;
-	static JLabel name_lbl;
+	public String status;
+	JLabel name_lbl;
+	JLabel online_lbl;
 	private static int width = 450;
 	private static int border = 7;
 	private static int height = 340;
@@ -67,14 +69,44 @@ public class ChatFenster {
 	/**
 	 * Create the application.
 	 */
-	public ChatFenster(String name) {
+	public ChatFenster(String name, String status) {
 	    this.nameGespraech = name;
+	    this.status=status;
 	   
 		initialize();
 		 frame.setVisible(true);
 		//domain(name);
 	}
 	
+	public void UpdateStatus(){
+	    
+	    
+	    String statusneu="";	    
+    	     String userInTabelle="";
+    	     
+    	     for (int row = 0; row <= HauptFenster.table.getRowCount() - 1; row++) {
+    		userInTabelle=(String)HauptFenster.table.getValueAt(row, 2);
+    		if(userInTabelle.equalsIgnoreCase(nameGespraech)){
+    		statusneu=(String)HauptFenster.table.getValueAt(row, 1);
+    		    break;
+    		    
+    		}
+    	     }
+    	     
+    	     
+	    
+	    
+	    
+	    
+	    
+	    this.status=statusneu;
+	    online_lbl.setText(this.status);
+	    if(status.equals("Online")){
+		online_lbl.setForeground(Color.GREEN);}
+		else{
+		    online_lbl.setForeground(Color.RED);
+		}
+	}
 	
 
 	/**
@@ -102,12 +134,21 @@ public class ChatFenster {
 		panel_1.setLayout(null);
 		panel_1.setOpaque(false);
 
-		JLabel online_lbl = new JLabel("Online");
+		online_lbl = new JLabel("On");
 		online_lbl.setHorizontalAlignment(SwingConstants.LEFT);
-		online_lbl.setForeground(Color.GREEN);
+		
 		online_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
 		online_lbl.setBounds(textSize + (border * 2), pictureSize
 				+ (border * 3) + 14, 70, 14);
+		online_lbl.setText(status);
+		
+		if(status.equals("Online")){
+		online_lbl.setForeground(Color.GREEN);}
+		else{
+		    online_lbl.setForeground(Color.RED);
+		}
+		
+		
 		panel_1.add(online_lbl);
 
 		JButton send_btn = new JButton("Senden");

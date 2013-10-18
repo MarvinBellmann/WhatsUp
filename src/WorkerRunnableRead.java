@@ -24,6 +24,13 @@ public class WorkerRunnableRead extends Thread {
 		Thread.sleep(100);
 	    } catch (Exception e) {
 		//    e.printStackTrace();
+		
+		for(int i=0;i<MultiThreadedServer.AngemeldeteWorkerRunnableRead.size();i++){
+		    if(MultiThreadedServer.AngemeldeteWorkerRunnableRead.get(i).user.equals(user)){
+			MultiThreadedServer.AngemeldeteWorkerRunnableRead.remove(i);
+		    }
+		}
+		
 		clientAnwesend=false;
 		// System.out.println("Server read Problem.");
 		System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schließe Thread; Grund: "+e.getMessage());
@@ -73,10 +80,11 @@ public class WorkerRunnableRead extends Thread {
 	    w.user=startdata.user;
 	    System.out.println("*** Client nennt sich: " + this.user);
 	    if(this.user.contains("Anmelder")==false){
-	    MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
+		//MultiThreadedServer.AngemeldeteUser.add(this.user);
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
 	    }
 	    if(this.user.equals("Admin")){MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT * FROM user",'n')); }
-	   
+
 	    if(this.user.contains("Anmelder")==false){
 		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT username,status from user where username not like '"+ this.user+ "' order by username",'k',this.user));
 		//MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT status from user where username not like '"+ this.user+ "' order by username",'k',this.user));

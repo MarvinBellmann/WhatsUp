@@ -10,9 +10,10 @@ public class ClientRead extends Thread {
     static Message messageIGot;
     boolean ServerAnwesend=true;
 
-	public void run() throws ArrayIndexOutOfBoundsException {
+	public void run() {
 		while (ServerAnwesend==true) {
 			
+		    
 			try {
 			    Empfange();
 				Thread.sleep(100);
@@ -73,7 +74,22 @@ public class ClientRead extends Thread {
 	             	 
 	             	 if(checkopen==true)
     	             	 {
-    	             	     ChatFenster c = new ChatFenster(messageIGot.from);			    
+	             	     String statusfrom="";
+	             	     String fromfrom="";
+	             	     
+	             	     for (int row = 0; row <= HauptFenster.table.getRowCount() - 1; row++) {
+	             		fromfrom=(String)HauptFenster.table.getValueAt(row, 2);
+	             		if(fromfrom.equalsIgnoreCase(messageIGot.from)){
+	             		statusfrom=(String)HauptFenster.table.getValueAt(row, 1);
+	             		    break;
+	             		    
+	             		}
+	             	     }
+	             	     
+	             	     if(statusfrom=="" && messageIGot.from.equalsIgnoreCase("ServerDB")){statusfrom="Online";}
+	             	 
+	             	     
+    	             	     ChatFenster c = new ChatFenster(messageIGot.from,statusfrom);			    
     	             	     HauptFenster.ChatFensterList.add(c);  
     	             	System.out.println("### Chatfenster mit "+ messageIGot.from+ " geöffnet.");
     	             	 }
@@ -94,7 +110,7 @@ public class ClientRead extends Thread {
 	    	//   System.out.println("read problem");
 	         //  }
 		    } catch (ClassNotFoundException | IOException |ArrayIndexOutOfBoundsException e) {
-			// TODO Auto-generated catch block
+			
 			e.getMessage();
 		    }
 	    	      

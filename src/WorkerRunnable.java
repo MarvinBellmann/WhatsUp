@@ -51,6 +51,8 @@ public class WorkerRunnable implements Runnable{
 			WorkerRunnableRead serverReaderThread = new WorkerRunnableRead(clientSocket,ois,this);
 			serverReaderThread.setName("1A serverReaderThread");
 			serverReaderThread.start();
+			
+			MultiThreadedServer.AngemeldeteWorkerRunnableRead.add(serverReaderThread);
 		}
 		
 		
@@ -68,6 +70,9 @@ public class WorkerRunnable implements Runnable{
         	messageListChecken.clear();
         	messageListChecken.addAll(MultiThreadedServer.messageList);
         	int index=0;
+        	
+       
+        	
  for (Message m : messageListChecken){
    
      if (m.to.equalsIgnoreCase(this.user)){
@@ -95,13 +100,18 @@ public class WorkerRunnable implements Runnable{
  
   }catch(Exception e){
       System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
-    //  e.printStackTrace();
+    
+     /// for(String s:MultiThreadedServer.AngemeldeteUser){
+     /// MultiThreadedServer.AngemeldeteUser.remove(i);
+      
+      //  e.printStackTrace();
       //System.exit(0);
+      //System.out.println(e.getCause());
+      if(e.getMessage().contains("Connection reset")){
       clientAnwesend=false;
+      }
 
   }
-            
-        
            try {
 	    Thread.sleep(15);
 	} catch (InterruptedException e) {

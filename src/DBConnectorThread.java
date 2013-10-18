@@ -57,6 +57,7 @@ public class DBConnectorThread extends Thread {
     }
 
     public void SQLBefehl(SQLData sqldata){
+	//typ n=normal k=Kontakt a=anmeldung
 	try {
 
 	    if(sqldata.sqlBefehl.length()<11){sqldata.sqlBefehl="Select * from user";}
@@ -159,7 +160,7 @@ public class DBConnectorThread extends Thread {
 			//if(antwort.substring(antwort.length()-2, antwort.length()).equalsIgnoreCase("\n"))
 			if(antwort.contains("DB->* Keine Einträge")==false){ antwort= antwort.substring(0, antwort.length()-2);}
 			MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder",antwort));
-			//MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
+			MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
 			
 				
 		}
@@ -206,12 +207,31 @@ public class DBConnectorThread extends Thread {
 	    System.out.println("*DB<-* '"+sql+"'");
 	    String antwort = "\n*DB<-* '"+sql+"'";
 	    MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
-		
+	
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    MultiThreadedServer.messageList.add(new Message("ServerDB","Admin"," SQL FEHLER: "+e.getMessage()));
 	    e.printStackTrace();
 	}
+	    
+	try{
+	    if(sql.contains("UPDATE user set status='")){
+	/*	for(String user: MultiThreadedServer.AngemeldeteUser){
+		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT username,status from user where username not like '"+ user+ "' order by username",'k',user));
+		
+		}*/
+		for(WorkerRunnableRead w : MultiThreadedServer.AngemeldeteWorkerRunnableRead){
+		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT username,status from user where username not like '"+ w.user+ "' order by username",'k',w.user));
+			
+		}
+	    }
+	    
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    System.out.println(e.getMessage());
+	} 
+	    
+	
     }
 
     public void SQLCreate(String sql){
