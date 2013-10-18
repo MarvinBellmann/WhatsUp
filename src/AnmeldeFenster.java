@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -23,7 +24,7 @@ public class AnmeldeFenster {
 
     private JPanel contentPane;
     private JTextField txtName;
-    private JTextField textPW;
+    private JPasswordField textPW;
     private JTextField textServer;
     private JFrame frame;
     Message sqlMessage;
@@ -51,24 +52,27 @@ public class AnmeldeFenster {
 	frame.setResizable(false);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setBounds(frame.getGraphicsConfiguration().getBounds().width - 300, 47, 254, 268);
+		
 	frame.setVisible(true);
 	
 	contentPane = new JPanel();
-	contentPane.setBackground(new Color(154, 164, 255));
+	//contentPane.setBackground(new Color(154, 164, 255));
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	frame.setContentPane(contentPane);
 	contentPane.setLayout(null);
 	
-	JLabel lblWhatsup = new JLabel("W\u00C4Kenger!");
+	JLabel lblWhatsup = new JLabel("WAK-enger!");
 	lblWhatsup.setHorizontalAlignment(SwingConstants.CENTER);
 	lblWhatsup.setFont(new Font("Tahoma", Font.BOLD, 16));
 	lblWhatsup.setBounds(10, 0, 228, 32);
+	lblWhatsup.setForeground(Color.white);
 	contentPane.add(lblWhatsup);
 	
 	JLabel lblAnmeldung = new JLabel("Anmeldung");
 	lblAnmeldung.setHorizontalAlignment(SwingConstants.CENTER);
 	lblAnmeldung.setFont(new Font("Tahoma", Font.BOLD, 16));
 	lblAnmeldung.setBounds(10, 28, 228, 20);
+	lblAnmeldung.setForeground(Color.white);
 	contentPane.add(lblAnmeldung);
 	
 	JLabel lblName = new JLabel("Name");
@@ -96,11 +100,20 @@ public class AnmeldeFenster {
 	contentPane.add(txtName);
 	txtName.setColumns(10);
 	
-	textPW = new JTextField();
+	/*textPW = new JTextField();
 	textPW.setText("Test");
 	textPW.setColumns(10);
 	textPW.setBounds(10, 120, 228, 20);
+	contentPane.add(textPW);*/
+	
+	textPW = new JPasswordField(25);
+	textPW.setText("Test");
+	//textPW.setActionCommand();
+	textPW.setColumns(10);
+	textPW.setBounds(10, 120, 228, 20);
 	contentPane.add(textPW);
+	
+	
 	
 	textServer = new JTextField();
 	textServer.setText("localhost");
@@ -254,7 +267,7 @@ public class AnmeldeFenster {
 	lblYourIp.setBounds(10, 220, 228, 20);
 	contentPane.add(lblYourIp);
 	
-	
+	frame.add(new Gradients(new Color(27, 130, 165),new Color(204, 204, 255),  254, 268));
 	
 	String yourip =null;
 	try {

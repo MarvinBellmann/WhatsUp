@@ -74,7 +74,7 @@ public class WorkerRunnable implements Runnable{
 	
 	//   System.out.println("An: ("+m.to+ ") Derzeitiger Client:(" +this.user+")");
 	     oos.writeObject(m);
-	     System.out.println("<>< Message weitergeleitet!");
+	     System.out.println("<<< Message weitergeleitet an "+this.user+"!");
 	     MultiThreadedServer.messageList.remove(index);
 	    // gecheckt=true;
 	     break;

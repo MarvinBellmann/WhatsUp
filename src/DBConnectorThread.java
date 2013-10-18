@@ -34,7 +34,7 @@ public class DBConnectorThread extends Thread {
 		sqlBefehlsListeChecken.addAll(MultiThreadedServer.sqlBefehlsListe);				
 		if(sqlBefehlsListeChecken.size()>0){
 		    //System.out.println("<>< SQL Befehl weitergeleitet!");
-		    System.out.println("|"+sqlBefehlsListeChecken.get(0)+"|");
+		   // System.out.println("|"+sqlBefehlsListeChecken.get(0)+"|");
 		    SQLBefehl(sqlBefehlsListeChecken.get(0)); 
 		    MultiThreadedServer.sqlBefehlsListe.remove(0);
 		}
@@ -98,7 +98,7 @@ public class DBConnectorThread extends Thread {
 		}
 		System.out.println("");
 		antwort=antwort+"\n";
-		 if(sqldata.typ=='k'){antwort="";}
+		 if(sqldata.typ=='k'){antwort="";System.out.print("*DB->* ");}
 		while (rs.next()){
 		    int i = 1;
 		    
@@ -117,6 +117,7 @@ public class DBConnectorThread extends Thread {
 		    
 		    
 		    }else{
+			
 			 while(i<spalten+1){
 
 				antwort=antwort+rs.getString(i)+",";
@@ -163,10 +164,11 @@ public class DBConnectorThread extends Thread {
 				
 		}
 		 if(sqldata.typ=='k'){
+		     System.out.print("\n");
 		    if(sqldata.sqlBefehl.contains("status")){ 
 			MultiThreadedServer.messageList.add(new Message("KontaktDBAntwort",sqldata.user,antwort,'s'));}
-		    else{
-		     MultiThreadedServer.messageList.add(new Message("KontaktDBAntwort",sqldata.user,antwort,'u'));}
+		   // else{
+		    // MultiThreadedServer.messageList.add(new Message("KontaktDBAntwort",sqldata.user,antwort,'u'));}
 		 }
 		 
 		 rs.close();

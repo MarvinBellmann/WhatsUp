@@ -10,7 +10,7 @@ public class ClientRead extends Thread {
     static Message messageIGot;
     boolean ServerAnwesend=true;
 
-	public void run() {
+	public void run() throws ArrayIndexOutOfBoundsException {
 		while (ServerAnwesend==true) {
 			
 			try {
@@ -19,7 +19,7 @@ public class ClientRead extends Thread {
 			} catch (Exception e) {
 			    ServerAnwesend=false;
 			  // e.printStackTrace();
-			    System.out.println("Client read Problem.");
+			    System.out.println("Client read Problem. " + e.getMessage());
 			    HauptFenster.statuslabel.setText("Offline");
 				  HauptFenster.statuslabel.setForeground(Color.RED);
 			}
@@ -33,11 +33,14 @@ public class ClientRead extends Thread {
 
 	}
 
-	public void Empfange() throws ClassNotFoundException, IOException {
+	public void Empfange()  {
 	   	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	    	   
 	    	   //  System.out.println("X<< Warte auf Message");
-	              Object obj =  ois.readObject();
+	              Object obj;
+		    try {
+			obj = ois.readObject();
+		   
 	           //   System.out.println("<<< Message erhalten");
 	               
 	               
@@ -47,10 +50,14 @@ public class ClientRead extends Thread {
 	                 {
 	               	// Cast object zur message
 	             	messageIGot = (Message) obj;      	
-	             	 System.out.println("Message vom Server: " + messageIGot.toString());
+	             	 System.out.println("### Message vom Server: " + messageIGot.toString());
 	             	
-	             	if(messageIGot.from.equals("KontaktDBAntwort")){
-	             	     HauptFenster.KontaktListeUpdater(messageIGot.text,messageIGot.typ);
+	             	 
+	             	//try {
+	             	 if(messageIGot.from.equals("KontaktDBAntwort")){
+	             	     
+	             		 HauptFenster.KontaktListeUpdater(messageIGot.text,messageIGot.typ);
+	             	    
 	             	 }else{
 	             	 
 	             	 
@@ -63,6 +70,7 @@ public class ClientRead extends Thread {
     	             	 	} 
     	             	     	             	
 	                 }
+	             	 
 	             	 if(checkopen==true)
     	             	 {
     	             	     ChatFenster c = new ChatFenster(messageIGot.from);			    
@@ -71,6 +79,13 @@ public class ClientRead extends Thread {
 	             	
 	             	 HauptFenster.Chatparser(messageIGot.from,messageIGot.toText());
 	             	 }
+	             	 
+	             	 
+	             	/* }catch(ArrayIndexOutOfBoundsException e){
+	             		 System.out.println("Tableleerungsproblem: "+e.getMessage());
+	             	     }*/
+	             	 
+	             	 
 	             	 }
 	       //        }
 	          // }catch(Exception e1){
@@ -81,7 +96,10 @@ public class ClientRead extends Thread {
 	    	  
 
 	    	       
-
+		    } catch (ClassNotFoundException | IOException |ArrayIndexOutOfBoundsException e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+		    }
 	    	      
     	 
     	   

@@ -134,42 +134,95 @@ public class HauptFenster {
 	}
 	
 	
-	public static void KontaktListeUpdater(String text, char typ){
-	    
-	    
-	    //public static ArrayList<String> gesplittet= new ArrayList<String>(); 
-
-	    
-	    Pattern p = Pattern.compile( "[/.,]" );
-	    
+	/*public static void KontaktListeUpdater(String text, char typ){
+	    Pattern p = Pattern.compile( "[/.,]" );	    
 	    String[] gesplittet = p.split(text);
 	    System.out.println(gesplittet);
-	    
-	    //text.spl
 	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    
 	    int index=0;
 	    if(username.equals("Admin")){
 		index++;
-		if(username.equals("Admin")){
-			
-		    if(typ=='u'){model.addRow(new Object[]{"Bild", "Online", "ServerDB"});}}
-	    
-	    
+		if(username.equals("Admin")){			
+		    if(typ=='u'){model.addRow(new Object[]{"Bild", "Online", "ServerDB"});}
+		}
 	    }
 	    for(String s: gesplittet){
-		
-	if(typ=='u'){model.addRow(new Object[]{"Bild", "Unbekannt",s});}
-	if(typ=='s'){
-	   
-	    model.setValueAt(s, index, 1);
-	    index++;
-	}
-	
+
+		if(typ=='u'){model.addRow(new Object[]{"Bild", "Unbekannt",s});}
+		if(typ=='s'){
+
+		    model.setValueAt(s, index, 1);
+		    index++;
+		}
+
 	    }
+	}*/
 	
 	
+	
+	
+	public static void KontaktListeUpdater(String text, char typ){
+	   
+	    try{
 	    
-	}
+	    Pattern p = Pattern.compile( "[/.,]" );	    
+	    String[] gesplittet = p.split(text);
+	    //System.out.println(gesplittet);
+	    //table.remove((Component) table.getModel());
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    
+	    int rowCount=model.getRowCount();
+	  
+	   
+	    if(rowCount>0){
+		
+		table.setModel(new DefaultTableModel(new Object[][] {, }, new String[] {"Profilbild", "Status", "Name" }));
+		model = (DefaultTableModel) table.getModel();
+	   /* for(int i = rowCount-1; i >=0; i--)
+	    {
+	       model.removeRow(i); 
+	       System.out.println("removed: " +i + " von "+rowCount);
+	    }*/
+	    System.out.println("### Tablelleneinträge gelöscht!");
+	    try {
+		Thread.sleep(100);
+	    } catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	   // System.out.println("----------");
+	    }
+	   
+	 //   System.out.println(rowCount);
+	    /*for (int i = 0;i+1<rowCount;i++) {
+	       // model.removeRow(i);
+		table.remove((Component) table.getModel());
+	        System.out.println("removed: " +i + " von "+rowCount);
+	    }*/
+	    
+	    
+		
+		if(username.equals("Admin")){			
+		    model.addRow(new Object[]{"Bild", "Online", "ServerDB"});
+		}
+		
+	    
+	    
+	    for(int i=0;i<gesplittet.length;i=i+2){	    
+		model.addRow(new Object[]{"Bild", gesplittet[i+1],gesplittet[i]});
+            }
+	    
+	    System.out.println("### Tablelleneinträge inkl neuer Stati geladen aus DB!");
+	    
+	    }catch(ArrayIndexOutOfBoundsException e){
+		System.out.println("Tableleerungsproblem: "+e.getMessage());
+	    }
+		
+	 }
+	
+	
+	
 	
 	public static void StatusChanger() throws InterruptedException{
 	   
@@ -194,7 +247,7 @@ public class HauptFenster {
 	 */
 	private void initialize() {
 	    
-	    System.out.println("Anmeldungsversuch als: " + username);
+	    System.out.println("*** Anmeldungsversuch als: " + username);
 	    
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -230,7 +283,7 @@ public class HauptFenster {
 				//ChatFenster chatFenster = new ChatFenster();
 				//chatFenster.domain((String) table.getValueAt(
 				//		table.getSelectedRow(), 2));
-				System.out.println("Chatfenster mit "
+				System.out.println("### Chatfenster mit "
 						+ table.getValueAt(table.getSelectedRow(), 2)
 						+ " geöffnet.");
 			    }
@@ -293,7 +346,7 @@ public class HauptFenster {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 			   
-			    Client.sendSQL(new SQLData("SELECT status from user where username not like '"+ username+ "' order by username",'k',username));
+			    Client.sendSQL(new SQLData("SELECT username,status from user where username not like '"+ username+ "' order by username",'k',username));
 			}
 		});
 		
