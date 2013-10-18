@@ -74,7 +74,8 @@ public class ClientRead extends Thread {
 	             	 if(checkopen==true)
     	             	 {
     	             	     ChatFenster c = new ChatFenster(messageIGot.from);			    
-    	             	     HauptFenster.ChatFensterList.add(c);    	             	     
+    	             	     HauptFenster.ChatFensterList.add(c);  
+    	             	System.out.println("### Chatfenster mit "+ messageIGot.from+ " geöffnet.");
     	             	 }
 	             	
 	             	 HauptFenster.Chatparser(messageIGot.from,messageIGot.toText());
@@ -92,10 +93,6 @@ public class ClientRead extends Thread {
 	    	//   e1.printStackTrace();
 	    	//   System.out.println("read problem");
 	         //  }
-	    	   
-	    	  
-
-	    	       
 		    } catch (ClassNotFoundException | IOException |ArrayIndexOutOfBoundsException e) {
 			// TODO Auto-generated catch block
 			e.getMessage();

@@ -268,7 +268,7 @@ public class HauptFenster {
 			    
 			    for( ChatFenster CF : ChatFensterList){
 				
-				System.out.println(CF.nameGespraech + " " +((String) table.getValueAt(table.getSelectedRow(), 2)));
+				//System.out.println(CF.nameGespraech + " " +((String) table.getValueAt(table.getSelectedRow(), 2)));
 				
 				if(CF.nameGespraech.equalsIgnoreCase((String) table.getValueAt(table.getSelectedRow(), 2))){
 				    
