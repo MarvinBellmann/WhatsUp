@@ -22,8 +22,6 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
-import SendData.SQLData;
-
 public class HauptFenster {
 
 	static String username = "A"; //ändere hier
@@ -318,6 +316,7 @@ public class HauptFenster {
 		 {
 		            //  Returning the Class of each column will allow different
 		            //  renderers to be used based on Class
+		    
 		            public Class getColumnClass(int column)
 		            {
 		                return getValueAt(0, column).getClass();
@@ -325,16 +324,17 @@ public class HauptFenster {
 		            public boolean isCellEditable(int x, int y) {
 		                return false;
 		            }
+		          
 		        };
 		        table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		      
+		        table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		       
 		        
 		//table.setBackground(new Color(190, 190, 255));
 		table.setBounds(border, 130 + (border * 4), width - 15, 400);
 		//table.setEnabled(false);
 		
-		table.setCellSelectionEnabled(true);
+		//table.setCellSelectionEnabled(true);
 		
 		//table.setBorder(raisedetched);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -420,18 +420,18 @@ public class HauptFenster {
 		panelKontakt.setLayout(null);
 		panelKontakt.setOpaque(false);
 
-		JLabel lblKontakte = new JLabel("Kontakte aktualisieren");
+		JLabel lblKontakte = new JLabel("Kontakte");
 		lblKontakte.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblKontakte.setForeground(Color.white);
 		lblKontakte.setHorizontalAlignment(SwingConstants.CENTER);
 		lblKontakte.setBounds(border, border, width - (border * 5), 14);
-		lblKontakte.addMouseListener(new MouseAdapter() {
+		/*lblKontakte.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 			   
 			    Client.sendSQL(new SQLData("SELECT username,status from user where username not like '"+ username+ "' order by username",'k',username));
 			}
-		});
+		});*/
 		
 		
 		//MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT status from user order by username",'k',this.user));
