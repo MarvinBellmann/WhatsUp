@@ -1,4 +1,6 @@
+package Client;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
@@ -11,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -18,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
+
+import SendData.SQLData;
 
 public class HauptFenster {
 
@@ -35,6 +40,7 @@ public class HauptFenster {
 	private static int height = 587;
 	private static int border = 5;
 	static JTable table;
+	 static ImageIcon i1;
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
 	int startX,startY;
@@ -162,6 +168,7 @@ public class HauptFenster {
 	
 	
 	
+	
 	public static void KontaktListeUpdater(String text, char typ){
 	   
 	    try{
@@ -200,17 +207,23 @@ public class HauptFenster {
 		table.remove((Component) table.getModel());
 	        System.out.println("removed: " +i + " von "+rowCount);
 	    }*/
+	   
 	    
-	    
+	  //  lblUsername.setIcon(aboutIcon);
+		
+	 // ImageIcon i1 = new ImageIcon("/data/1.jpg");
+	   //i1.setImage(i1.getClass().getResource("data/1.jpg"));
+	   
 		
 		if(username.equals("Admin")){			
-		    model.addRow(new Object[]{"Bild", "Online", "ServerDB"});
+		    model.addRow(new Object[]{i1, "Online", "ServerDB"});
+		   // table.setValueAt(i1, 0,0);
 		}
 		
 	    
-	    
+		
 	    for(int i=0;i<gesplittet.length;i=i+2){	    
-		model.addRow(new Object[]{"Bild", gesplittet[i+1],gesplittet[i]});
+		model.addRow(new Object[]{i1, gesplittet[i+1],gesplittet[i]});
             }
 	    
 	    System.out.println("### Tablelleneinträge inkl neuer Stati geladen aus DB!");
@@ -222,8 +235,30 @@ public class HauptFenster {
 	    
 	    
 	    
-	    }catch(ArrayIndexOutOfBoundsException e){
-		System.out.println("Tableleerungsproblem: "+e.getMessage());
+	    for (int row = 0; row < table.getRowCount(); row++)
+	        {
+	            int rowHeight = table.getRowHeight();
+	            int rowWidth = 50;
+
+	            for (int column = 0; column < table.getColumnCount(); column++)
+	            {
+	                Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
+	                rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+	                rowWidth = Math.max(rowHeight, comp.getPreferredSize().width);
+	            }
+
+	            table.setRowHeight(row, rowHeight);
+	           // table.getColumnModel().getColumn(1).setPreferredWidth(30);
+	            table.getColumnModel().getColumn(0).setPreferredWidth(rowWidth);
+	         //   table.getColumnModel().getColumn(1).setPreferredWidth(30);
+	        }
+	    
+	    
+	    
+	    
+	    
+	    }catch(Exception e){
+		System.out.println("KontaktListeUpdater-problem: "+e.getMessage());
 	    }
 		
 	 }
@@ -262,7 +297,8 @@ public class HauptFenster {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-	    
+	    i1 = new ImageIcon(getClass().getResource("/data/2.png"));//new ImageIcon(getClass().getResource("data/2.png"));
+		
 	    System.out.println("*** Anmeldungsversuch als: " + username);
 	    
 		frame = new JFrame();
@@ -271,10 +307,36 @@ public class HauptFenster {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		table = new JTable();
-		table.setBackground(new Color(190, 190, 255));
+		
+		
+		
+	      
+	       	      
+		DefaultTableModel model = new DefaultTableModel(new Object[][] {, }, new String[] {"Profilbild", "Status", "Name" });
+		
+		table = new JTable(model)
+		 {
+		            //  Returning the Class of each column will allow different
+		            //  renderers to be used based on Class
+		            public Class getColumnClass(int column)
+		            {
+		                return getValueAt(0, column).getClass();
+		            }
+		            public boolean isCellEditable(int x, int y) {
+		                return false;
+		            }
+		        };
+		        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		      
+		       
+		        
+		//table.setBackground(new Color(190, 190, 255));
 		table.setBounds(border, 130 + (border * 4), width - 15, 400);
-		table.setBorder(raisedetched);
+		//table.setEnabled(false);
+		
+		table.setCellSelectionEnabled(true);
+		
+		//table.setBorder(raisedetched);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -312,10 +374,14 @@ public class HauptFenster {
 				{ "Bild2", "Online", "B" },
 				{ "Bild3", "Online", "C" }, }, new String[] {
 				"Profilbild", "Status", "Name" }));*/
-		table.setModel(new DefaultTableModel(new Object[][] {, }, new String[] {"Profilbild", "Status", "Name" }));
-		frame.add(table);
 		
-		
+		//frame.add(table);
+		 JScrollPane scrollPane = new JScrollPane( table );
+		        scrollPane.setBounds(border, 130 + (border * 4), width - 15, 400);
+		        scrollPane.setBorder(raisedetched);
+		        scrollPane.setBackground(new Color(190, 190, 255));
+			
+		        frame.getContentPane().add( scrollPane );
 
 		// ProfilPanel
 		JPanel panelProfil = new JPanel();
@@ -334,6 +400,7 @@ public class HauptFenster {
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblUsername.setForeground(Color.white);
 		lblUsername.setBounds((border * 2) + (69 + border), border, 90, 14);
+		
 		panelProfil.add(lblUsername);
 
 		statuslabel = new JLabel("Offline");

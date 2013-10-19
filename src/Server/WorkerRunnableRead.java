@@ -1,7 +1,12 @@
+package Server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import SendData.Message;
+import SendData.SQLData;
+import SendData.StartData;
 
 public class WorkerRunnableRead extends Thread {
 

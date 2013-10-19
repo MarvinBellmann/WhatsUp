@@ -1,3 +1,4 @@
+package Client;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -18,6 +19,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import SendData.Message;
+import SendData.SQLData;
+import SendData.StartData;
 
 
 public class AnmeldeFenster {

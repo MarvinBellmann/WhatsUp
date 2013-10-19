@@ -1,3 +1,4 @@
+package Server;
 
 
 
@@ -5,6 +6,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import SendData.Message;
+import SendData.SQLData;
 
 public class MultiThreadedServer implements Runnable{
 

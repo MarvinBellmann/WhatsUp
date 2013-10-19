@@ -1,21 +1,50 @@
+package SendData;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class StartData implements Serializable{
+public class SQLData implements Serializable{
     private static final long serialVersionUID = 7526472295622776148L; 
-    String user;
+    public String user;
+    public String sqlBefehl;
+    public String antwort;
+    public String to;
+    public char typ;
+
    
     
 
-  
-    public StartData(String user)
+    
+    public SQLData(String sql, char typ)
     {
-        this.user = user;
-      //  System.out.println(this.user);
+        this.sqlBefehl = sql;
+        this.typ = typ;
+ 
+    }
+    
+    public SQLData(String sql, char typ, String from)
+    {
+        this.sqlBefehl = sql;
+        this.typ = typ;
+        this.user = from;
+ 
     }
 
+    public SQLData(String to, String sql)
+    {
+	this.to = to;
+        this.sqlBefehl = sql;
+
+    }
+    
+    public SQLData(String to, String sql, String antwort)
+    {
+	this.to = to;
+        this.sqlBefehl = sql;
+        this.antwort = antwort;
+
+    }
     
     
     private void readObject(

@@ -1,7 +1,10 @@
+package Client;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+
+import SendData.Message;
 
 public class ClientRead extends Thread {
 

@@ -1,3 +1,4 @@
+package Client;
 import javax.swing.ImageIcon;
 
 public class Smiley extends ImageIcon {

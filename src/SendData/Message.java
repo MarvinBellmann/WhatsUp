@@ -1,3 +1,4 @@
+package SendData;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,11 +10,11 @@ import java.util.regex.Pattern;
 
 public class Message implements Serializable{
     private static final long serialVersionUID = 7526472295622776147L; 
-    String from;
-    String to;
-    String text;
-    Date date;
-    char typ;
+    public String from;
+    public String to;
+    public String text;
+    public Date date;
+    public char typ;
     
 
 
