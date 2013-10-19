@@ -1,6 +1,7 @@
 package Client;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
@@ -106,10 +107,38 @@ public class HauptFenster {
 		 //   System.out.println("Client:" + username +" Chatparserecho kriegt: "+sfrom + " füer fenster " + c.nameGespraech + " text: " + text);
 		    if(c.txtPanel.getText().equals("")){
 		       c.txtPanel.setText(text);
+		       final ChatFenster cstatic = c;
+			    EventQueue.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+				    // TODO Auto-generated method stub
+				    cstatic.frame.setAlwaysOnTop(true);
+				    //cstatic.frame.setVisible(false);
+				    cstatic.frame.toFront();
+				    cstatic.frame.repaint();
+				    cstatic.frame.setAlwaysOnTop(false);
+				}
+			    });
 		   }
 		   else{
 		    c.txtPanel.setText(c.txtPanel.getText()+"\n"+text);
 		    c.txtPanel.setCaretPosition(c.txtPanel.getDocument().getLength());
+		  
+		   /* final ChatFenster cstatic = c;
+		    EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+			    // TODO Auto-generated method stub
+			    cstatic.frame.setAlwaysOnTop(true);
+			    //cstatic.frame.setVisible(false);
+			    cstatic.frame.toFront();
+			    cstatic.frame.repaint();
+			    cstatic.frame.setAlwaysOnTop(false);
+			}
+		    });*/
+			//public void run() {
 			  //  chatFenster.panel_1.repaint();
 		   }
 		    
@@ -299,7 +328,23 @@ public class HauptFenster {
 		
 	    System.out.println("*** Anmeldungsversuch als: " + username);
 	    
-		frame = new JFrame();
+		frame = new JFrame(){
+		    
+		    
+		      // make sure that frame is marked as not disposed if it is asked to be visible
+			  private void BringToFront() {
+			        java.awt.EventQueue.invokeLater(new Runnable() {
+			            @Override
+			            public void run() {
+			                if(frame != null) {
+			                    frame.toFront();
+			                    frame.repaint();
+			                }
+			            }
+			        });
+			    }
+		};
+		//frame.setd
 		frame.setResizable(false);
 		frame.setBounds(startX,startY, width,height); //frame.setBounds(maxWidth - width - 50, (maxHeight - height) / 2, width,height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

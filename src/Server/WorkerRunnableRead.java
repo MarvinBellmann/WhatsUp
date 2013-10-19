@@ -30,10 +30,24 @@ public class WorkerRunnableRead extends Thread {
 	    } catch (Exception e) {
 		//    e.printStackTrace();
 		
-		for(int i=0;i<MultiThreadedServer.AngemeldeteWorkerRunnableRead.size();i++){
-		    if(MultiThreadedServer.AngemeldeteWorkerRunnableRead.get(i).user.equals(user)){
-			MultiThreadedServer.AngemeldeteWorkerRunnableRead.remove(i);
+		try{
+		    int index=0;
+		    boolean loescheindex=false;
+		    for(int i=0;i<MultiThreadedServer.AngemeldeteWorkerRunnableRead.size();i++){
+			if(MultiThreadedServer.AngemeldeteWorkerRunnableRead.get(i).user.equals(user)){
+			    index=i;
+			    loescheindex=true;
+			   break;
+			}
 		    }
+		    
+		    if(loescheindex==true){
+		    MultiThreadedServer.AngemeldeteWorkerRunnableRead.remove(index);
+		    }
+		    
+		}catch(Exception e2){
+		   // System.out.println(e2.getMessage());
+		    System.out.println("Lösche Workerrunnable aus liste problem!!!! " +e2.getMessage());
 		}
 		
 		clientAnwesend=false;

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import SendData.Message;
@@ -33,6 +34,10 @@ public class AnmeldeFenster {
     private JTextField textServer;
     private JFrame frame;
     Message sqlMessage;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
+    Socket socket;
+    int counterReset=0;
 
     /**
      * Launch the application.
@@ -102,6 +107,17 @@ public class AnmeldeFenster {
 	txtName = new JTextField();
 	txtName.setText("Admin");
 	txtName.setBounds(10, 78, 228, 20);
+	txtName.addFocusListener(new java.awt.event.FocusAdapter() {
+    	    public void focusGained(java.awt.event.FocusEvent evt) {
+    	    	SwingUtilities.invokeLater( new Runnable() {
+
+    				@Override
+    				public void run() {
+    				txtName.selectAll();		
+    				}
+    			});
+    	    }
+    	});
 	contentPane.add(txtName);
 	txtName.setColumns(10);
 	
@@ -112,16 +128,39 @@ public class AnmeldeFenster {
 	contentPane.add(textPW);*/
 	
 	textPW = new JPasswordField(25);
-	textPW.setText("Test");
+	
+	textPW.setText("1234");
 	//textPW.setActionCommand();
 	textPW.setColumns(10);
 	textPW.setBounds(10, 120, 228, 20);
+	textPW.addFocusListener(new java.awt.event.FocusAdapter() {
+    	    public void focusGained(java.awt.event.FocusEvent evt) {
+    	    	SwingUtilities.invokeLater( new Runnable() {
+
+    				@Override
+    				public void run() {
+    				textPW.selectAll();		
+    				}
+    			});
+    	    }
+    	});
 	contentPane.add(textPW);
 	
 	
 	
 	textServer = new JTextField();
 	textServer.setText("localhost");
+	textServer.addFocusListener(new java.awt.event.FocusAdapter() {
+    	    public void focusGained(java.awt.event.FocusEvent evt) {
+    	    	SwingUtilities.invokeLater( new Runnable() {
+
+    				@Override
+    				public void run() {
+    				textServer.selectAll();		
+    				}
+    			});
+    	    }
+    	});
 	textServer.setColumns(10);
 	textServer.setBounds(10, 161, 151, 20);
 	contentPane.add(textServer);
@@ -135,13 +174,16 @@ public class AnmeldeFenster {
 		 boolean anmeldeDatenAkzeptiert = false;
 		 try{
 		     InetAddress host = InetAddress.getByName(textServer.getText());//InetAddress.getLocalHost();
-		     Socket socket = new Socket(host.getHostName(), 7866); 
-		     socket.setTcpNoDelay(true); 
-		     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-		     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+		     socket = new Socket(host.getHostName(), 7866); 
+		     socket.setTcpNoDelay(true);
+		     socket.setSoTimeout(5000);
+		    oos = new ObjectOutputStream(socket.getOutputStream());
+		     ois = new ObjectInputStream(socket.getInputStream());
 		     oos.writeObject(new StartData("Anmelder")); 
 		     oos.writeObject(new SQLData("AnmeldeDbChecker","Select * From user where username like '" +txtName.getText()+"' and password like '"+textPW.getText()+"' and status like 'Offline';")); 
+		     System.out.println("Warte auf ServerAntwort");
 		     Object obj =  ois.readObject();
+		     System.out.println("ServerAntwort bekommen");
 		     if (obj instanceof Message)
 		     {
 			 sqlMessage = (Message) obj; 
@@ -150,19 +192,29 @@ public class AnmeldeFenster {
 		     if(sqlMessage.text.contains("DB->* Keine Einträge")==false){
 			 anmeldeDatenAkzeptiert = true;
 		     }
+		     System.out.println("Schließe Verbindungen und Socket");
 		     oos.close();
 		     ois.close();
 		     socket.close();
+		     System.out.println("Verbindungen und Socket geschlossen");
 		     
 
 		 }catch(Exception e){
-		    System.out.println("Anmeldung nich möglich: " +e.getMessage());		     
+		    System.out.println("Anmeldung nich möglich: " +e.getMessage());	
+		    try{
+			 oos.close();
+			     ois.close();
+			     socket.close();
+		    }catch(Exception e2){
+			System.out.println("Fehler nach Fehlerwiedergutmachungsversuch: " +e2.getMessage());
+		    }
 		 }
 
 		   
 		 if(anmeldeDatenAkzeptiert==true){
-		    EventQueue.invokeLater(new Runnable() {
-			public void run() {
+		     System.out.println("Anmeldung akzeptiert: Starte HauptFenster");
+		   // EventQueue.invokeLater(new Runnable() {
+			//public void run() {
 			
 			    
 		                
@@ -173,8 +225,8 @@ public class AnmeldeFenster {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
-		});
+		//	}
+		//});
 		    frame.hide();
 		 }else{
 		     JOptionPane.showMessageDialog(null, "Anmeldung Fehlgeschlagen! Name oder Passwort vergessen? ServerIP falsch? Benutzer bereits angemeldet?");
@@ -278,7 +330,7 @@ public class AnmeldeFenster {
 	try {
 	   yourip=InetAddress.getLocalHost().getHostAddress();
 	} catch (UnknownHostException e) {
-	    // TODO Auto-generated catch block
+	   
 	    e.printStackTrace();
 	}
 	

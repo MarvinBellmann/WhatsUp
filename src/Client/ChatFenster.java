@@ -1,5 +1,6 @@
 package Client;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +26,7 @@ import javax.swing.border.LineBorder;
 
 public class ChatFenster {
 
-	private JFrame frame;
+	public JFrame frame;
 	JTextPane txtField;
 	public String nameGespraech;
 	public String status;
@@ -123,13 +124,48 @@ public class ChatFenster {
 	
 	
 	private JFrame initialize() {
-		frame = new JFrame();
+		frame = new JFrame(){
+		    // make sure that frame is marked as not disposed if it is asked to be visible
+		    private void BringToFront() {
+			        java.awt.EventQueue.invokeLater(new Runnable() {
+			            @Override
+			            public void run() {
+			                if(frame != null) {
+			                    frame.toFront();
+			                    frame.repaint();
+			                }
+			            }
+			        });
+			    }
+		};
 		frame.setResizable(false);
 		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),
 				HauptFenster.frame.getY(), width, height);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
 		frame.getContentPane().setLayout(null);
+		
+		
+		
+		
+		
+		
+		
 
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+			    // TODO Auto-generated method stub
+			    frame.setAlwaysOnTop(true);
+			    frame.setAlwaysOnTop(false);
+			}
+		    });
+		
+		
+		
+		
+		
+		
 		panel_1 = new JPanel();
 		panel_1.setForeground(Color.ORANGE);
 		panel_1.setBackground(Color.LIGHT_GRAY);
@@ -256,6 +292,17 @@ public class ChatFenster {
 		//frame.add(new Gradients(Color.green.darker(), Color.green, width,height));
 		frame.add(new Gradients(new Color(27, 130, 165),new Color(204, 204, 255), width,height));
 		//Color.green.darker(), new Color(0, 255, 127), width,height));
+		
+		
+		
+		
+			
+		
+		
+		
+		
+		
+		
 		
 		
 		frame.addWindowListener(new WindowAdapter() {

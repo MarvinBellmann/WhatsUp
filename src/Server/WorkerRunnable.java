@@ -111,9 +111,9 @@ public class WorkerRunnable implements Runnable{
       //  e.printStackTrace();
       //System.exit(0);
       //System.out.println(e.getCause());
-      if(e.getMessage().contains("Connection reset")){
+     // if(e.getMessage().contains("Connection reset")){
       clientAnwesend=false;
-      }
+     // }
 
   }
            try {

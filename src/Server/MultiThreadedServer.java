@@ -38,6 +38,7 @@ public class MultiThreadedServer implements Runnable{
             Socket clientSocket = null;
             try {
                 clientSocket = this.serverSocket.accept();
+               // if(this.serverSocket.)
             } catch (IOException e) {
                 if(isStopped()) {
                     System.out.println("Server Stopped.") ;
