@@ -229,7 +229,16 @@ public class HauptFenster {
 	 }
 	
 	
-	
+	public static void StatusTabelleServerLost(){
+	    
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();	    
+	    int rowCount=model.getRowCount();	  
+	   for(int i = rowCount-1; i >=0; i--){
+	    
+	    model.setValueAt("Verb.Abbruch", i, 1);
+	    
+	   }
+	}
 	
 	public static void StatusChanger() throws InterruptedException{
 	   

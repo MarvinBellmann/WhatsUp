@@ -80,7 +80,6 @@ public class ChatFenster {
 	
 	public void UpdateStatus(){
 	    
-	    
 	    String statusneu="";	    
     	     String userInTabelle="";
     	     
@@ -92,14 +91,18 @@ public class ChatFenster {
     		    
     		}
     	     }
-    	     
-    	     
-	    
-	    
-	    
-	    
-	    
 	    this.status=statusneu;
+	    online_lbl.setText(this.status);
+	    if(status.equals("Online")){
+		online_lbl.setForeground(Color.GREEN);}
+		else{
+		    online_lbl.setForeground(Color.RED);
+		}
+	}
+	
+	public void UpdateStatusServerLost(){
+	    
+	    this.status="Verb.Abbruch";
 	    online_lbl.setText(this.status);
 	    if(status.equals("Online")){
 		online_lbl.setForeground(Color.GREEN);}

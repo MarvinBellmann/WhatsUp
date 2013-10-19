@@ -23,6 +23,10 @@ public class ClientRead extends Thread {
 			    System.out.println("Client read Problem. " + e.getMessage());
 			    HauptFenster.statuslabel.setText("Offline");
 				  HauptFenster.statuslabel.setForeground(Color.RED);
+				  HauptFenster. StatusTabelleServerLost();
+				  for(ChatFenster CF: HauptFenster.ChatFensterList){
+					    CF.UpdateStatusServerLost();
+					    }
 			}
 
 		}
@@ -34,12 +38,12 @@ public class ClientRead extends Thread {
 
 	}
 
-	public void Empfange()  {
+	public void Empfange() throws ClassNotFoundException, IOException  {
 	   	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	    	   
 	    	   //  System.out.println("X<< Warte auf Message");
 	              Object obj;
-		    try {
+		    //try {
 			obj = ois.readObject();
 		   
 	           //   System.out.println("<<< Message erhalten");
@@ -109,10 +113,10 @@ public class ClientRead extends Thread {
 	    	//   e1.printStackTrace();
 	    	//   System.out.println("read problem");
 	         //  }
-		    } catch (ClassNotFoundException | IOException |ArrayIndexOutOfBoundsException e) {
+		    /*} catch (ClassNotFoundException | IOException |ArrayIndexOutOfBoundsException e) {
 			
-			e.getMessage();
-		    }
+			System.out.println(e.getMessage());
+		    }*/
 	    	      
     	 
     	   
