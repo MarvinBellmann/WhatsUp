@@ -53,9 +53,15 @@ public class WorkerRunnableRead extends Thread {
 		clientAnwesend=false;
 		// System.out.println("Server read Problem.");
 		System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schlieﬂe Thread; Grund: "+e.getMessage());
-		if(this.user.contains("Anmelder")==false){
+		
+		try{
+		if(this.user.contains("Anmelder")==false){		    
 		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Offline' where username like '"+this.user+"'",'a'));
 		}
+		}catch(Exception e4){
+		    System.out.println("set status problem: " +e.getMessage());
+		}
+		
 	    }
 
 	}

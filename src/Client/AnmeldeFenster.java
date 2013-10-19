@@ -248,6 +248,7 @@ public class AnmeldeFenster {
 		     InetAddress host = InetAddress.getByName(textServer.getText());//InetAddress.getLocalHost();
 		     Socket socket = new Socket(host.getHostName(), 7866); 
 		     socket.setTcpNoDelay(true); 
+		     socket.setSoTimeout(5000);
 		     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 		     ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 		     oos.writeObject(new StartData("Anmelder")); 
