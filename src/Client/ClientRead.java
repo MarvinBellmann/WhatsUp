@@ -45,6 +45,13 @@ public class ClientRead extends Thread {
 	   	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	    	   
 	    	   //  System.out.println("X<< Warte auf Message");
+	    
+	    
+	    
+	
+	    
+	    
+	    
 	              Object obj;
 		    //try {
 			obj = ois.readObject();

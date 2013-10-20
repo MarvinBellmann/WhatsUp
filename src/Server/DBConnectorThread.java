@@ -165,7 +165,8 @@ public class DBConnectorThread extends Thread {
 			//if(antwort.substring(antwort.length()-2, antwort.length()).equalsIgnoreCase("\n"))
 			if(antwort.contains("DB->* Keine Einträge")==false){ antwort= antwort.substring(0, antwort.length()-2);}
 			MultiThreadedServer.messageList.add(new Message("ServerDB","Anmelder",antwort));
-			MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
+			System.out.println("message müsste geaddet sein");
+			//MultiThreadedServer.messageList.add(new Message("ServerDB","Admin",antwort));
 			
 				
 		}

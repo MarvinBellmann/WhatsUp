@@ -34,6 +34,7 @@ public class HauptFenster {
 		EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
 	
 	static JFrame frame;
+	 static String desktopPath;
 	public static int messagesLeft = 10;
 	private static int width = 250;
 	private static int height = 587;
@@ -326,6 +327,13 @@ public class HauptFenster {
 	private void initialize() {
 	    i1 = new ImageIcon(getClass().getResource("/data/2.png"));//new ImageIcon(getClass().getResource("data/2.png"));
 		
+
+		desktopPath = System.getProperty("user.home") + "/Desktop";
+	            //System.out.print(desktopPath.replace("\\", "/"));
+	            desktopPath=desktopPath.replace("\\", "/");
+	    
+	    
+	    
 	    System.out.println("*** Anmeldungsversuch als: " + username);
 	    
 		frame = new JFrame(){

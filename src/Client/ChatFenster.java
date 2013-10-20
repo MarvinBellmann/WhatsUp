@@ -8,10 +8,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -205,6 +208,79 @@ public class ChatFenster {
 		send_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		send_btn.setBounds(textSize + border - 100, (border * 5) + 240, 100, 20);
 		panel_1.add(send_btn);
+		
+		JButton dataFetch_btn = new JButton("Empfange");
+		dataFetch_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+			  //  if(txtField.getText().equals("\n")==false && txtField.getText().equals("")==false){
+				FileReceiverThread fr = new FileReceiverThread(txtField.getText());
+			    try {
+				fr.domain();
+			    } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			    }
+				txtField.setText("");
+			   // }
+
+			}
+		});
+		dataFetch_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		dataFetch_btn.setBounds(textSize + border - 330, (border * 5) + 240, 100, 20);
+		panel_1.add(dataFetch_btn);
+		
+		
+		
+		
+		JButton dataSend_btn = new JButton("Datei Senden");
+		dataSend_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			   
+			    
+			    //JWSFileChooserDemo fileChooser = new  JWSFileChooserDemo();
+			    //fileChooser.domain();
+			    JFileChooser chooser = new JFileChooser();
+			    chooser.setCurrentDirectory(new File(HauptFenster.desktopPath));
+			        // Dialog zum Oeffnen von Dateien anzeigen
+			        //chooser.showOpenDialog(null);
+			        
+			        // Dialog zum Oeffnen von Dateien anzeigen
+			        int rueckgabeWert = chooser.showDialog(null, "Auswählen");
+			        
+			        // Abfrage, ob auf "Öffnen" geklickt wurde 
+			        if(rueckgabeWert == JFileChooser.APPROVE_OPTION)
+			        {
+			            
+			            String zuVerschickendeDatei=chooser.getSelectedFile().getAbsolutePath();
+			             // Ausgabe der ausgewaehlten Datei
+			            System.out.println("Die zu verschickende Datei ist: " + zuVerschickendeDatei);
+			            
+			            //// new Sender(zuVerschickendeDatei,AN,TYP)
+			            //FileSenderThread fs = new FileSenderThread(zuVerschickendeDatei);
+			            //new Thread(
+			            FileSenderThread fs =  new FileSenderThread(zuVerschickendeDatei);
+			            fs.setName("1A FileSenderThread");
+				
+			            fs.start();
+			            //fs.domain();
+			              //  ).start();
+			           // chooser.
+			        }
+				/*try {
+				    java.awt.Desktop.getDesktop().open(new java.io.File(HauptFenster.desktopPath));
+				   
+				} catch (IOException e) {
+				    // TODO Auto-generated catch block
+				    e.printStackTrace();
+				}*/
+				//DemoJFileChooser filechooser = new DemoJFileChooser();
+			   
+			}
+		});
+		dataSend_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		dataSend_btn.setBounds(textSize + border - 240, (border * 5) + 240, 130, 20);
+		panel_1.add(dataSend_btn);
 
 		
 		txtField = new JTextPane(){

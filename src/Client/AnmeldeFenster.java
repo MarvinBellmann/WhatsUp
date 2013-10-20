@@ -149,7 +149,7 @@ public class AnmeldeFenster {
 	
 	
 	textServer = new JTextField();
-	textServer.setText("localhost");
+	textServer.setText("95.118.142.91");//"localhost");
 	textServer.addFocusListener(new java.awt.event.FocusAdapter() {
     	    public void focusGained(java.awt.event.FocusEvent evt) {
     	    	SwingUtilities.invokeLater( new Runnable() {
@@ -174,7 +174,8 @@ public class AnmeldeFenster {
 		 boolean anmeldeDatenAkzeptiert = false;
 		 try{
 		     InetAddress host = InetAddress.getByName(textServer.getText());//InetAddress.getLocalHost();
-		     socket = new Socket(host.getHostName(), 7866); 
+		     System.out.println(host.getHostAddress());
+		     socket = new Socket(host.getHostAddress(), 7866); 
 		     socket.setTcpNoDelay(true);
 		     socket.setSoTimeout(5000);
 		    oos = new ObjectOutputStream(socket.getOutputStream());

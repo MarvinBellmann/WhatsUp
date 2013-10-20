@@ -30,7 +30,7 @@ public class WorkerRunnableRead extends Thread {
 	    } catch (Exception e) {
 		//    e.printStackTrace();
 		
-		try{
+		/*try{
 		    int index=0;
 		    boolean loescheindex=false;
 		    for(int i=0;i<MultiThreadedServer.AngemeldeteWorkerRunnableRead.size();i++){
@@ -48,7 +48,7 @@ public class WorkerRunnableRead extends Thread {
 		}catch(Exception e2){
 		   // System.out.println(e2.getMessage());
 		    System.out.println("Lösche Workerrunnable aus liste problem!!!! " +e2.getMessage());
-		}
+		}*/
 		
 		clientAnwesend=false;
 		// System.out.println("Server read Problem.");
