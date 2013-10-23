@@ -27,21 +27,23 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
+import net.miginfocom.swing.MigLayout;
+
 public class ChatFenster {
 
 	public JFrame frame;
-	JTextPane txtField;
+	public JTextPane txtField;
 	public String nameGespraech;
 	public String status;
-	JLabel name_lbl;
-	JLabel online_lbl;
+	public JLabel name_lbl;
+	public JLabel online_lbl;
 	private static int width = 450;
 	private static int border = 7;
 	private static int height = 340;
 	private static int pictureSize = 69;
 	private static int textSize = 330;
 	public JTextArea txtPanel;
-	JPanel panel_1;
+	public JPanel panel_1;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
@@ -122,7 +124,6 @@ public class ChatFenster {
 		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),
 				HauptFenster.frame.getY(), width, height);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
-		frame.getContentPane().setLayout(null);
 
 		EventQueue.invokeLater(new Runnable() {
 
@@ -133,42 +134,95 @@ public class ChatFenster {
 			}
 		});
 
-		panel_1 = new JPanel();
-		panel_1.setForeground(Color.ORANGE);
-		panel_1.setBackground(Color.LIGHT_GRAY);
+		panel_1 = new GradientPanel(new Color(27, 130, 165), new Color(204,
+				204, 255), width, height);
 		panel_1.setBounds(border, border, width - (border * 3), height
 				- (border * 6));
-		panel_1.setLayout(null);
-		panel_1.setOpaque(false);
+		panel_1.setLayout(new MigLayout("fill", "", "[][][][][][]"));
 
+		// TextPanel
+		txtPanel = new JTextArea();
+		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 12));
+		txtPanel.setEditable(false);
+		txtPanel.setLineWrap(true);
+		txtPanel.setWrapStyleWord(true);
+
+		JScrollPane sp = new JScrollPane(txtPanel);
+		sp.add(txtPanel);
+		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		sp.setViewportView(txtPanel);
+		sp.setBorder(raisedetched);
+		panel_1.add(sp, "span 2 4,grow");
+
+		// Image
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(ChatFenster.class
+				.getResource("/data/2.png")));
+		label.setBounds(textSize + (border * 2), border, pictureSize,
+				pictureSize);
+		panel_1.add(label, "aligny top,wrap");
+
+		// Name
+		name_lbl = new JLabel("test");
+		name_lbl.setForeground(Color.white);
+		name_lbl.setHorizontalAlignment(SwingConstants.LEFT);
+		name_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
+		name_lbl.setBounds(textSize + (border * 2), pictureSize + (border * 2),
+				70, 14);
+		panel_1.add(name_lbl, "wrap");
+		name_lbl.setText(nameGespraech);
+
+		// Online-Status
 		online_lbl = new JLabel("On");
 		online_lbl.setHorizontalAlignment(SwingConstants.LEFT);
-
 		online_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
-		online_lbl.setBounds(textSize + (border * 2), pictureSize
-				+ (border * 3) + 14, 70, 14);
 		online_lbl.setText(status);
-
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
 		} else {
 			online_lbl.setForeground(Color.RED);
 		}
+		panel_1.add(online_lbl, "wrap 50px");
 
-		panel_1.add(online_lbl);
-
-		JButton send_btn = new JButton("Senden");
-		send_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Client.send(HauptFenster.username, nameGespraech,
-						txtField.getText());
-				txtField.setText("");
+		// TextFeld
+		txtField = new JTextPane() {
+			public boolean getScrollableTracksViewportWidth() {
+				return getUI().getPreferredSize(this).width <= getParent()
+						.getSize().width;
 			}
-		});
-		send_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		send_btn.setBounds(textSize + border - 100, (border * 5) + 240, 100, 20);
-		panel_1.add(send_btn);
+		};
+		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
+		txtField.setContentType("text/html");
+		txtField.setBorder(raisedetched);
+		txtField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
 
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					// Letztes Word auslesen
+					// Nach Smiley Code aussuchen
+					// ggf. Smiley Icon Kreieren
+				}
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Client.send(HauptFenster.username, nameGespraech,
+							txtField.getText());
+					txtField.setText("");
+				}
+			}
+
+		});
+		panel_1.add(txtField, "cell 0 4, spanx 2,grow");
+
+		// Ich-Image
+		JLabel ichbild_lbl = new JLabel("");
+		ichbild_lbl.setIcon(new ImageIcon(ChatFenster.class
+				.getResource("/data/1.jpg")));
+		ichbild_lbl.setBounds(textSize + (border * 2), 160 + (border * 4),
+				pictureSize, pictureSize);
+		panel_1.add(ichbild_lbl, "aligny top,wrap");
+
+		// Empfangen-Button
 		JButton dataFetch_btn = new JButton("Empfange");
 		dataFetch_btn.addActionListener(new ActionListener() {
 
@@ -185,11 +239,10 @@ public class ChatFenster {
 
 		});
 		dataFetch_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		dataFetch_btn.setBounds(textSize + border - 330, (border * 5) + 240,
-				100, 20);
-		panel_1.add(dataFetch_btn);
+		panel_1.add(dataFetch_btn, "split 2");
 
-		JButton dataSend_btn = new JButton("Datei Senden");
+		// Datei senden
+		JButton dataSend_btn = new JButton("Datei senden");
 		dataSend_btn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -213,84 +266,21 @@ public class ChatFenster {
 
 		});
 		dataSend_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		dataSend_btn.setBounds(textSize + border - 240, (border * 5) + 240,
-				130, 20);
 		panel_1.add(dataSend_btn);
 
-		txtField = new JTextPane() {
-			public boolean getScrollableTracksViewportWidth() {
-				return getUI().getPreferredSize(this).width <= getParent()
-						.getSize().width;
+		// Senden-Button
+		JButton send_btn = new JButton("Senden");
+		send_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Client.send(HauptFenster.username, nameGespraech,
+						txtField.getText());
+				txtField.setText("");
 			}
-		};
-		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
-		txtField.setContentType("text/html");
-		txtField.setBounds(border, (border * 4) + 160, textSize, 80);
-
-		txtField.setBorder(raisedetched);
-		txtField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					// Letztes Word auslesen
-					// Nach Smiley Code aussuchen
-					// ggf. Smiley Icon Kreieren
-				}
-
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Client.send(HauptFenster.username, nameGespraech,
-							txtField.getText());
-					txtField.setText("");
-				}
-			}
-
 		});
-		panel_1.add(txtField);
+		send_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel_1.add(send_btn, "alignx right");
 
-		txtPanel = new JTextArea();
-		txtPanel.setFont(new Font("Miriam", Font.PLAIN, 12));
-		txtPanel.setBounds(border, border, textSize, 160);
-		txtPanel.setEditable(false);
-		txtPanel.setLineWrap(true);
-		txtPanel.setWrapStyleWord(true);
-
-		JScrollPane sp = new JScrollPane(txtPanel);
-		sp.add(txtPanel);
-		sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		sp.setViewportView(txtPanel);
-		sp.setBounds(border, border, textSize, 160);
-		sp.setBorder(raisedetched);
-		panel_1.add(sp);
-
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(ChatFenster.class
-				.getResource("/data/2.png")));
-		label.setBounds(textSize + (border * 2), border, pictureSize,
-				pictureSize);
-		panel_1.add(label);
-
-		JLabel ichbild_lbl = new JLabel("");
-		ichbild_lbl.setIcon(new ImageIcon(ChatFenster.class
-				.getResource("/data/1.jpg")));
-		ichbild_lbl.setBounds(textSize + (border * 2), 160 + (border * 4),
-				pictureSize, pictureSize);
-		panel_1.add(ichbild_lbl);
-
-		name_lbl = new JLabel("test");
-		name_lbl.setForeground(Color.white);
-
-		name_lbl.setHorizontalAlignment(SwingConstants.LEFT);
-		name_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
-		name_lbl.setBounds(textSize + (border * 2), pictureSize + (border * 2),
-				70, 14);
-		panel_1.add(name_lbl);
-
-		name_lbl.setText(nameGespraech);
 		frame.getContentPane().add(panel_1);
-		frame.add(new GradientPanel(new Color(27, 130, 165), new Color(204, 204,
-				255), width, height));
-
 		frame.addWindowListener(new WindowAdapter() {
 
 			public void windowClosing(WindowEvent e) {
