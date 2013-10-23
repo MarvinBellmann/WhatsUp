@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import net.miginfocom.swing.MigLayout;
 import SendData.Message;
 import SendData.SQLData;
 import SendData.StartData;
@@ -61,53 +62,30 @@ public class AnmeldeFenster {
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(
-				frame.getGraphicsConfiguration().getBounds().width - 300, 47,
-				254, 268);
-
+		frame.setLocationRelativeTo(null);
+		frame.setSize(250, 260);
 		frame.setVisible(true);
 
-		contentPane = new JPanel();
+		contentPane = new GradientPanel(new Color(27, 130, 165), new Color(204,
+				204, 255), frame.getWidth(), frame.getHeight());
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane
+				.setLayout(new MigLayout("wrap 1, fillx", "[]", "[]14px[][]"));
 
 		JLabel lblWhatsup = new JLabel("WAK-enger!");
 		lblWhatsup.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWhatsup.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblWhatsup.setBounds(10, 0, 228, 32);
 		lblWhatsup.setForeground(Color.white);
-		contentPane.add(lblWhatsup);
-
-		JLabel lblAnmeldung = new JLabel("Anmeldung");
-		lblAnmeldung.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAnmeldung.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblAnmeldung.setBounds(10, 28, 228, 20);
-		lblAnmeldung.setForeground(Color.white);
-		contentPane.add(lblAnmeldung);
+		contentPane.add(lblWhatsup, "span,alignx center,aligny center");
 
 		JLabel lblName = new JLabel("Name");
-
 		lblName.setHorizontalAlignment(SwingConstants.LEFT);
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblName.setBounds(10, 59, 213, 20);
 		contentPane.add(lblName);
-
-		JLabel lblPasswort = new JLabel("Passwort");
-		lblPasswort.setHorizontalAlignment(SwingConstants.LEFT);
-		lblPasswort.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblPasswort.setBounds(10, 100, 213, 20);
-		contentPane.add(lblPasswort);
-
-		JLabel lblServerip = new JLabel("Server IP");
-		lblServerip.setHorizontalAlignment(SwingConstants.LEFT);
-		lblServerip.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblServerip.setBounds(10, 142, 213, 20);
-		contentPane.add(lblServerip);
 
 		txtName = new JTextField();
 		txtName.setText("Admin");
-		txtName.setBounds(10, 78, 228, 20);
 		txtName.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusGained(java.awt.event.FocusEvent evt) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -119,13 +97,17 @@ public class AnmeldeFenster {
 				});
 			}
 		});
-		contentPane.add(txtName);
+		contentPane.add(txtName, "growx");
 		txtName.setColumns(10);
+
+		JLabel lblPasswort = new JLabel("Passwort");
+		lblPasswort.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPasswort.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		contentPane.add(lblPasswort);
 
 		textPW = new JPasswordField(25);
 		textPW.setText("1234");
 		textPW.setColumns(10);
-		textPW.setBounds(10, 120, 228, 20);
 		textPW.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusGained(java.awt.event.FocusEvent evt) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -137,10 +119,15 @@ public class AnmeldeFenster {
 				});
 			}
 		});
-		contentPane.add(textPW);
+		contentPane.add(textPW, "growx");
+
+		JLabel lblServerip = new JLabel("Server-IP");
+		lblServerip.setHorizontalAlignment(SwingConstants.LEFT);
+		lblServerip.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		contentPane.add(lblServerip);
 
 		textServer = new JTextField();
-		textServer.setText("95.118.142.91");// "localhost");
+		textServer.setText("localhost");// "localhost");
 		textServer.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusGained(java.awt.event.FocusEvent evt) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -153,8 +140,7 @@ public class AnmeldeFenster {
 			}
 		});
 		textServer.setColumns(10);
-		textServer.setBounds(10, 161, 151, 20);
-		contentPane.add(textServer);
+		contentPane.add(textServer, "growx");
 
 		JButton btnAnmelden = new JButton("Anmelden");
 		btnAnmelden.addActionListener(new ActionListener() {
@@ -231,8 +217,7 @@ public class AnmeldeFenster {
 			}
 		});
 		btnAnmelden.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAnmelden.setBounds(10, 195, 106, 23);
-		contentPane.add(btnAnmelden);
+		contentPane.add(btnAnmelden, "split 2, growx");
 
 		JButton btnRegistrieren = new JButton("Registrieren");
 		btnRegistrieren.addActionListener(new ActionListener() {
@@ -290,46 +275,41 @@ public class AnmeldeFenster {
 			}
 		});
 		btnRegistrieren.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnRegistrieren.setBounds(117, 195, 121, 23);
 		contentPane.add(btnRegistrieren);
 
-		JButton btnPing = new JButton("Ping");
-		btnPing.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					InetAddress host = InetAddress.getByName(textServer
-							.getText());// InetAddress.getLocalHost();
-					Socket socket = new Socket(host.getHostName(), 7866);
-					ObjectOutputStream oos = new ObjectOutputStream(socket
-							.getOutputStream());
-					ObjectInputStream ois = new ObjectInputStream(socket
-							.getInputStream());
-					oos.close();
-					ois.close();
-					socket.close();
-					JOptionPane.showMessageDialog(null, "Ping erfolgreich!");
-
-				} catch (Exception e) {
-					System.out.println("Konnte nicht anpingen!");
-					JOptionPane
-							.showMessageDialog(null,
-									"Ping fehlgeschlagen. Es läuft kein JavaServer auf der IP");
-
-				}
-
-			}
-		});
-		btnPing.setBounds(166, 160, 72, 23);
-		contentPane.add(btnPing);
+		// JButton btnPing = new JButton("Ping");
+		// btnPing.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent arg0) {
+		// try {
+		// InetAddress host = InetAddress.getByName(textServer
+		// .getText());// InetAddress.getLocalHost();
+		// Socket socket = new Socket(host.getHostName(), 7866);
+		// ObjectOutputStream oos = new ObjectOutputStream(socket
+		// .getOutputStream());
+		// ObjectInputStream ois = new ObjectInputStream(socket
+		// .getInputStream());
+		// oos.close();
+		// ois.close();
+		// socket.close();
+		// JOptionPane.showMessageDialog(null, "Ping erfolgreich!");
+		//
+		// } catch (Exception e) {
+		// System.out.println("Konnte nicht anpingen!");
+		// JOptionPane
+		// .showMessageDialog(null,
+		// "Ping fehlgeschlagen. Es läuft kein JavaServer auf der IP");
+		//
+		// }
+		//
+		// }
+		// });
+		//
+		// contentPane.add(btnPing, "cell 0 5,grow");
 
 		JLabel lblYourIp = new JLabel("Your IP: ");
 		lblYourIp.setHorizontalAlignment(SwingConstants.LEFT);
 		lblYourIp.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblYourIp.setBounds(10, 220, 228, 20);
-		contentPane.add(lblYourIp);
-
-		frame.add(new Gradients(new Color(27, 130, 165), new Color(204, 204,
-				255), 254, 268));
+		contentPane.add(lblYourIp, "span,alignx center,aligny center");
 
 		String yourip = null;
 		try {

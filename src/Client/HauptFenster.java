@@ -320,7 +320,7 @@ public class HauptFenster {
 		panelKontakt.add(txtSuche);
 
 		frame.getContentPane().add(panelKontakt);
-		frame.add(new Gradients(new Color(27, 130, 165), new Color(204, 204,
+		frame.add(new GradientPanel(new Color(27, 130, 165), new Color(204, 204,
 				255), width, height));
 	}
 }

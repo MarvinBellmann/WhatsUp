@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-public class Gradients extends JPanel {
+public class GradientPanel extends JPanel {
 
 	private Color color1 = null;
 	private Color color2 = null;
@@ -15,7 +15,7 @@ public class Gradients extends JPanel {
 
 	private static final long serialVersionUID = 46778110791286960L;
 
-	public Gradients(Color col1, Color col2, int w, int h) {
+	public GradientPanel(Color col1, Color col2, int w, int h) {
 		width = w;
 		height = h;
 		setBounds(0, 0, width, height);

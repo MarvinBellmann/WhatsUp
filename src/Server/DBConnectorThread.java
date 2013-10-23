@@ -187,7 +187,6 @@ public class DBConnectorThread extends Thread {
 					"Admin", antwort));
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			MultiThreadedServer.messageList.add(new Message("ServerDB",
 					"Admin", " SQL FEHLER: " + e.getMessage()));
 			e.printStackTrace();

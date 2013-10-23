@@ -288,7 +288,7 @@ public class ChatFenster {
 
 		name_lbl.setText(nameGespraech);
 		frame.getContentPane().add(panel_1);
-		frame.add(new Gradients(new Color(27, 130, 165), new Color(204, 204,
+		frame.add(new GradientPanel(new Color(27, 130, 165), new Color(204, 204,
 				255), width, height));
 
 		frame.addWindowListener(new WindowAdapter() {
