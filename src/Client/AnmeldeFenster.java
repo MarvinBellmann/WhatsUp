@@ -64,6 +64,8 @@ public class AnmeldeFenster {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setSize(250, 260);
+		frame.setLocation(frame.getLocation().x - (frame.getWidth() / 2),
+				frame.getLocation().y - (frame.getHeight() / 2));
 		frame.setVisible(true);
 
 		contentPane = new GradientPanel(new Color(27, 130, 165), new Color(204,
