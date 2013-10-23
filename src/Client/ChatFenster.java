@@ -24,7 +24,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
@@ -46,10 +45,6 @@ public class ChatFenster {
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
-	private Border raisedbevel = BorderFactory.createRaisedBevelBorder();
-	private Border loweredbevel = BorderFactory.createLoweredBevelBorder();
-	private CompoundBorder compound = BorderFactory.createCompoundBorder(
-			raisedbevel, loweredbevel);
 
 	LineBorder brd = new LineBorder(null, 5, true);
 
@@ -111,17 +106,17 @@ public class ChatFenster {
 	@SuppressWarnings("serial")
 	private JFrame initialize() {
 		frame = new JFrame() {
-			private void BringToFront() {
-				java.awt.EventQueue.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						if (frame != null) {
-							frame.toFront();
-							frame.repaint();
-						}
-					}
-				});
-			}
+			// private void BringToFront() {
+			// java.awt.EventQueue.invokeLater(new Runnable() {
+			// @Override
+			// public void run() {
+			// if (frame != null) {
+			// frame.toFront();
+			// frame.repaint();
+			// }
+			// }
+			// });
+			// }
 		};
 		frame.setResizable(false);
 		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),

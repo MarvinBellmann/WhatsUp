@@ -46,7 +46,7 @@ public class AnmeldeFenster {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AnmeldeFenster frame = new AnmeldeFenster();
+					new AnmeldeFenster();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -158,6 +158,7 @@ public class AnmeldeFenster {
 
 		JButton btnAnmelden = new JButton("Anmelden");
 		btnAnmelden.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent arg0) {
 
 				boolean anmeldeDatenAkzeptiert = false;
@@ -213,11 +214,10 @@ public class AnmeldeFenster {
 							.println("Anmeldung akzeptiert: Starte HauptFenster");
 
 					try {
-						HauptFenster window = new HauptFenster(txtName
-								.getText(), textPW.getText(), textServer
-								.getText(), frame.getBounds().x, frame
-								.getBounds().y);
-						window.frame.setVisible(true);
+						new HauptFenster(txtName.getText(), textPW.getText(),
+								textServer.getText(), frame.getBounds().x,
+								frame.getBounds().y);
+						HauptFenster.frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

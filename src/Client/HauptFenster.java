@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -27,10 +26,6 @@ import javax.swing.table.DefaultTableModel;
 public class HauptFenster {
 
 	static String username;
-	private static int maxWidth = GraphicsEnvironment
-			.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
-	private static int maxHeight = GraphicsEnvironment
-			.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
 
@@ -52,9 +47,9 @@ public class HauptFenster {
 	/**
 	 * Create the application.
 	 */
-	public HauptFenster(String user, String pw, String Server, int x, int y) {
-		this.username = user;
-		this.serverIP = Server;
+	public HauptFenster(String user, String pw, String server, int x, int y) {
+		username = user;
+		serverIP = server;
 		startX = x;
 		startY = y;
 		initialize();
@@ -204,17 +199,17 @@ public class HauptFenster {
 		System.out.println("*** Anmeldungsversuch als: " + username);
 
 		frame = new JFrame() {
-			private void BringToFront() {
-				java.awt.EventQueue.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						if (frame != null) {
-							frame.toFront();
-							frame.repaint();
-						}
-					}
-				});
-			}
+			// private void BringToFront() {
+			// java.awt.EventQueue.invokeLater(new Runnable() {
+			// @Override
+			// public void run() {
+			// if (frame != null) {
+			// frame.toFront();
+			// frame.repaint();
+			// }
+			// }
+			// });
+			// }
 		};
 		frame.setResizable(false);
 		frame.setBounds(startX, startY, width, height);
@@ -226,7 +221,7 @@ public class HauptFenster {
 
 		table = new JTable(model) {
 
-			public Class getColumnClass(int column) {
+			public Class<?> getColumnClass(int column) {
 				return getValueAt(0, column).getClass();
 			}
 
@@ -284,7 +279,7 @@ public class HauptFenster {
 		label_2.setBounds(border, border, 69, 69);
 		panelProfil.add(label_2);
 
-		JLabel lblUsername = new JLabel(this.username);
+		JLabel lblUsername = new JLabel(username);
 		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblUsername.setForeground(Color.white);

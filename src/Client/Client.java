@@ -33,12 +33,12 @@ public class Client extends Thread {
 		sqlBefehlsListe.add(sqldata);
 	}
 
-	public Client(String serverIP) {
-		this.serverIP = serverIP;
+	public Client(String sIP) {
+		serverIP = sIP;
 	}
 
-	public Client(String serverIP, String user, String pw) {
-		this.serverIP = serverIP;
+	public Client(String sIP, String user, String pw) {
+		serverIP = sIP;
 		this.anmeldeuser = user;
 		this.anmeldepw = pw;
 		nurAnmeldeClient = true;

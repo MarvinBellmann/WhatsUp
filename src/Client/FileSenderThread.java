@@ -14,10 +14,10 @@ public class FileSenderThread extends Thread {
 	static Socket sock;
 	static OutputStream os;
 	static boolean stop;
-	static String zuVerschickendeDatei = "C:/vwlmitschriften.pdf";
+	static String sendingData = "C:/vwlmitschriften.pdf";
 
-	public FileSenderThread(String zuVerschickendeDatei) {
-		this.zuVerschickendeDatei = zuVerschickendeDatei;
+	public FileSenderThread(String data) {
+		sendingData = data;
 	}
 
 	public void run() {
@@ -30,7 +30,7 @@ public class FileSenderThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		File myFile = new File(zuVerschickendeDatei.replace('\\', '/'));
+		File myFile = new File(sendingData.replace('\\', '/'));
 
 		System.out.println("$$$ Zu verschickende Datei: "
 				+ myFile.getAbsolutePath());

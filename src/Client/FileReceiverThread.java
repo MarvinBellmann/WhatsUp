@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class FileReceiverThread {
 	static String desktopPath = null;
-	static String ServerIP = "192.168.178.43";
+	static String serverIP = "192.168.178.43";
 	static InetAddress Inet;
 
 	public String toTextString(String kurztext) {
@@ -35,9 +35,9 @@ public class FileReceiverThread {
 		return (kurztext);
 	}
 
-	public FileReceiverThread(String ServerIP) {
-		this.ServerIP = toTextString(ServerIP);
-		System.out.println(this.ServerIP);
+	public FileReceiverThread(String sIP) {
+		serverIP = toTextString(sIP);
+		System.out.println(serverIP);
 	}
 
 	public void domain() throws IOException {
@@ -49,7 +49,7 @@ public class FileReceiverThread {
 		}
 		Socket sock = null;
 		try {
-			sock = new Socket(this.ServerIP, 7867);
+			sock = new Socket(serverIP, 7867);
 			System.out.println("%%% mit FileServer verbunden");
 		} catch (Exception e7) {
 			e7.printStackTrace();
