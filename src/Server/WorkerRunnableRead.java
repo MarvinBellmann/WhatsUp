@@ -111,7 +111,23 @@ public class WorkerRunnableRead extends Thread {
 	    if(this.user.equals("Admin")){MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT * FROM user",'n')); }
 
 	    if(this.user.contains("Anmelder")==false){
-		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT username,status from user where username not like '"+ this.user+ "' order by username",'k',this.user));
+		
+		
+		 if(this.user.contains("Admin")==false){
+		
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
+			//"SELECT username,status from user where username not like '"+ this.user+ "' order by username"
+			"SELECT c.contact,status, u.picture from user u, contacts c where c.contact=u.username and c.username like '"+ this.user + "' order by c.contact"
+			,'k',this.user));
+		
+		 }else{
+		     
+		 
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
+			"SELECT username,status,picture from user where username not like '"+ this.user+ "' order by username"
+			//"SELECT c.contact,u.status, u.picture from user u, contacts c where c.username=u.username and c.username like '"+ this.user + "' order by c.contact"
+			,'k',this.user));
+		 }
 		//MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT status from user where username not like '"+ this.user+ "' order by username",'k',this.user));
 	    }
 	    

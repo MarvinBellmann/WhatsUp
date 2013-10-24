@@ -37,6 +37,16 @@ public class HauptFenster {
 	private static int border = 5;
 	static JTable table;
 	static ImageIcon i1;
+	static ImageIcon i2;
+	static ImageIcon i3;
+	static ImageIcon i4;
+	static ImageIcon i5;
+	static ImageIcon i6;
+	static ImageIcon i7;
+	static ImageIcon i8;
+	static ImageIcon i9;
+	public static JLabel label_2;
+	
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
 	int startX, startY;
@@ -123,8 +133,26 @@ public class HauptFenster {
 				model.addRow(new Object[] { i1, "Online", "ServerDB" });
 			}
 
-			for (int i = 0; i < gesplittet.length; i = i + 2) {
-				model.addRow(new Object[] { i1, gesplittet[i + 1],
+			for (int i = 0; i < gesplittet.length; i = i + 3) {
+			    
+			   // case 
+			    ImageIcon AvatarImage = new ImageIcon();
+				    switch(gesplittet[i + 2]){ 
+				        case "1": 
+				            System.out.println("pic1"); 
+				            AvatarImage =i1;
+				            break; 
+				        case "2": 
+				            System.out.println("pic2"); 
+				            AvatarImage =i2;
+				            break; 
+				        default: 
+				            System.out.println("pic1"); 
+				            AvatarImage =i1;
+				        } 
+				    
+				    
+				model.addRow(new Object[] { AvatarImage, gesplittet[i + 1],
 						gesplittet[i] });
 			}
 
@@ -194,6 +222,18 @@ public class HauptFenster {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		i1 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i2 = new ImageIcon(getClass().getResource("/data/1.jpg"));
+		i3 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i4 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i5 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i6 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i7 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i8 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i9 = new ImageIcon(getClass().getResource("/data/2.png"));
+		//i91 = new ImageIcon(getClass().getResource("/data/2.png"));
+		
+		
+		
 		desktopPath = System.getProperty("user.home") + "/Desktop";
 		desktopPath = desktopPath.replace("\\", "/");
 		System.out.println("*** Anmeldungsversuch als: " + username);
@@ -273,7 +313,7 @@ public class HauptFenster {
 		panelProfil.setLayout(null);
 		panelProfil.setOpaque(false);
 
-		JLabel label_2 = new JLabel("");
+		label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(HauptFenster.class
 				.getResource("/data/1.jpg")));
 		label_2.setBounds(border, border, 69, 69);

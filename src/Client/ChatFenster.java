@@ -44,6 +44,8 @@ public class ChatFenster {
 	private static int textSize = 330;
 	public JTextArea txtPanel;
 	public JPanel panel_1;
+	JLabel ichbild_lbl ;
+	JLabel label ;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
@@ -66,10 +68,12 @@ public class ChatFenster {
 
 		initialize();
 		frame.setVisible(true);
+		UpdateStatus();
 	}
 
 	public void UpdateStatus() {
 
+	    	ImageIcon avatar = new ImageIcon();
 		String statusneu = "";
 		String userInTabelle = "";
 
@@ -77,9 +81,12 @@ public class ChatFenster {
 			userInTabelle = (String) HauptFenster.table.getValueAt(row, 2);
 			if (userInTabelle.equalsIgnoreCase(nameGespraech)) {
 				statusneu = (String) HauptFenster.table.getValueAt(row, 1);
+				avatar =(ImageIcon) HauptFenster.table.getValueAt(row, 0);
 				break;
 			}
 		}
+		ichbild_lbl.setIcon(HauptFenster.label_2.getIcon());
+		label.setIcon(avatar);
 		this.status = statusneu;
 		online_lbl.setText(this.status);
 		if (status.equals("Online")) {
@@ -120,7 +127,7 @@ public class ChatFenster {
 			// });
 			// }
 		};
-		frame.setResizable(false);
+		//frame.setResizable(false);
 		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),
 				HauptFenster.frame.getY(), width, height);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
@@ -155,7 +162,7 @@ public class ChatFenster {
 		panel_1.add(sp, "span 2 4,grow");
 
 		// Image
-		JLabel label = new JLabel("");
+		label = new JLabel("");
 		label.setIcon(new ImageIcon(ChatFenster.class
 				.getResource("/data/2.png")));
 		label.setBounds(textSize + (border * 2), border, pictureSize,
@@ -215,7 +222,7 @@ public class ChatFenster {
 		panel_1.add(txtField, "cell 0 4, spanx 2,grow");
 
 		// Ich-Image
-		JLabel ichbild_lbl = new JLabel("");
+		ichbild_lbl = new JLabel("");
 		ichbild_lbl.setIcon(new ImageIcon(ChatFenster.class
 				.getResource("/data/1.jpg")));
 		ichbild_lbl.setBounds(textSize + (border * 2), 160 + (border * 4),

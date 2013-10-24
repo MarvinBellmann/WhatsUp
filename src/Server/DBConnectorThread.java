@@ -195,13 +195,36 @@ public class DBConnectorThread extends Thread {
 		try {
 			if (sql.contains("UPDATE user set status='")) {
 				for (WorkerRunnableRead w : MultiThreadedServer.AngemeldeteWorkerRunnableRead) {
+				    if(w.user.equalsIgnoreCase("Anmelder")==false){
+					
+					
+					if(w.user.equalsIgnoreCase("Admin")==false){
 					MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
-							"SELECT username,status from user where username not like '"
+							/*"SELECT username,status from user where username not like '"
 									+ w.user + "' order by username", 'k',
-							w.user));
+							w.user));*/
+						"SELECT c.contact,u.status, u.picture from user u, contacts c where c.contact=u.username and c.username like '"
+						+ w.user + "' order by c.contact", 'k',
+				w.user));
+					
+					}else{
+					MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
+						"SELECT username,status,picture from user where username not like '"
+								+ w.user + "' order by username", 'k',
+						w.user));
+					}
+					
+				    }
 
 				}
 			}
+			
+			/*if (sql.contains("INSERT INTO user (username,")){
+			    MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
+					"INSERT INTO contacts (username,contact) values ('"+ w.user + "' order by username", 'k',
+					w.user));
+				}
+			}*/
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

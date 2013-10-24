@@ -60,7 +60,7 @@ public class AnmeldeFenster {
      */
 	public AnmeldeFenster() {
 		frame = new JFrame();
-		frame.setResizable(false);
+		//frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setSize(250, 260);
@@ -254,6 +254,9 @@ public class AnmeldeFenster {
 										+ txtName.getText() + "','"
 										+ textPW.getText()
 										+ "',now(),'Offline')"));
+						oos.writeObject(new SQLData("AnmeldeDbChecker",
+							"INSERT INTO contacts (username,contact) VALUES ('"
+									+ txtName.getText() + "','Admin')"));
 
 					}
 					oos.close();

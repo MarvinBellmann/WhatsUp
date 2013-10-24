@@ -78,7 +78,7 @@ public class ClientRead extends Thread {
 							&& messageIGot.from.equalsIgnoreCase("ServerDB")) {
 						statusfrom = "Online";
 					}
-
+					//ImageIcon i = new ImageIcon();
 					ChatFenster c = new ChatFenster(messageIGot.from,
 							statusfrom);
 					HauptFenster.ChatFensterList.add(c);
