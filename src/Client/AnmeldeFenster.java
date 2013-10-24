@@ -60,7 +60,7 @@ public class AnmeldeFenster {
      */
 	public AnmeldeFenster() {
 		frame = new JFrame();
-		//frame.setResizable(false);
+		// frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setSize(250, 260);
@@ -147,6 +147,7 @@ public class AnmeldeFenster {
 		JButton btnAnmelden = new JButton("Anmelden");
 		btnAnmelden.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 
 				boolean anmeldeDatenAkzeptiert = false;
@@ -223,6 +224,7 @@ public class AnmeldeFenster {
 
 		JButton btnRegistrieren = new JButton("Registrieren");
 		btnRegistrieren.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 
 				boolean registrierungsDatenAkzeptiert = false;
@@ -255,8 +257,8 @@ public class AnmeldeFenster {
 										+ textPW.getText()
 										+ "',now(),'Offline','1')"));
 						oos.writeObject(new SQLData("AnmeldeDbChecker",
-							"INSERT INTO contacts (username,contact) VALUES ('"
-									+ txtName.getText() + "','Admin')"));
+								"INSERT INTO contacts (username,contact) VALUES ('"
+										+ txtName.getText() + "','Admin')"));
 
 					}
 					oos.close();

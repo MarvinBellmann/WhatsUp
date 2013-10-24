@@ -4,6 +4,8 @@ import javax.swing.ImageIcon;
 
 public class Smiley extends ImageIcon {
 
+	static ImageIcon image;
+
 	private static final long serialVersionUID = 2862630175346578045L;
 
 	public Smiley(String smiley) {
@@ -11,7 +13,6 @@ public class Smiley extends ImageIcon {
 	}
 
 	public static ImageIcon checkSmiley(String smiley) {
-		ImageIcon image = null;
 		String name = null;
 		switch (smiley) {
 		case "=)":
