@@ -60,7 +60,7 @@ public class AnmeldeFenster {
      */
 	public AnmeldeFenster() {
 		frame = new JFrame();
-		// frame.setResizable(false);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setSize(250, 260);
@@ -69,7 +69,7 @@ public class AnmeldeFenster {
 		frame.setVisible(true);
 
 		contentPane = new GradientPanel(new Color(27, 130, 165), new Color(204,
-				204, 255), frame.getWidth(), frame.getHeight());
+				204, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
 		contentPane

@@ -1,6 +1,7 @@
 package Client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -37,9 +38,9 @@ public class ChatFenster {
 	public String status;
 	public JLabel name_lbl;
 	public JLabel online_lbl;
-	private static int width = 450;
+	private static int width = 500;
 	private static int border = 7;
-	private static int height = 340;
+	private static int height = 370;
 	public JTextArea txtPanel;
 	public JPanel panel_1;
 	JLabel ichbild_lbl;
@@ -113,8 +114,9 @@ public class ChatFenster {
 	@SuppressWarnings("serial")
 	private JFrame initialize() {
 		frame = new JFrame();
-		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),
-				HauptFenster.frame.getY(), width, height);
+		frame.setLocation(HauptFenster.frame.getX() - width - (border * 2),
+				HauptFenster.frame.getY());
+		frame.setMinimumSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
 
 		EventQueue.invokeLater(new Runnable() {
@@ -127,8 +129,9 @@ public class ChatFenster {
 		});
 
 		panel_1 = new GradientPanel(new Color(27, 130, 165), new Color(204,
-				204, 255), width, height);
-		panel_1.setLayout(new MigLayout("fill", "", "[][][][][][]"));
+				204, 255));
+		panel_1.setLayout(new MigLayout("fill", "[][][]",
+				"[80px::80px][30px::30px][30px::30px][][80px:n:80px][30px:n:30px]"));
 
 		// TextPanel
 		txtPanel = new JTextArea();

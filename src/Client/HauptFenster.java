@@ -283,7 +283,7 @@ public class HauptFenster {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		mainPanel = new GradientPanel(new Color(27, 130, 165), new Color(204,
-				204, 255), width, height);
+				204, 255));
 		mainPanel
 				.setLayout(new MigLayout("fill", "[80px:n:80px][]",
 						"[30px:n:30px][45px::45px,top][40px::40px,bottom][30px::30px][]"));
