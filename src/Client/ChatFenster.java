@@ -39,7 +39,6 @@ public class ChatFenster {
 	public JLabel name_lbl;
 	public JLabel online_lbl;
 	private static int width = 500;
-	private static int border = 7;
 	private static int height = 370;
 	public JTextArea txtPanel;
 	public JPanel panel_1;
@@ -114,7 +113,7 @@ public class ChatFenster {
 	@SuppressWarnings("serial")
 	private JFrame initialize() {
 		frame = new JFrame();
-		frame.setLocation(HauptFenster.frame.getX() - width - (border * 2),
+		frame.setLocation(HauptFenster.frame.getX() - width - 20,
 				HauptFenster.frame.getY());
 		frame.setMinimumSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE

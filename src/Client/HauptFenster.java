@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -31,6 +32,9 @@ import SendData.SQLData;
 
 public class HauptFenster {
 
+	public static GraphicsEnvironment ge = GraphicsEnvironment
+			.getLocalGraphicsEnvironment();
+
 	static String username;
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
@@ -57,7 +61,6 @@ public class HauptFenster {
 
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
-	int startX, startY;
 	public static ArrayList<ChatFenster> ChatFensterList = new ArrayList<ChatFenster>();
 
 	static String serverIP = "localhost";
@@ -68,11 +71,9 @@ public class HauptFenster {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public HauptFenster(String user, String pw, String server, int x, int y) {
+	public HauptFenster(String user, String pw, String server) {
 		username = user;
 		serverIP = server;
-		startX = x;
-		startY = y;
 		initialize();
 
 		Client client = new Client(serverIP);
@@ -265,21 +266,11 @@ public class HauptFenster {
 		desktopPath = desktopPath.replace("\\", "/");
 		System.out.println("*** Anmeldungsversuch als: " + username);
 
-		frame = new JFrame() {
-			// private void BringToFront() {
-			// java.awt.EventQueue.invokeLater(new Runnable() {
-			// @Override
-			// public void run() {
-			// if (frame != null) {
-			// frame.toFront();
-			// frame.repaint();
-			// }
-			// }
-			// });
-			// }
-		};
+		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(startX, startY, width, height);
+		frame.setBounds(ge.getMaximumWindowBounds().width - width - 20,
+				(ge.getMaximumWindowBounds().height - height) / 2, width,
+				height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		mainPanel = new GradientPanel(new Color(27, 130, 165), new Color(204,
@@ -372,22 +363,22 @@ public class HauptFenster {
 
 				// Color row based on a cell value
 
-				if (!isRowSelected(row)) {
-					// c.setBackground(getBackground());
-					int modelRow = convertRowIndexToModel(row);
-					String type = (String) getModel().getValueAt(modelRow, 1);
-					if ("Online".equals(type)) {
-						c.setBackground(new Color(190, 250, 190));
-						c.setForeground(Color.GREEN.darker());
-						c.setFont(new Font("Miriam", Font.BOLD, 14));
-					}
-					if ("Offline".equals(type)) {
-						c.setBackground(new Color(250, 190, 190));
-						c.setForeground(Color.RED.darker());
-						c.setFont(new Font("Miriam", Font.PLAIN, 14));
-					}
-					// table.repaint();
+				// if (!isRowSelected(row)) {
+				// c.setBackground(getBackground());
+				int modelRow = convertRowIndexToModel(row);
+				String type = (String) getModel().getValueAt(modelRow, 1);
+				if ("Online".equals(type)) {
+					c.setBackground(new Color(190, 250, 190));
+					c.setForeground(Color.GREEN.darker());
+					c.setFont(new Font("Miriam", Font.BOLD, 14));
 				}
+				if ("Offline".equals(type)) {
+					c.setBackground(new Color(250, 190, 190));
+					c.setForeground(Color.RED.darker());
+					c.setFont(new Font("Miriam", Font.PLAIN, 14));
+				}
+				// table.repaint();
+				// }
 
 				return c;
 			}
@@ -397,6 +388,7 @@ public class HauptFenster {
 		table.getSelectionModel().setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		table.setFocusable(false);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {

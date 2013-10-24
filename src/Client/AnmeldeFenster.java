@@ -204,8 +204,7 @@ public class AnmeldeFenster {
 
 					try {
 						new HauptFenster(txtName.getText(), textPW.getText(),
-								textServer.getText(), frame.getBounds().x,
-								frame.getBounds().y);
+								textServer.getText());
 						HauptFenster.frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
