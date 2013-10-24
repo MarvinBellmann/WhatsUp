@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,6 +25,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import SendData.SQLData;
 
 public class HauptFenster {
 
@@ -45,6 +51,7 @@ public class HauptFenster {
 	static ImageIcon i7;
 	static ImageIcon i8;
 	static ImageIcon i9;
+	static ImageIcon iDB;
 	public static JLabel label_2;
 	
 	private JTextField txtSuche;
@@ -130,29 +137,57 @@ public class HauptFenster {
 			}
 
 			if (username.equals("Admin")) {
-				model.addRow(new Object[] { i1, "Online", "ServerDB" });
+				model.addRow(new Object[] { iDB, "Online", "ServerDB" });
 			}
 
 			for (int i = 0; i < gesplittet.length; i = i + 3) {
 			    
 			   // case 
-			    ImageIcon AvatarImage = new ImageIcon();
+			    ImageIcon avatarImage = new ImageIcon();
 				    switch(gesplittet[i + 2]){ 
 				        case "1": 
-				            System.out.println("pic1"); 
-				            AvatarImage =i1;
+				          //  System.out.println("pic1"); 
+				            avatarImage =i1;
 				            break; 
 				        case "2": 
-				            System.out.println("pic2"); 
-				            AvatarImage =i2;
+				          //  System.out.println("pic2"); 
+				            avatarImage =i2;
+				            break; 
+				        case "3": 
+				           // System.out.println("pic3"); 
+				            avatarImage =i3;
+				            break; 
+				        case "4": 
+				          //  System.out.println("pic4"); 
+				            avatarImage =i4;
+				            break; 
+				        case "5": 
+				           // System.out.println("pic5"); 
+				            avatarImage =i5;
+				            break; 
+				        case "6": 
+				          //  System.out.println("pic6"); 
+				            avatarImage =i6;
+				            break; 
+				        case "7": 
+				          //  System.out.println("pic7"); 
+				            avatarImage =i7;
+				            break; 
+				        case "8": 
+				          //  System.out.println("pic8"); 
+				            avatarImage =i8;
+				            break; 
+				        case "9": 
+				          //  System.out.println("pic9"); 
+				            avatarImage =i9;
 				            break; 
 				        default: 
-				            System.out.println("pic1"); 
-				            AvatarImage =i1;
+				          //  System.out.println("pic1"); 
+				            avatarImage =i1;
 				        } 
 				    
 				    
-				model.addRow(new Object[] { AvatarImage, gesplittet[i + 1],
+				model.addRow(new Object[] { avatarImage, gesplittet[i + 1],
 						gesplittet[i] });
 			}
 
@@ -179,6 +214,8 @@ public class HauptFenster {
 				table.setRowHeight(row, rowHeight);
 				table.getColumnModel().getColumn(0).setPreferredWidth(rowWidth);
 			}
+			
+			table.repaint();
 
 		} catch (Exception e) {
 			System.out
@@ -221,15 +258,16 @@ public class HauptFenster {
 	 */
 	@SuppressWarnings("serial")
 	private void initialize() {
-		i1 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i2 = new ImageIcon(getClass().getResource("/data/1.jpg"));
-		i3 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i4 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i5 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i6 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i7 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i8 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i9 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i1 = new ImageIcon(getClass().getResource("/data/1.jpg"));
+		i2 = new ImageIcon(getClass().getResource("/data/2.png"));
+		i3 = new ImageIcon(getClass().getResource("/data/3.jpg"));
+		i4 = new ImageIcon(getClass().getResource("/data/4.jpg"));
+		i5 = new ImageIcon(getClass().getResource("/data/5.jpg"));
+		i6 = new ImageIcon(getClass().getResource("/data/6.jpg"));
+		i7 = new ImageIcon(getClass().getResource("/data/7.jpg"));
+		i8 = new ImageIcon(getClass().getResource("/data/8.png"));
+		i9 = new ImageIcon(getClass().getResource("/data/9.jpg"));
+		iDB = new ImageIcon(getClass().getResource("/data/database.png"));
 		//i91 = new ImageIcon(getClass().getResource("/data/2.png"));
 		
 		
@@ -267,6 +305,25 @@ public class HauptFenster {
 
 			public boolean isCellEditable(int x, int y) {
 				return false;
+			}
+			
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+			{
+				Component c = super.prepareRenderer(renderer, row, column);
+
+				//  Color row based on a cell value
+
+				if (!isRowSelected(row))
+				{
+					//c.setBackground(getBackground());
+					int modelRow = convertRowIndexToModel(row);
+					String type = (String)getModel().getValueAt(modelRow, 1);
+					if ("Online".equals(type)){ c.setBackground(new Color(190, 250, 190)); c.setForeground(Color.GREEN.darker()); c.setFont(new Font("Miriam", Font.BOLD, 14));}
+					if ("Offline".equals(type)) {c.setBackground(new Color(250, 190, 190));c.setForeground(Color.RED.darker()); c.setFont(new Font("Miriam", Font.PLAIN, 14));}
+					//table.repaint();
+				}
+
+				return c;
 			}
 
 		};
@@ -352,15 +409,109 @@ public class HauptFenster {
 		panelKontakt.add(lblKontakte);
 
 		txtSuche = new JTextField();
-		txtSuche.setForeground(Color.LIGHT_GRAY);
-		txtSuche.setText("Suche");
+		//txtSuche.setForeground(Color.LIGHT_GRAY);
+		txtSuche.setText("");
 		txtSuche.setBorder(raisedetched);
 		txtSuche.setHorizontalAlignment(SwingConstants.CENTER);
-		txtSuche.setBounds(border, (border * 2) + 14, width - (border * 5), 20);
+		txtSuche.setBounds(border, (border * 2) + 14, width - (border * 30), 20);
 		panelKontakt.add(txtSuche);
+		
+		
+		JButton btnKontaktSuche = new JButton("Hinzufügen");
+		btnKontaktSuche.setBounds(border*21, (border * 2) + 14, 120, 20);
+		btnKontaktSuche.addActionListener(new ActionListener() {
+
+		    @Override
+		    public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+			 Client.sendSQL(new SQLData("UPDATE user set status='Online' where username like '"+username+"'",'i'));
+			    
+			   Client.sendSQL(new SQLData("INSERT IGNORE INTO contacts (username,contact) values ('"+ username+ "','"+txtSuche.getText()+"') ",'i',username));
+			   Client.sendSQL(new SQLData("INSERT IGNORE INTO contacts (username,contact) values ('"+ txtSuche.getText()+ "','"+username+"')",'i',username));
+				
+			 // Client.sendSQL(new SQLData("INSERT INTO contacts (username,contact) values ('"+ username+ "','"+txtSuche.getText()+"') Where NOT EXISTS(SELECT * from contacts where username like '"+ username+ "' and contact like '"+txtSuche.getText()+"')",'i',username));
+			   // Client.sendSQL(new SQLData("INSERT INTO contacts (username,contact) values ('"+ txtSuche.getText()+ "','"+username+"') Where NOT EXISTS(SELECT * from contacts where username like '"+ txtSuche.getText()+ "' and contact like '"+username+"')",'i',username));
+				
+			    
+			 //   Client.sendSQL(new SQLData("IF NOT EXISTS (SELECT * from contacts where username like '"+ username+ "' and contact like '"+txtSuche.getText()+"') THEN INSERT INTO contacts (username,contact) values ('"+ username+ "','"+txtSuche.getText()+"') END IF",'i',username));
+			  //  Client.sendSQL(new SQLData("IF NOT EXISTS (SELECT * from contacts where username like '"+ txtSuche.getText()+ "' and contact like '"+username+"') THEN INSERT INTO contacts (username,contact) values ('"+ txtSuche.getText()+ "','"+username+"') END IF",'i',username));
+				   
+	
+			    
+			    //IF NOT EXISTS (SELECT xyz FROM TABLE WHERE col = 'xyz') THEN
+		                //INSERT INTO....
+		               // ELSE
+		               //                 UPDATE....
+		               // END IF;
+			    
+			    
+			    txtSuche.setText("");
+			   
+			  //  MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
+				
+		    
+		    }
+		    
+		});
+		btnKontaktSuche.setFont(new Font("Tahoma", Font.BOLD, 12));
+		panelKontakt.add(btnKontaktSuche);
+		
+		
 
 		frame.getContentPane().add(panelKontakt);
 		frame.add(new GradientPanel(new Color(27, 130, 165), new Color(204, 204,
 				255), width, height));
+	}
+
+	public static void PictureUpdater(String picID) {
+	    
+	
+	    String shortendPicID=picID.substring(0,1);
+	    System.out.println("picID:" + picID +"|"+shortendPicID);
+	    ImageIcon avatarImage = new ImageIcon();
+	    switch(shortendPicID){ 
+	        case "1": 
+	            System.out.println("pic1"); 
+	            avatarImage =i1;
+	            break; 
+	        case "2": 
+	            System.out.println("pic2"); 
+	            avatarImage =i2;
+	            break; 
+	        case "3": 
+	            System.out.println("pic3"); 
+	            avatarImage =i3;
+	            break; 
+	        case "4": 
+	            System.out.println("pic4"); 
+	            avatarImage =i4;
+	            break; 
+	        case "5": 
+	            System.out.println("pic5"); 
+	            avatarImage =i5;
+	            break; 
+	        case "6": 
+	            System.out.println("pic6"); 
+	            avatarImage =i6;
+	            break; 
+	        case "7": 
+	            System.out.println("pic7"); 
+	            avatarImage =i7;
+	            break; 
+	        case "8": 
+	            System.out.println("pic8"); 
+	            avatarImage =i8;
+	            break; 
+	        case "9": 
+	            System.out.println("pic9"); 
+	            avatarImage =i9;
+	            break; 
+	        default: 
+	            System.out.println("pic1"); 
+	            avatarImage =i1;
+	        } 
+	    label_2.setIcon(avatarImage);
+	    
 	}
 }

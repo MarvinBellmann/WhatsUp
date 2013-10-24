@@ -250,10 +250,10 @@ public class AnmeldeFenster {
 						registrierungsDatenAkzeptiert = true;
 						System.out.println("darf inserten");
 						oos.writeObject(new SQLData("AnmeldeDbChecker",
-								"INSERT INTO user (username,password,create_time,status) VALUES ('"
+								"INSERT INTO user (username,password,create_time,status,picture) VALUES ('"
 										+ txtName.getText() + "','"
 										+ textPW.getText()
-										+ "',now(),'Offline')"));
+										+ "',now(),'Offline','1')"));
 						oos.writeObject(new SQLData("AnmeldeDbChecker",
 							"INSERT INTO contacts (username,contact) VALUES ('"
 									+ txtName.getText() + "','Admin')"));

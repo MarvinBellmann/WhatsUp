@@ -57,6 +57,22 @@ public class WorkerRunnableRead extends Thread {
 		try{
 		if(this.user.contains("Anmelder")==false){		    
 		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Offline' where username like '"+this.user+"'",'a'));
+		 int index=0;
+		    boolean loescheindex=false;
+		    for(int i=0;i<MultiThreadedServer.AngemeldeteWorkerRunnableRead.size();i++){
+			if(MultiThreadedServer.AngemeldeteWorkerRunnableRead.get(i).user.equals(user)){
+			    index=i;
+			    loescheindex=true;
+			   break;
+			}
+		    }
+		    
+		    if(loescheindex==true){
+		    MultiThreadedServer.AngemeldeteWorkerRunnableRead.remove(index);
+		    System.out.println("ZZZZZZZZZZZZZZZZZZZZZZ size der workerrunnableliste reduziert: "+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
+			
+			
+		    }
 		}
 		}catch(Exception e4){
 		    System.out.println("set status problem: " +e.getMessage());
@@ -71,6 +87,7 @@ public class WorkerRunnableRead extends Thread {
 	this.clientSocket = socket;
 	this.ois = ois;
 	this.w=w;
+	//this.user=this.w.user;
 	this.clientIP= clientSocket.getInetAddress() ;
 	this.clientPort=clientSocket.getPort();
 
@@ -107,6 +124,33 @@ public class WorkerRunnableRead extends Thread {
 	    if(this.user.contains("Anmelder")==false){
 		//MultiThreadedServer.AngemeldeteUser.add(this.user);
 		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
+		
+		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("Select picture from user where username like '"+this.user+"'",'p',this.user));
+		
+		
+		
+		
+		
+		
+		boolean nichtErneutEinfügen=false;
+		for(WorkerRunnableRead wr: MultiThreadedServer.AngemeldeteWorkerRunnableRead){
+		    if(wr.user.equalsIgnoreCase(user)){
+			nichtErneutEinfügen=true;
+		    }
+		    
+		
+		}
+		
+		if(nichtErneutEinfügen==false){
+		    MultiThreadedServer.AngemeldeteWorkerRunnableRead
+			.add(this);
+		}
+		System.out.println("ZZZZZZZZZZZZZZZZZZZZZZ size der workerrunnableliste: "+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
+	
+		
+		
+		
+	    
 	    }
 	    if(this.user.equals("Admin")){MultiThreadedServer.sqlBefehlsListe.add(new SQLData("SELECT * FROM user",'n')); }
 

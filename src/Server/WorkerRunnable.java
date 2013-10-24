@@ -42,14 +42,27 @@ public class WorkerRunnable implements Runnable {
 		try {
 			ois = new ObjectInputStream(clientSocket.getInputStream());
 
-			if (clientAnwesend == true) {
+			if (clientAnwesend == true ) {
 				WorkerRunnableRead serverReaderThread = new WorkerRunnableRead(
 						clientSocket, ois, this);
 				serverReaderThread.setName("1A serverReaderThread");
 				serverReaderThread.start();
-
-				MultiThreadedServer.AngemeldeteWorkerRunnableRead
-						.add(serverReaderThread);
+				
+				/*boolean nichtErneutEinfügen=false;
+				for(WorkerRunnableRead wr: MultiThreadedServer.AngemeldeteWorkerRunnableRead){
+				    if(wr.user.equalsIgnoreCase(user)){
+					nichtErneutEinfügen=true;
+				    }
+				    
+				
+				}
+				
+				if(nichtErneutEinfügen==false){
+				    MultiThreadedServer.AngemeldeteWorkerRunnableRead
+					.add(serverReaderThread);
+				}
+				System.out.println("ZZZZZZZZZZZZZZZZZZZZZZ size workerrunnablelis:"+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
+			*/
 			}
 
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());

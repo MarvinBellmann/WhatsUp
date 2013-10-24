@@ -60,6 +60,7 @@ public class DBConnectorThread extends Thread {
 			if (sqldata.sqlBefehl.substring(0, 10).contains("CREATE")
 					| sqldata.sqlBefehl.substring(0, 10).contains("INSERT")
 					| sqldata.sqlBefehl.substring(0, 10).contains("UPDATE")
+					| sqldata.sqlBefehl.substring(0, 10).contains("IF NOT EX")
 					| sqldata.sqlBefehl.substring(0, 10).contains("DELETE")) {
 
 				if (sqldata.sqlBefehl.substring(0, 10).contains("CREATE")) {
@@ -72,7 +73,7 @@ public class DBConnectorThread extends Thread {
 				}
 
 			}
-
+				// ALSO SELECT!
 			else {
 
 				rs = stmt.executeQuery(sqldata.sqlBefehl);// .executeQuery(sql);
@@ -95,14 +96,14 @@ public class DBConnectorThread extends Thread {
 				}
 				System.out.println("");
 				antwort = antwort + "\n";
-				if (sqldata.typ == 'k') {
+				if (sqldata.typ == 'k' | sqldata.typ == 'p') {
 					antwort = "";
 					System.out.print("*DB->* ");
 				}
 				while (rs.next()) {
 					int i = 1;
 
-					if (sqldata.typ != 'k') {
+					if (sqldata.typ != 'k' && sqldata.typ != 'p') {
 
 						antwort = antwort + "*DB->* | ";
 						System.out.print("*DB->* | ");
@@ -160,6 +161,15 @@ public class DBConnectorThread extends Thread {
 						MultiThreadedServer.messageList
 								.add(new Message("KontaktDBAntwort",
 										sqldata.user, antwort, 's'));
+					}
+				}
+				if (sqldata.typ == 'p') {
+				   // System.out.println(sqldata.sqlBefehl);
+					System.out.print("\n");
+					if (sqldata.sqlBefehl.contains("Select picture from")) {
+						MultiThreadedServer.messageList
+								.add(new Message("PictureDBAntwort",
+										sqldata.user, antwort));
 					}
 				}
 				rs.close();
