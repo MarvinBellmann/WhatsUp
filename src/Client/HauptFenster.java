@@ -53,6 +53,7 @@ public class HauptFenster {
 	static ImageIcon i9;
 	static ImageIcon iDB;
 	public static JLabel label_2;
+	JLabel lblUsername ;
 	
 	private JTextField txtSuche;
 	public static JLabel statuslabel;
@@ -376,7 +377,7 @@ public class HauptFenster {
 		label_2.setBounds(border, border, 69, 69);
 		panelProfil.add(label_2);
 
-		JLabel lblUsername = new JLabel(username);
+		lblUsername = new JLabel(username);
 		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblUsername.setForeground(Color.white);
@@ -423,13 +424,16 @@ public class HauptFenster {
 
 		    @Override
 		    public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
 			
+			
+			if(txtSuche.getText().equalsIgnoreCase(lblUsername.getText())==false){
 			 Client.sendSQL(new SQLData("UPDATE user set status='Online' where username like '"+username+"'",'i'));
 			    
 			   Client.sendSQL(new SQLData("INSERT IGNORE INTO contacts (username,contact) values ('"+ username+ "','"+txtSuche.getText()+"') ",'i',username));
 			   Client.sendSQL(new SQLData("INSERT IGNORE INTO contacts (username,contact) values ('"+ txtSuche.getText()+ "','"+username+"')",'i',username));
 				
+			   txtSuche.setText("");
+			}
 			 // Client.sendSQL(new SQLData("INSERT INTO contacts (username,contact) values ('"+ username+ "','"+txtSuche.getText()+"') Where NOT EXISTS(SELECT * from contacts where username like '"+ username+ "' and contact like '"+txtSuche.getText()+"')",'i',username));
 			   // Client.sendSQL(new SQLData("INSERT INTO contacts (username,contact) values ('"+ txtSuche.getText()+ "','"+username+"') Where NOT EXISTS(SELECT * from contacts where username like '"+ txtSuche.getText()+ "' and contact like '"+username+"')",'i',username));
 				
@@ -446,7 +450,7 @@ public class HauptFenster {
 		               // END IF;
 			    
 			    
-			    txtSuche.setText("");
+			   
 			   
 			  //  MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
 				
@@ -457,6 +461,13 @@ public class HauptFenster {
 		btnKontaktSuche.setFont(new Font("Tahoma", Font.BOLD, 12));
 		panelKontakt.add(btnKontaktSuche);
 		
+		
+		if(username.equalsIgnoreCase("Admin")){
+		    btnKontaktSuche.setEnabled(false);
+		    txtSuche.setText("Admin hat alle");
+		    txtSuche.setEnabled(false);
+		    txtSuche.setEditable(false);
+		}
 		
 
 		frame.getContentPane().add(panelKontakt);
