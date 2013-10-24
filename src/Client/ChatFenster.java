@@ -40,12 +40,10 @@ public class ChatFenster {
 	private static int width = 450;
 	private static int border = 7;
 	private static int height = 340;
-	private static int pictureSize = 69;
-	private static int textSize = 330;
 	public JTextArea txtPanel;
 	public JPanel panel_1;
-	JLabel ichbild_lbl ;
-	JLabel label ;
+	JLabel ichbild_lbl;
+	JLabel label;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
@@ -73,7 +71,7 @@ public class ChatFenster {
 
 	public void UpdateStatus() {
 
-	    	ImageIcon avatar = new ImageIcon();
+		ImageIcon avatar = new ImageIcon();
 		String statusneu = "";
 		String userInTabelle = "";
 
@@ -81,7 +79,7 @@ public class ChatFenster {
 			userInTabelle = (String) HauptFenster.table.getValueAt(row, 2);
 			if (userInTabelle.equalsIgnoreCase(nameGespraech)) {
 				statusneu = (String) HauptFenster.table.getValueAt(row, 1);
-				avatar =(ImageIcon) HauptFenster.table.getValueAt(row, 0);
+				avatar = (ImageIcon) HauptFenster.table.getValueAt(row, 0);
 				break;
 			}
 		}
@@ -114,20 +112,7 @@ public class ChatFenster {
 	 */
 	@SuppressWarnings("serial")
 	private JFrame initialize() {
-		frame = new JFrame() {
-			// private void BringToFront() {
-			// java.awt.EventQueue.invokeLater(new Runnable() {
-			// @Override
-			// public void run() {
-			// if (frame != null) {
-			// frame.toFront();
-			// frame.repaint();
-			// }
-			// }
-			// });
-			// }
-		};
-		//frame.setResizable(false);
+		frame = new JFrame();
 		frame.setBounds(HauptFenster.frame.getX() - width - (border * 2),
 				HauptFenster.frame.getY(), width, height);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
@@ -143,8 +128,6 @@ public class ChatFenster {
 
 		panel_1 = new GradientPanel(new Color(27, 130, 165), new Color(204,
 				204, 255), width, height);
-		panel_1.setBounds(border, border, width - (border * 3), height
-				- (border * 6));
 		panel_1.setLayout(new MigLayout("fill", "", "[][][][][][]"));
 
 		// TextPanel
@@ -165,8 +148,6 @@ public class ChatFenster {
 		label = new JLabel("");
 		label.setIcon(new ImageIcon(ChatFenster.class
 				.getResource("/data/2.png")));
-		label.setBounds(textSize + (border * 2), border, pictureSize,
-				pictureSize);
 		panel_1.add(label, "aligny top,wrap");
 
 		// Name
@@ -174,8 +155,6 @@ public class ChatFenster {
 		name_lbl.setForeground(Color.white);
 		name_lbl.setHorizontalAlignment(SwingConstants.LEFT);
 		name_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
-		name_lbl.setBounds(textSize + (border * 2), pictureSize + (border * 2),
-				70, 14);
 		panel_1.add(name_lbl, "wrap");
 		name_lbl.setText(nameGespraech);
 
@@ -225,8 +204,6 @@ public class ChatFenster {
 		ichbild_lbl = new JLabel("");
 		ichbild_lbl.setIcon(new ImageIcon(ChatFenster.class
 				.getResource("/data/1.jpg")));
-		ichbild_lbl.setBounds(textSize + (border * 2), 160 + (border * 4),
-				pictureSize, pictureSize);
 		panel_1.add(ichbild_lbl, "aligny top,wrap");
 
 		// Empfangen-Button
