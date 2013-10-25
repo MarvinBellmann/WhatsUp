@@ -46,13 +46,13 @@ public class WorkerRunnableRead extends Thread {
 		    }
 		    
 		}catch(Exception e2){
-		   // System.out.println(e2.getMessage());
-		    System.out.println("Lösche Workerrunnable aus liste problem!!!! " +e2.getMessage());
+		   // ServerStart.SystemWriteLogln(e2.getMessage());
+		    ServerStart.SystemWriteLogln("Lösche Workerrunnable aus liste problem!!!! " +e2.getMessage());
 		}*/
 		
 		clientAnwesend=false;
-		// System.out.println("Server read Problem.");
-		System.out.println("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schließe Thread; Grund: "+e.getMessage());
+		// ServerStart.SystemWriteLogln("Server read Problem.");
+		ServerStart.SystemWriteLogln("!!! Abmeldung Client: [" + clientIP + " |Port:"+clientPort + "] - schließe Thread; Grund: "+e.getMessage());
 		
 		try{
 		if(this.user.contains("Anmelder")==false){		    
@@ -69,13 +69,13 @@ public class WorkerRunnableRead extends Thread {
 		    
 		    if(loescheindex==true){
 		    MultiThreadedServer.AngemeldeteWorkerRunnableRead.remove(index);
-		    System.out.println("ZZZZZZZZZZZZZZZZZZZZZZ size der workerrunnableliste reduziert: "+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
+		    ServerStart.SystemWriteLogln("!!! Anzahl der bestehenden Verbindungen zu Usern um einen reduziert(size der workerrunnableliste): "+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
 			
 			
 		    }
 		}
 		}catch(Exception e4){
-		    System.out.println("set status problem: " +e.getMessage());
+		    ServerStart.SystemWriteLogln("set status problem: " +e.getMessage());
 		}
 		
 	    }
@@ -95,24 +95,24 @@ public class WorkerRunnableRead extends Thread {
 
     public void Empfange() throws ClassNotFoundException, IOException {
 	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//  System.out.println("X<< Warte auf Message");
+	//  ServerStart.SystemWriteLogln("X<< Warte auf Message");
 	Object obj =  ois.readObject();
-	//  System.out.println("<<< Message erhalten");
+	//  ServerStart.SystemWriteLogln("<<< Message erhalten");
 
 	if (obj instanceof Message)
 	{
-	    System.out.print("<<< Nachricht von Cl: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort()+"] "  );
+	    ServerStart.SystemWriteLog("<<< Nachricht von Cl: ["+clientSocket.getInetAddress() + " |Port:" + clientSocket.getPort()+"] "  );
 	    messageIGot = (Message) obj;	
 	    
 	    if(messageIGot.from.equalsIgnoreCase("Admin") && messageIGot.to.equalsIgnoreCase("ServerDB")){
-		System.out.println("|"+messageIGot.toText()+"");
+		ServerStart.SystemWriteLogln("|"+messageIGot.toText()+"");
 		MultiThreadedServer.sqlBefehlsListe.add(new SQLData(messageIGot.toTextString(),'n'));
 		   
 	    }else{
 		    MultiThreadedServer.messageList.add(messageIGot);		
 	    }
 	    
-	    // System.out.println(messageIGot.toString());
+	    // ServerStart.SystemWriteLogln(messageIGot.toString());
 	    //Thread.sleep(15);
 	}
 	if (obj instanceof StartData)
@@ -120,7 +120,7 @@ public class WorkerRunnableRead extends Thread {
 	    startdata = (StartData) obj;
 	    this.user=startdata.user;
 	    w.user=startdata.user;
-	    System.out.println("*** Client nennt sich: " + this.user);
+	    ServerStart.SystemWriteLogln("*** Client nennt sich: " + this.user);
 	    if(this.user.contains("Anmelder")==false){
 		//MultiThreadedServer.AngemeldeteUser.add(this.user);
 		MultiThreadedServer.sqlBefehlsListe.add(new SQLData("UPDATE user set status='Online' where username like '"+this.user+"'",'n'));
@@ -145,7 +145,7 @@ public class WorkerRunnableRead extends Thread {
 		    MultiThreadedServer.AngemeldeteWorkerRunnableRead
 			.add(this);
 		}
-		System.out.println("ZZZZZZZZZZZZZZZZZZZZZZ size der workerrunnableliste: "+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
+		ServerStart.SystemWriteLogln("!!! Anzahl der bestehenden Verbindungen zu Usern(size der workerrunnableliste): "+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
 	
 		
 		
@@ -183,7 +183,7 @@ public class WorkerRunnableRead extends Thread {
 		if(sqldata.to.equals("AnmeldeDbChecker")){
 		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'a'));
 		}else{
-		    System.out.println(sqldata.sqlBefehl);
+		    ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
 
 		    MultiThreadedServer.sqlBefehlsListe.add(new SQLData(sqldata.sqlBefehl,'n'));
 

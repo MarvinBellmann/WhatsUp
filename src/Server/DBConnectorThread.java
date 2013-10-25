@@ -65,7 +65,7 @@ public class DBConnectorThread extends Thread {
 
 				if (sqldata.sqlBefehl.substring(0, 10).contains("CREATE")) {
 
-					System.out.println("create!");
+					ServerStart.SystemWriteLogln("create!");
 					SQLCreate(sqldata.sqlBefehl);
 
 				} else {
@@ -77,7 +77,7 @@ public class DBConnectorThread extends Thread {
 			else {
 
 				rs = stmt.executeQuery(sqldata.sqlBefehl);// .executeQuery(sql);
-				System.out.println("*DB<-* '" + sqldata.sqlBefehl + "'");
+				ServerStart.SystemWriteLogln("*DB<-* '" + sqldata.sqlBefehl + "'");
 
 				ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -87,18 +87,18 @@ public class DBConnectorThread extends Thread {
 				antwort = antwort + "\n";
 
 				antwort = antwort + "*DB>>* /";
-				System.out.print("*DB>>* /");
+				ServerStart.SystemWriteLog("*DB>>* /");
 				int j = 1;
 				while (j < spalten + 1) {
-					System.out.print(rsmd.getColumnName(j) + "/");
+					ServerStart.SystemWriteLog(rsmd.getColumnName(j) + "/");
 					antwort = antwort + rsmd.getColumnName(j) + "/";
 					j++;
 				}
-				System.out.println("");
+				ServerStart.SystemWriteLogln("");
 				antwort = antwort + "\n";
 				if (sqldata.typ == 'k' | sqldata.typ == 'p') {
 					antwort = "";
-					System.out.print("*DB->* ");
+					ServerStart.SystemWriteLog("*DB->* ");
 				}
 				while (rs.next()) {
 					int i = 1;
@@ -106,11 +106,11 @@ public class DBConnectorThread extends Thread {
 					if (sqldata.typ != 'k' && sqldata.typ != 'p') {
 
 						antwort = antwort + "*DB->* | ";
-						System.out.print("*DB->* | ");
+						ServerStart.SystemWriteLog("*DB->* | ");
 						while (i < spalten + 1) {
 
 							antwort = antwort + rs.getString(i) + " | ";
-							System.out.print(rs.getString(i) + " | ");
+							ServerStart.SystemWriteLog(rs.getString(i) + " | ");
 							i++;
 						}
 
@@ -119,13 +119,13 @@ public class DBConnectorThread extends Thread {
 						while (i < spalten + 1) {
 
 							antwort = antwort + rs.getString(i) + ",";
-							System.out.print(rs.getString(i) + ",");
+							ServerStart.SystemWriteLog(rs.getString(i) + ",");
 							i++;
 						}
 					}
 					if (sqldata.typ == 'n') {
 						antwort = antwort + "\n";
-						System.out.print("\n");
+						ServerStart.SystemWriteLog("\n");
 					}
 
 				}
@@ -152,11 +152,11 @@ public class DBConnectorThread extends Thread {
 					}
 					MultiThreadedServer.messageList.add(new Message("ServerDB",
 							"Anmelder", antwort));
-					System.out.println("message müsste geaddet sein");
+					//ServerStart.SystemWriteLogln("message müsste geaddet sein");
 
 				}
 				if (sqldata.typ == 'k') {
-					System.out.print("\n");
+					ServerStart.SystemWriteLog("\n");
 					if (sqldata.sqlBefehl.contains("status")) {
 						MultiThreadedServer.messageList
 								.add(new Message("KontaktDBAntwort",
@@ -164,8 +164,8 @@ public class DBConnectorThread extends Thread {
 					}
 				}
 				if (sqldata.typ == 'p') {
-				   // System.out.println(sqldata.sqlBefehl);
-					System.out.print("\n");
+				   // ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
+					ServerStart.SystemWriteLog("\n");
 					if (sqldata.sqlBefehl.contains("Select picture from")) {
 						MultiThreadedServer.messageList
 								.add(new Message("PictureDBAntwort",
@@ -175,7 +175,7 @@ public class DBConnectorThread extends Thread {
 				rs.close();
 			}
 		} catch (SQLException e) {
-			System.out.println("SQL PROBLEM!");
+			ServerStart.SystemWriteLogln("SQL PROBLEM!");
 			MultiThreadedServer.messageList.add(new Message("ServerDB",
 					"Admin", " SQL FEHLER: " + e.getMessage()));
 			if (sqldata.typ == 'a') {
@@ -191,7 +191,7 @@ public class DBConnectorThread extends Thread {
 	public void SQLManipulation(String sql) {
 		try {
 			stmt.executeUpdate(sql);// .executeQuery(sql);
-			System.out.println("*DB<-* '" + sql + "'");
+			ServerStart.SystemWriteLogln("*DB<-* '" + sql + "'");
 			String antwort = "\n*DB<-* '" + sql + "'";
 			MultiThreadedServer.messageList.add(new Message("ServerDB",
 					"Admin", antwort));
@@ -237,7 +237,7 @@ public class DBConnectorThread extends Thread {
 			}*/
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			ServerStart.SystemWriteLogln(e.getMessage());
 		}
 
 	}
@@ -245,7 +245,7 @@ public class DBConnectorThread extends Thread {
 	public void SQLCreate(String sql) {
 		try {
 			stmt.execute(sql);// .executeQuery(sql);
-			System.out.println("*DB<-* '" + sql + "'");
+			ServerStart.SystemWriteLogln("*DB<-* '" + sql + "'");
 			String antwort = "\n*DB<-* '" + sql + "'";
 			MultiThreadedServer.messageList.add(new Message("ServerDB",
 					"Admin", antwort));
@@ -262,14 +262,13 @@ public class DBConnectorThread extends Thread {
 		try {
 			// laden der Treiberklasse
 			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("*DB* jdbc mysql Drivers geladen.");
+			ServerStart.SystemWriteLogln("*DB* jdbc mysql Drivers geladen.");
 
 			// Specify the Database URL where the DNS will be and the user and
 			// password
 			con = DriverManager.getConnection(
 					"jdbc:mysql://46.163.119.64:3306/whatsup", "whatsup", pw);
-			System.out
-					.println("*DB* MySql verbindung erfolgreich mit: //46.163.119.64:3306/whatsup");
+			ServerStart.SystemWriteLogln("*DB* MySql verbindung erfolgreich mit: //46.163.119.64:3306/whatsup");
 
 			// Initialize the statement to be used, specify if rows are
 			// scrollable
@@ -277,7 +276,7 @@ public class DBConnectorThread extends Thread {
 					ResultSet.CONCUR_READ_ONLY);
 
 		} catch (Exception e) {
-			System.err.println(e);
+		    ServerStart.SystemWriteErrorLogln(e);
 		}
 	}
 }

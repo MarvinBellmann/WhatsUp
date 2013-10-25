@@ -34,7 +34,7 @@ public class WorkerRunnable implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("*** Anmeldung Client: ["
+		ServerStart.SystemWriteLogln("*** Anmeldung Client: ["
 				+ clientSocket.getInetAddress() + " |Port:"
 				+ clientSocket.getPort() + "]");
 		ObjectInputStream ois = null;
@@ -61,7 +61,7 @@ public class WorkerRunnable implements Runnable {
 				    MultiThreadedServer.AngemeldeteWorkerRunnableRead
 					.add(serverReaderThread);
 				}
-				System.out.println("ZZZZZZZZZZZZZZZZZZZZZZ size workerrunnablelis:"+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
+				ServerStart.SystemWriteLogln("ZZZZZZZZZZZZZZZZZZZZZZ size workerrunnablelis:"+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
 			*/
 			}
 
@@ -81,7 +81,7 @@ public class WorkerRunnable implements Runnable {
 
 					if (m.to.equalsIgnoreCase(this.user)) {
 						oos.writeObject(m);
-						System.out.println("<<< Message weitergeleitet an "
+						ServerStart.SystemWriteLogln("<<< Message weitergeleitet an "
 								+ this.user + "!");
 						MultiThreadedServer.messageList.remove(index);
 						break;
@@ -90,7 +90,7 @@ public class WorkerRunnable implements Runnable {
 					index++;
 				}
 			} catch (Exception e) {
-				System.out.println("!!! Abmeldung Client: [" + clientIP
+				ServerStart.SystemWriteLogln("!!! Abmeldung Client: [" + clientIP
 						+ " |Port:" + clientPort
 						+ "] - schließe Thread; Grund: " + e.getMessage());
 				clientAnwesend = false;

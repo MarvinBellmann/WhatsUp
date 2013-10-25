@@ -268,6 +268,14 @@ public class HauptFenster {
 
 		frame = new JFrame();
 		frame.setResizable(false);
+		//frame.setR
+		//frame.setMaximumSize(new Dimension(width+1, height+100));  
+		// frame.setMinimumSize(new Dimension(width, height-100));
+		//Rectangle bounds = new Rectangle(100, 50, width, width+10);
+	       // setMaximizedBounds(bounds);
+	       // frame.setMaximizedBounds(bounds);  
+		
+	         
 		frame.setBounds(ge.getMaximumWindowBounds().width - width - 20,
 				(ge.getMaximumWindowBounds().height - height) / 2, width,
 				height);

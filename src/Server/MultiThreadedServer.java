@@ -39,7 +39,7 @@ public class MultiThreadedServer implements Runnable {
 				// if(this.serverSocket.)
 			} catch (IOException e) {
 				if (isStopped()) {
-					System.out.println("Server Stopped.");
+					ServerStart.SystemWriteLogln("Server Stopped.");
 					return;
 				}
 				throw new RuntimeException("Error accepting client connection",
@@ -48,7 +48,7 @@ public class MultiThreadedServer implements Runnable {
 			new Thread(new WorkerRunnable(clientSocket, "Multithreaded Server"))
 					.start();
 		}
-		System.out.println("Server Stopped.");
+		ServerStart.SystemWriteLogln("Server Stopped.");
 	}
 
 	private synchronized boolean isStopped() {
