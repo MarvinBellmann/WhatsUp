@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -59,7 +60,7 @@ public class HauptFenster {
 	public static JLabel label_2;
 	JLabel lblUsername;
 
-	private JTextField txtSuche;
+	private static JTextField txtSuche;
 	public static JLabel statuslabel;
 	public static ArrayList<ChatFenster> ChatFensterList = new ArrayList<ChatFenster>();
 
@@ -322,22 +323,22 @@ public class HauptFenster {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false) {
-					Client.sendSQL(new SQLData(
-							"UPDATE user set status='Online' where username like '"
-									+ username + "'", 'i'));
+			    if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false) {
 
-					Client.sendSQL(new SQLData(
-							"INSERT IGNORE INTO contacts (username,contact) values ('"
-									+ username + "','" + txtSuche.getText()
-									+ "') ", 'i', username));
-					Client.sendSQL(new SQLData(
-							"INSERT IGNORE INTO contacts (username,contact) values ('"
-									+ txtSuche.getText() + "','" + username
-									+ "')", 'i', username));
-
-					txtSuche.setText("");
-				}
+				/*JFrame dt = new JFrame();
+				dt.setLocation(100,100);
+				dt.setSize(350,200);
+				dt.setTitle("Dialog-Test");
+				dt.show();*/
+				
+				
+				Client.sendSQL(new SQLData("Select * From user where username like '"
+							+ txtSuche.getText()
+							+ "';",'h',username));
+				
+				
+				
+			    }
 			}
 
 		});
@@ -430,6 +431,34 @@ public class HauptFenster {
 		frame.getContentPane().add(mainPanel);
 	}
 
+	
+	public static void KontaktHinzufuegen() {
+	    
+		
+		int ok = JOptionPane.showConfirmDialog(null, 
+			"Hinzufügen?","Benutzer gefunden!", 
+			JOptionPane.YES_NO_CANCEL_OPTION);
+		if (ok == JOptionPane.YES_OPTION) {
+
+
+		    Client.sendSQL(new SQLData(
+			    "UPDATE user set status='Online' where username like '"
+				    + username + "'", 'i'));
+
+		    Client.sendSQL(new SQLData(
+			    "INSERT IGNORE INTO contacts (username,contact) values ('"
+				    + username + "','" + txtSuche.getText()
+				    + "') ", 'i', username));
+		    Client.sendSQL(new SQLData(
+			    "INSERT IGNORE INTO contacts (username,contact) values ('"
+				    + txtSuche.getText() + "','" + username
+				    + "')", 'i', username));
+
+		    txtSuche.setText("");
+		}
+		}
+	
+	
 	public static void PictureUpdater(String picID) {
 
 		String shortendPicID = picID.substring(0, 1);

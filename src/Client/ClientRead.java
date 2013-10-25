@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import SendData.Message;
 
 public class ClientRead extends Thread {
@@ -59,9 +61,28 @@ public class ClientRead extends Thread {
 		    //HauptFenster.PictureUpdater(picID);
 
 		}else{
+		    
+		    if (messageIGot.from.equals("HinzufuegenDBAntwort")){
+			System.out.println(messageIGot.text);
+			    if(messageIGot.text.contains("Keine Eintr")==false){
+				HauptFenster.KontaktHinzufuegen();
+			    }else{
+				JOptionPane.showMessageDialog(null,"Benutzer wurde in der Datenbank nicht gefunden. Verschrieben?");
+	
+			    }
+			    //HauptFenster.PictureUpdater(picID);
+
+			}else{
+		   
+		    
+		    
+		    
+		    
+		    
+		    
 		    boolean checkopen = true;
 		    for (ChatFenster CF : HauptFenster.ChatFensterList) {
-			if (CF.nameGespraech.equals(messageIGot.from)) {
+			if (CF.nameGespraech.equalsIgnoreCase(messageIGot.from)) {
 			    checkopen = false;
 			    break;
 			}
@@ -98,7 +119,7 @@ public class ClientRead extends Thread {
 
 
 		}
-
+		}
 	    }
 	}
     }

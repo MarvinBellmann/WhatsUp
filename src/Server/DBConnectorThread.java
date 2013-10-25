@@ -51,7 +51,7 @@ public class DBConnectorThread extends Thread {
 
 	}
 
-	public void SQLBefehl(SQLData sqldata) {
+	public void SQLBefehl(SQLData sqldata) { //'p'=Picture; 'h'=hinzufügen eines Kontaktes; 'k'=Kontaktliste zurückgeben; 'a'=anmelden
 		try {
 
 			if (sqldata.sqlBefehl.length() < 11) {
@@ -96,14 +96,14 @@ public class DBConnectorThread extends Thread {
 				}
 				ServerStart.SystemWriteLogln("");
 				antwort = antwort + "\n";
-				if (sqldata.typ == 'k' | sqldata.typ == 'p') {
+				if (sqldata.typ == 'k' | sqldata.typ == 'p'| sqldata.typ == 'h') {
 					antwort = "";
 					ServerStart.SystemWriteLog("*DB->* ");
 				}
 				while (rs.next()) {
 					int i = 1;
 
-					if (sqldata.typ != 'k' && sqldata.typ != 'p') {
+					if (sqldata.typ != 'k' && sqldata.typ != 'p'| sqldata.typ == 'h') {
 
 						antwort = antwort + "*DB->* | ";
 						ServerStart.SystemWriteLog("*DB->* | ");
@@ -136,7 +136,7 @@ public class DBConnectorThread extends Thread {
 							"Admin", antwort));
 
 				}
-				if (sqldata.typ == 'a') {
+				if (sqldata.typ == 'a' | sqldata.typ == 'h') {
 					rs.last();
 					if (rs.getRow() == 0) {
 						antwort = "\n";
@@ -172,6 +172,15 @@ public class DBConnectorThread extends Thread {
 										sqldata.user, antwort));
 					}
 				}
+				if (sqldata.typ == 'h') {
+					   // ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
+						ServerStart.SystemWriteLog("\n");
+						//if (sqldata.sqlBefehl.contains("Select * from user")) {
+							MultiThreadedServer.messageList
+									.add(new Message("HinzufuegenDBAntwort",
+											sqldata.user, antwort));
+						//}
+					}
 				rs.close();
 			}
 		} catch (SQLException e) {
