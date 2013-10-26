@@ -75,7 +75,17 @@ public class ClientRead extends Thread {
 			}else{
 		   
 		    
-		    
+			    if (messageIGot.from.equals("LoeschenDBAntwort")){
+					System.out.println(messageIGot.text);
+					    if(messageIGot.text.contains("Keine Eintr")==false){
+						HauptFenster.KontaktLoeschen();
+					    }else{
+						JOptionPane.showMessageDialog(null,"Benutzer wurde in der Datenbank nicht gefunden. Verschrieben?");
+			
+					    }
+					    //HauptFenster.PictureUpdater(picID);
+
+					}else{
 		    
 		    
 		    
@@ -119,6 +129,7 @@ public class ClientRead extends Thread {
 
 
 		}
+			}
 		}
 	    }
 	}

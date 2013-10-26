@@ -379,19 +379,19 @@ public class HauptFenster {
         mKontakte.setForeground(Color.WHITE);
         menuBar.add(mKontakte);
         
-        JMenuItem item6 = new JMenuItem("Kontakt löschen");
+        JMenuItem item6 = new JMenuItem("Zur Kontaktliste hinzufügen");
         item6.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-            	btnKontaktSuche.setText("-");
+            	btnKontaktSuche.setText("+");
             }
         });
         mKontakte.add(item6);
-        JMenuItem item7 = new JMenuItem("Kontakt hinzufügen");
+        JMenuItem item7 = new JMenuItem("Aus Kontaktliste löschen");
         item7.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-            	btnKontaktSuche.setText("+");
+            	btnKontaktSuche.setText("-");
             }
         });
         mKontakte.add(item7);
@@ -409,7 +409,19 @@ public class HauptFenster {
         item8.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-            	
+            	JOptionPane.showMessageDialog(null, 
+            			 "-Alle Benutzerdaten ausgeben: SELECT * from user order by username\n"
+                    	+ "\n"
+            			+ "-Benutzer bannen: DELETE from user where username like 'XXX'\n"
+            			+ "                                   DELETE from contacts where username like 'XXX' or contact like 'XXX'\n"
+            			+ "\n"
+            			+ "-Benutzer Pw ändern: UPDATE user set password = '????' where username like 'XXX'\n"
+            			+ "\n"            			
+            			+ "-Kontakt anlegen: INSERT IGNORE INTO contacts (username, contact) values ('XXX','YYY')\n"
+            			+ "                                  INSERT IGNORE INTO contacts (username, contact) values ('YYY','XXX')\n"
+            			+ "\n"
+            			+ "-Kontakt löschen: DELETE from contacts where username like 'XXX' and contact like 'YYY')\n"
+            			+ "                                  DELETE from contacts where username like 'YYY' and contact like 'XXX')");
             }
         });
         mSQL.add(item8);
@@ -467,7 +479,7 @@ public class HauptFenster {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-			    if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false) {
+			    if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false && txtSuche.getText().equalsIgnoreCase("admin")==false) {
 
 				/*JFrame dt = new JFrame();
 				dt.setLocation(100,100);
@@ -475,11 +487,16 @@ public class HauptFenster {
 				dt.setTitle("Dialog-Test");
 				dt.show();*/
 				
-				
+				if(btnKontaktSuche.getText().equalsIgnoreCase("+")){
 				Client.sendSQL(new SQLData("Select * From user where username like '"
 							+ txtSuche.getText()
 							+ "';",'h',username));
-				
+				}else{
+					Client.sendSQL(new SQLData("Select * From user where username like '"
+							+ txtSuche.getText()
+							+ "';",'l',username));
+					
+				}
 				
 				
 			    }
@@ -580,7 +597,7 @@ public class HauptFenster {
 	    
 		
 		int ok = JOptionPane.showConfirmDialog(null, 
-			"Hinzufügen?","Benutzer gefunden!", 
+				"Wollen sie den Benutzer (" +txtSuche.getText()+") zu Ihrer Kontaktliste hinzufuegen?","Benutzer gefunden! Hinzufuegen?", 
 			JOptionPane.YES_NO_CANCEL_OPTION);
 		if (ok == JOptionPane.YES_OPTION) {
 
@@ -651,5 +668,27 @@ public class HauptFenster {
 		}
 		label_2.setIcon(avatarImage);
 
+	}
+
+	public static void KontaktLoeschen() {
+		int ok = JOptionPane.showConfirmDialog(null, 
+				"Wollen sie den Benutzer (" +txtSuche.getText()+") aus Ihrer Kontaktliste loeschen?","Benutzer gefunden! Loeschen?", 
+				JOptionPane.YES_NO_CANCEL_OPTION);
+			if (ok == JOptionPane.YES_OPTION) {
+
+
+			    Client.sendSQL(new SQLData(
+				    "UPDATE user set status='Online' where username like '"
+					    + username + "'", 'i'));
+
+			    Client.sendSQL(new SQLData(
+				     "DELETE from contacts where username like '"
+					    + username + "' and contact like'"+txtSuche.getText()+"'", 'i', username));
+			    Client.sendSQL(new SQLData(
+					     "DELETE from contacts where username like '"
+						    + txtSuche.getText() + "' and contact like'"+username+"'", 'i', username));
+
+			    txtSuche.setText("");
+			}
 	}
 }
