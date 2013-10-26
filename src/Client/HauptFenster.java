@@ -266,7 +266,7 @@ public class HauptFenster {
 		i7 = new ImageIcon(getClass().getResource("/data/7.jpg"));
 		i8 = new ImageIcon(getClass().getResource("/data/8.png"));
 		i9 = new ImageIcon(getClass().getResource("/data/9.jpg"));
-		iDB = new ImageIcon(getClass().getResource("/data/database.png"));
+		iDB = new ImageIcon(getClass().getResource("/data/database.png")); //
 		// i91 = new ImageIcon(getClass().getResource("/data/2.png"));
 
 		desktopPath = System.getProperty("user.home") + "/Desktop";
