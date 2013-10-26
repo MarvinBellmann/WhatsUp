@@ -50,7 +50,7 @@ public class HauptFenster {
 	static String desktopPath;
 	public static int messagesLeft = 10;
 	private static int width = 250;
-	private static int height = 578;
+	private static int height = 573;
 	static JTable table;
 	static ImageIcon i1;
 	static ImageIcon i2;
@@ -284,7 +284,7 @@ public class HauptFenster {
 		
 	         
 		frame.setBounds(ge.getMaximumWindowBounds().width - width - 20,
-				(ge.getMaximumWindowBounds().height - height) / 4, width,
+				(ge.getMaximumWindowBounds().height - height) / 6, width,
 				height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -318,59 +318,69 @@ public class HauptFenster {
         JMenu mMenu = new JMenu("Menü");
         mMenu.setForeground(Color.WHITE);
         menuBar.add(mMenu);
-        JMenuItem item1 = new JMenuItem("Beenden");
-        item1.addActionListener(new ActionListener(){
+        JMenuItem mMenuitem1 = new JMenuItem("Beenden");
+        mMenuitem1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
-        mMenu.add(item1);
+        mMenu.add(mMenuitem1);
         
         ////////////////////////////////////////////////////////////////////////////
         
         JMenu mEinstellungen = new JMenu("Einstellungen");
         mEinstellungen.setForeground(Color.WHITE);
         menuBar.add(mEinstellungen);
-        JMenuItem item2 = new JMenuItem("Größe 1");
-        item2.addActionListener(new ActionListener(){
+        JMenuItem mEinstellungenitem1 = new JMenuItem("Größe 3");
+        mEinstellungenitem1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                height=496-5;
+                height=494;
                 frame.setSize(frame.getWidth(), height);
             }
         });
-        mEinstellungen.add(item2);
+        mEinstellungen.add(mEinstellungenitem1);
         
-        JMenuItem item3 = new JMenuItem("Größe 2");
-        item3.addActionListener(new ActionListener(){
+        JMenuItem mEinstellungenitem2 = new JMenuItem("Größe 4");
+        mEinstellungenitem2.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
             	height=578-5;
                 frame.setSize(frame.getWidth(), height);
             }
         });
-        mEinstellungen.add(item3);
+        mEinstellungen.add(mEinstellungenitem2);
         
-        JMenuItem item4 = new JMenuItem("Größe 3");
-        item4.addActionListener(new ActionListener(){
+        JMenuItem mEinstellungenitem3 = new JMenuItem("Größe 5");
+        mEinstellungenitem3.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
             	height=658-5;
                 frame.setSize(frame.getWidth(), height);
             }
         });
-        mEinstellungen.add(item4);
+        mEinstellungen.add(mEinstellungenitem3);
         
-        JMenuItem item5 = new JMenuItem("Größe 4");
-        item5.addActionListener(new ActionListener(){
+        JMenuItem mEinstellungenitem4 = new JMenuItem("Größe 6");
+        mEinstellungenitem4.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-            	height=740-5;
+            	height=740-3;
                 frame.setSize(frame.getWidth(), height);
             }
         });
-        mEinstellungen.add(item5);
+        mEinstellungen.add(mEinstellungenitem4);
+        
+        JMenuItem mEinstellungenitem5 = new JMenuItem("Größe 7");
+        mEinstellungenitem5.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	height=820;
+                frame.setSize(frame.getWidth(), height);
+            }
+        });
+        mEinstellungen.add(mEinstellungenitem5);
         
         
         ////////////////////////////////////////////////////////////////////////////
@@ -379,22 +389,22 @@ public class HauptFenster {
         mKontakte.setForeground(Color.WHITE);
         menuBar.add(mKontakte);
         
-        JMenuItem item6 = new JMenuItem("Zur Kontaktliste hinzufügen");
-        item6.addActionListener(new ActionListener(){
+        JMenuItem mKontakteitem1 = new JMenuItem("Zur Kontaktliste hinzufügen");
+        mKontakteitem1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
             	btnKontaktSuche.setText("+");
             }
         });
-        mKontakte.add(item6);
-        JMenuItem item7 = new JMenuItem("Aus Kontaktliste löschen");
-        item7.addActionListener(new ActionListener(){
+        mKontakte.add(mKontakteitem1);
+        JMenuItem mKontakteitem2 = new JMenuItem("Aus Kontaktliste löschen");
+        mKontakteitem2.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
             	btnKontaktSuche.setText("-");
             }
         });
-        mKontakte.add(item7);
+        mKontakte.add(mKontakteitem2);
         
  ////////////////////////////////////////////////////////////////////////////
         
