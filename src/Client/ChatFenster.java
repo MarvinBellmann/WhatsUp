@@ -113,8 +113,8 @@ public class ChatFenster {
 	@SuppressWarnings("serial")
 	private JFrame initialize() {
 		frame = new JFrame();
-		frame.setLocation(HauptFenster.frame.getX() - width - 20,
-				HauptFenster.frame.getY());
+		frame.setLocation(HauptFenster.frame.getX() - width - 7,
+				HauptFenster.frame.getY()-5);
 		frame.setMinimumSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
 

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -45,7 +50,7 @@ public class HauptFenster {
 	static String desktopPath;
 	public static int messagesLeft = 10;
 	private static int width = 250;
-	private static int height = 600;
+	private static int height = 578;
 	static JTable table;
 	static ImageIcon i1;
 	static ImageIcon i2;
@@ -59,6 +64,7 @@ public class HauptFenster {
 	static ImageIcon iDB;
 	public static JLabel label_2;
 	JLabel lblUsername;
+	JButton btnKontaktSuche;
 
 	private static JTextField txtSuche;
 	public static JLabel statuslabel;
@@ -278,9 +284,147 @@ public class HauptFenster {
 		
 	         
 		frame.setBounds(ge.getMaximumWindowBounds().width - width - 20,
-				(ge.getMaximumWindowBounds().height - height) / 2, width,
+				(ge.getMaximumWindowBounds().height - height) / 4, width,
 				height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		
+		
+		
+		
+		
+		
+		JMenuBar menuBar = new JMenuBar(){
+			Color bgColor=new Color(27, 130, 165);//Color.BLUE.brighter();
+        	public void setColor(Color color)
+            {
+                bgColor=color;
+            }
+
+            @Override
+            protected void paintComponent(Graphics g)
+            {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(bgColor);
+                g2d.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
+
+            }
+        };
+        menuBar.setBorder(null);
+        menuBar.setBackground(new Color(27, 130, 165));
+        
+        JMenu mMenu = new JMenu("Menü");
+        mMenu.setForeground(Color.WHITE);
+        menuBar.add(mMenu);
+        JMenuItem item1 = new JMenuItem("Beenden");
+        item1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        mMenu.add(item1);
+        
+        ////////////////////////////////////////////////////////////////////////////
+        
+        JMenu mEinstellungen = new JMenu("Einstellungen");
+        mEinstellungen.setForeground(Color.WHITE);
+        menuBar.add(mEinstellungen);
+        JMenuItem item2 = new JMenuItem("Größe 1");
+        item2.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                height=496-5;
+                frame.setSize(frame.getWidth(), height);
+            }
+        });
+        mEinstellungen.add(item2);
+        
+        JMenuItem item3 = new JMenuItem("Größe 2");
+        item3.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	height=578-5;
+                frame.setSize(frame.getWidth(), height);
+            }
+        });
+        mEinstellungen.add(item3);
+        
+        JMenuItem item4 = new JMenuItem("Größe 3");
+        item4.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	height=658-5;
+                frame.setSize(frame.getWidth(), height);
+            }
+        });
+        mEinstellungen.add(item4);
+        
+        JMenuItem item5 = new JMenuItem("Größe 4");
+        item5.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	height=740-5;
+                frame.setSize(frame.getWidth(), height);
+            }
+        });
+        mEinstellungen.add(item5);
+        
+        
+        ////////////////////////////////////////////////////////////////////////////
+        
+        JMenu mKontakte = new JMenu("Kontakte");
+        mKontakte.setForeground(Color.WHITE);
+        menuBar.add(mKontakte);
+        
+        JMenuItem item6 = new JMenuItem("Kontakt löschen");
+        item6.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	btnKontaktSuche.setText("-");
+            }
+        });
+        mKontakte.add(item6);
+        JMenuItem item7 = new JMenuItem("Kontakt hinzufügen");
+        item7.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	btnKontaktSuche.setText("+");
+            }
+        });
+        mKontakte.add(item7);
+        
+ ////////////////////////////////////////////////////////////////////////////
+        
+        
+        if(username.equalsIgnoreCase("Admin")){
+        
+        JMenu mSQL = new JMenu("SQL");
+        mSQL.setForeground(Color.YELLOW);
+        menuBar.add(mSQL);
+        
+        JMenuItem item8 = new JMenuItem("SQL Tips");
+        item8.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            }
+        });
+        mSQL.add(item8);
+        }
+        
+        
+        
+        
+        
+        
+        frame.setJMenuBar(menuBar);
+		
+		
+		
+		
 
 		mainPanel = new GradientPanel(new Color(27, 130, 165), new Color(204,
 				204, 255));
@@ -317,7 +461,7 @@ public class HauptFenster {
 		txtSuche.setHorizontalAlignment(SwingConstants.CENTER);
 		mainPanel.add(txtSuche, "growx, spanx 2, split2");
 
-		JButton btnKontaktSuche = new JButton("+");
+		btnKontaktSuche = new JButton("+");
 		btnKontaktSuche.addActionListener(new ActionListener() {
 
 			@Override
@@ -342,7 +486,7 @@ public class HauptFenster {
 			}
 
 		});
-		btnKontaktSuche.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnKontaktSuche.setFont(new Font("ARIAL BLACK", Font.BOLD, 10));
 		mainPanel.add(btnKontaktSuche, "wrap, w 50px::50px");
 
 		if (username.equalsIgnoreCase("Admin")) {
