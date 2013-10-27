@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import Client.FileSenderThread;
+import Client.FileSenderThreadClient;
 import SendData.ByteData;
 import SendData.Message;
 import SendData.StartData;
@@ -27,6 +27,7 @@ public class WorkerRunnable implements Runnable {
 	public String user;
 	boolean gecheckt;
 	int genutztegecheckt = 1;
+	boolean byteUebertragungsBeschuetzer=false;
 
 	public WorkerRunnable(Socket clientSocket, String serverText) {
 		this.clientSocket = clientSocket;
@@ -73,6 +74,8 @@ public class WorkerRunnable implements Runnable {
 		}
 
 		while (clientAnwesend == true) {
+			
+			if(byteUebertragungsBeschuetzer==false){
 
 			try {
 				messageListChecken.clear();
@@ -102,7 +105,7 @@ public class WorkerRunnable implements Runnable {
 						oos.writeObject(MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1));
 						MultiThreadedServer.byteList.remove(MultiThreadedServer.byteList.size() - 1);
 						System.out.println("ByteData send");
-						FileSenderThread fs = new FileSenderThread(
+						FileSenderThreadServer fs = new FileSenderThreadServer(
 								dataa,clientSocket,oos);
 						fs.setName("1A FileSenderSeverThread");
 
@@ -127,5 +130,6 @@ public class WorkerRunnable implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
 	}
 }

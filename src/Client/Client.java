@@ -70,6 +70,9 @@ public class Client extends Thread {
 		ObjectInputStream ois = null;
 
 		while (amLaufen == true) {
+			
+			if(HauptFenster.byteUebertragungsBeschuetzer==false){
+			
 			try {
 
 				if (socket == null) {
@@ -116,7 +119,7 @@ public class Client extends Thread {
 					oos.writeObject(byteList.get(byteList.size() - 1));
 					byteList.remove(byteList.size() - 1);
 					System.out.println("ByteData send");
-					FileSenderThread fs = new FileSenderThread(
+					FileSenderThreadClient fs = new FileSenderThreadClient(
 							dataa,socket,oos);
 					fs.setName("1A FileSenderThread");
 
@@ -134,7 +137,23 @@ public class Client extends Thread {
 				Thread.sleep(5000);
 			}
 
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		
 			Thread.sleep(60);// 100
+			
+			
+			
+			
+		
 		}
 	}
 

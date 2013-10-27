@@ -65,6 +65,7 @@ public class HauptFenster {
 	public static JLabel label_2;
 	JLabel lblUsername;
 	JButton btnKontaktSuche;
+	static boolean byteUebertragungsBeschuetzer=false;
 
 	private static JTextField txtSuche;
 	public static JLabel statuslabel;

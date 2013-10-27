@@ -62,7 +62,7 @@ public class ClientRead extends Thread {
     public void Empfange() throws ClassNotFoundException, IOException {
     	
     	
-    	if(byteUebertragungsBeschuetzer==false){
+    	if(HauptFenster.byteUebertragungsBeschuetzer==false){
 	Object obj = ois.readObject();
 
 	if (obj instanceof Message) {
@@ -154,7 +154,7 @@ public class ClientRead extends Thread {
 	    }
 	}
 	if (obj instanceof ByteData){
-		byteUebertragungsBeschuetzer=true;
+		HauptFenster.byteUebertragungsBeschuetzer=true;
 		ByteData bytedata = (ByteData) obj;
 		System.out.println("1");
 		byte[] mybytearray = new byte[1024];
@@ -224,7 +224,7 @@ public class ClientRead extends Thread {
 		
 		
 		
-		byteUebertragungsBeschuetzer=false;
+		HauptFenster.byteUebertragungsBeschuetzer=false;
 	}
 	
 	

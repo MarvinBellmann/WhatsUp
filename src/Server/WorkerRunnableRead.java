@@ -33,6 +33,8 @@ public class WorkerRunnableRead extends Thread {
 	FileOutputStream fos = null;
 	File ff = null;
 	static String desktopPath = null;
+	boolean byteUebertragungsBeschuetzer=false;
+	
 
     public void run() {
     	try {
@@ -115,6 +117,10 @@ public class WorkerRunnableRead extends Thread {
     public void Empfange() throws ClassNotFoundException, IOException {
 	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//  ServerStart.SystemWriteLogln("X<< Warte auf Message");
+    	
+    	
+    	if(byteUebertragungsBeschuetzer==false){
+    	
 	Object obj =  ois.readObject();
 	//  ServerStart.SystemWriteLogln("<<< Message erhalten");
 
@@ -213,6 +219,8 @@ public class WorkerRunnableRead extends Thread {
 	}
 	
 	if (obj instanceof ByteData){
+		byteUebertragungsBeschuetzer=true;
+		w.byteUebertragungsBeschuetzer=true;
 		ByteData bytedata = (ByteData) obj;
 		ServerStart.SystemWriteLogln("1");
 		byte[] mybytearray = new byte[1024];
@@ -282,9 +290,10 @@ public class WorkerRunnableRead extends Thread {
 		
 		
 		
-		
+		byteUebertragungsBeschuetzer=false;	
+		w.byteUebertragungsBeschuetzer=false;
 	}
-
+    	}
 	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
     
