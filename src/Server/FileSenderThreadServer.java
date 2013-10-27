@@ -20,15 +20,17 @@ public class FileSenderThreadServer extends Thread {
 	static boolean stop;
 	static String sendingData = "C:/vwlmitschriften.pdf";
 	ObjectOutputStream oos;
+	WorkerRunnable w;
 
-	public FileSenderThreadServer(String data,Socket sock, ObjectOutputStream oos) {
+	public FileSenderThreadServer(String data,Socket sock, ObjectOutputStream oos, WorkerRunnable w) {
 		sendingData = data;
 		this.oos=oos;
 		//this.sock=sock;
+	this.w=w;
 	}
 
 	public void run() {
-		//HauptFenster.byteUebertragungsBeschuetzer=false;
+		//w.byteUebertragungsBeschuetzer=false;
 		
 		JFrame frame = new JFrame();
 		frame.setResizable(false);
@@ -87,6 +89,7 @@ System.out.println(fileChannel.position()/1024 +"/"+fileChannel.size()/1024+" ky
 			//	System.out.println("$$$ Socket closed");
 			}
 			System.out.println("senden fertig!");
+			w.byteUebertragungsBeschuetzer=false;
 			frame.hide();
 		//}
 			

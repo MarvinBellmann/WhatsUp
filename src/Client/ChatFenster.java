@@ -44,6 +44,7 @@ public class ChatFenster {
 	public JPanel panel_1;
 	JLabel ichbild_lbl;
 	JLabel label;
+	JButton dataSend_btn;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
@@ -92,6 +93,15 @@ public class ChatFenster {
 		} else {
 			online_lbl.setForeground(Color.RED);
 		}
+		
+		
+		if(online_lbl.getText().equalsIgnoreCase("Online")==false || this.nameGespraech.equalsIgnoreCase("ServerDB")){
+			dataSend_btn.setEnabled(false);
+		}else{
+			dataSend_btn.setEnabled(true);
+		}
+		
+		
 	}
 
 	public void UpdateStatusServerLost() {
@@ -228,7 +238,7 @@ public class ChatFenster {
 		panel_1.add(dataFetch_btn, "split 2");*/
 
 		// Datei senden
-		JButton dataSend_btn = new JButton("Datei senden");
+		dataSend_btn = new JButton("Datei senden");
 		dataSend_btn.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {

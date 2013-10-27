@@ -75,7 +75,7 @@ public class WorkerRunnable implements Runnable {
 
 		while (clientAnwesend == true) {
 			
-			if(byteUebertragungsBeschuetzer==false){
+			//if(byteUebertragungsBeschuetzer==false){
 
 			try {
 				messageListChecken.clear();
@@ -98,6 +98,7 @@ public class WorkerRunnable implements Runnable {
 				
 				
 				if (MultiThreadedServer.byteList.size() > 0) {
+					byteUebertragungsBeschuetzer=true;
 				//	for (ByteData b : MultiThreadedServer.byteList) {
 					if (MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1).to.equalsIgnoreCase(this.user)) {
 						String dataa=MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1).dateiname;
@@ -106,7 +107,7 @@ public class WorkerRunnable implements Runnable {
 						MultiThreadedServer.byteList.remove(MultiThreadedServer.byteList.size() - 1);
 						System.out.println("ByteData send");
 						FileSenderThreadServer fs = new FileSenderThreadServer(
-								dataa,clientSocket,oos);
+								dataa,clientSocket,oos,this);
 						fs.setName("1A FileSenderSeverThread");
 
 						fs.start();
@@ -130,6 +131,6 @@ public class WorkerRunnable implements Runnable {
 				e.printStackTrace();
 			}
 		}
-	}
+	//}
 	}
 }

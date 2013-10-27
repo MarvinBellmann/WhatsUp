@@ -119,7 +119,7 @@ public class WorkerRunnableRead extends Thread {
 	//  ServerStart.SystemWriteLogln("X<< Warte auf Message");
     	
     	
-    	if(byteUebertragungsBeschuetzer==false){
+    	//if(w.byteUebertragungsBeschuetzer==false){
     	
 	Object obj =  ois.readObject();
 	//  ServerStart.SystemWriteLogln("<<< Message erhalten");
@@ -293,7 +293,7 @@ public class WorkerRunnableRead extends Thread {
 		byteUebertragungsBeschuetzer=false;	
 		w.byteUebertragungsBeschuetzer=false;
 	}
-    	}
+  //  	}
 	// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
     
