@@ -10,6 +10,9 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.channels.FileChannel;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 public class FileSenderThread extends Thread {
 	static FileInputStream fis;
 	static Socket sock;
@@ -25,6 +28,15 @@ public class FileSenderThread extends Thread {
 	}
 
 	public void run() {
+		
+		JFrame frame = new JFrame();
+		frame.setResizable(false);
+		frame.setBounds(10,10,200,100);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setVisible(true);
+		JLabel label_2 = new JLabel("Übertragen");
+		label_2.setBounds(10, 10, 180, 30);
+		frame.getContentPane().add(label_2);
 
 	//	System.out.println("$$$ SenderServer gestartet");
 
@@ -51,6 +63,7 @@ public class FileSenderThread extends Thread {
 						+ fileChannel.size() / 1024);
 				while ((count = fis.read(mybytearray)) >= 0) {
 					oos.write(mybytearray, 0, count);
+					label_2.setText("Gesendet: "+fileChannel.position()/1024 +"/"+fileChannel.size()/1024+" kybte");
 System.out.println(fileChannel.position()/1024 +"/"+fileChannel.size()/1024+" kybte");
 				}
 				System.out.println("$$$ Done!");
@@ -72,7 +85,11 @@ System.out.println(fileChannel.position()/1024 +"/"+fileChannel.size()/1024+" ky
 
 			//	System.out.println("$$$ Socket closed");
 			}
-			System.out.println("senden fertig?");
+			System.out.println("senden fertig!");
+			frame.hide();
 		//}
+			
+		//	myFile.
+			
 	}
 }

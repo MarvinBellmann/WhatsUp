@@ -25,6 +25,7 @@ public class ClientRead extends Thread {
 	FileOutputStream fos = null;
 	File ff = null;
 	static String desktopPath = null;
+	boolean byteUebertragungsBeschuetzer=false;
 
     public void run() {
     	try {
@@ -59,6 +60,9 @@ public class ClientRead extends Thread {
     }
 
     public void Empfange() throws ClassNotFoundException, IOException {
+    	
+    	
+    	if(byteUebertragungsBeschuetzer==false){
 	Object obj = ois.readObject();
 
 	if (obj instanceof Message) {
@@ -150,6 +154,7 @@ public class ClientRead extends Thread {
 	    }
 	}
 	if (obj instanceof ByteData){
+		byteUebertragungsBeschuetzer=true;
 		ByteData bytedata = (ByteData) obj;
 		System.out.println("1");
 		byte[] mybytearray = new byte[1024];
@@ -219,12 +224,12 @@ public class ClientRead extends Thread {
 		
 		
 		
-		
+		byteUebertragungsBeschuetzer=false;
 	}
 	
 	
     }
-    
+    }
     
     
     

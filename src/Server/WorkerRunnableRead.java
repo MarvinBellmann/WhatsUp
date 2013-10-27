@@ -39,7 +39,7 @@ public class WorkerRunnableRead extends Thread {
 			desktopPath = System.getProperty("user.home") + "/Desktop";
 			desktopPath = desktopPath.replace("\\", "/");
 		} catch (Exception e) {
-			System.out.println("Exception caught =" + e.getMessage());
+			ServerStart.SystemWriteLogln("Exception caught =" + e.getMessage());
 		}
 	while (clientAnwesend==true) {
 
@@ -214,11 +214,11 @@ public class WorkerRunnableRead extends Thread {
 	
 	if (obj instanceof ByteData){
 		ByteData bytedata = (ByteData) obj;
-		System.out.println("1");
+		ServerStart.SystemWriteLogln("1");
 		byte[] mybytearray = new byte[1024];
 		try {
 
-			System.out.println("2");
+			ServerStart.SystemWriteLogln("2");
 			//is = clientSocket.getInputStream();
 			
 			String fileName = bytedata.dateiname.substring( bytedata.dateiname.lastIndexOf('/')+1, bytedata.dateiname.length() );
@@ -226,8 +226,8 @@ public class WorkerRunnableRead extends Thread {
 			
 			ff = new File(desktopPath + "/"+fileName);//receivedData.png");
 			ff.createNewFile();
-			System.out.println("3");
-			System.out.println("Write Received Data to: "
+			ServerStart.SystemWriteLogln("3");
+			ServerStart.SystemWriteLogln("Write Received Data to: "
 					+ ff.getAbsolutePath());
 			
 			fos = new FileOutputStream(ff);
@@ -244,23 +244,23 @@ public class WorkerRunnableRead extends Thread {
 						+ (bytedata.bytes/1024));
 						//+ df.format(fileChannel.size() / 1024.00 / 1024.00)
 						//+ " MByte");
-				//System.out.println(ois.read(mybytearray));
+				//ServerStart.SystemWriteLogln(ois.read(mybytearray));
 				
 				if(fileChannel.size()/1024 == bytedata.bytes/1024){
 					uebertragen=true;
 				}
 				fos.write(mybytearray, 0, count);
 			}
-			System.out.println("Wrote Received Data to: "
+			ServerStart.SystemWriteLogln("Wrote Received Data to: "
 					+ ff.getAbsolutePath());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			ServerStart.SystemWriteLogln(e.getMessage());
 			fos.close();
 			//is.close();
 			//sock.close();
 
 		} finally {
-			System.out.println("Done.");
+			ServerStart.SystemWriteLogln("Done.");
 
 			fos.close();
 			//is.close();
