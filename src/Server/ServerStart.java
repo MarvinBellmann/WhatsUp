@@ -35,7 +35,7 @@ public class ServerStart {
 	JFrame frmWakengerServerConsole = new JFrame();
 	frmWakengerServerConsole.setTitle("WAK-enger! Server");
 	frmWakengerServerConsole.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frmWakengerServerConsole.setBounds(20, 20, 544, 482);
+	frmWakengerServerConsole.setBounds(20, 220, 544, 482);
 	contentPane = new JPanel();
 	contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 	frmWakengerServerConsole.setContentPane(contentPane);
@@ -46,7 +46,12 @@ public class ServerStart {
 	scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 	
 	textPane = new JTextPane(){
-	    public boolean getScrollableTracksViewportWidth() {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public boolean getScrollableTracksViewportWidth() {
 		return getUI().getPreferredSize(this).width <= getParent()
 				.getSize().width;
 	}

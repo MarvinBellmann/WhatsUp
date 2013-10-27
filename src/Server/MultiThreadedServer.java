@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import SendData.ByteData;
 import SendData.Message;
 import SendData.SQLData;
 
@@ -18,6 +19,7 @@ public class MultiThreadedServer implements Runnable {
 	public static ArrayList<WorkerRunnableRead> AngemeldeteWorkerRunnableRead = new ArrayList<WorkerRunnableRead>();
 	public static ArrayList<Message> messageList = new ArrayList<Message>();
 	public static ArrayList<SQLData> sqlBefehlsListe = new ArrayList<SQLData>();
+	public static ArrayList<ByteData> byteList = new ArrayList<ByteData>();
 
 	public MultiThreadedServer(int port) {
 		this.serverPort = port;

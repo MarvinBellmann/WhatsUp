@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
+//import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -208,7 +208,7 @@ public class ChatFenster {
 				.getResource("/data/1.jpg")));
 		panel_1.add(ichbild_lbl, "aligny top,wrap");
 
-		// Empfangen-Button
+	/*	// Empfangen-Button
 		JButton dataFetch_btn = new JButton("Empfange");
 		dataFetch_btn.addActionListener(new ActionListener() {
 
@@ -225,7 +225,7 @@ public class ChatFenster {
 
 		});
 		dataFetch_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		panel_1.add(dataFetch_btn, "split 2");
+		panel_1.add(dataFetch_btn, "split 2");*/
 
 		// Datei senden
 		JButton dataSend_btn = new JButton("Datei senden");
@@ -242,11 +242,12 @@ public class ChatFenster {
 							.getAbsolutePath();
 					System.out.println("Die zu verschickende Datei ist: "
 							+ zuVerschickendeDatei);
-					FileSenderThread fs = new FileSenderThread(
-							zuVerschickendeDatei);
-					fs.setName("1A FileSenderThread");
-
-					fs.start();
+					Client.sendBytes(HauptFenster.username, nameGespraech,zuVerschickendeDatei);
+					
+					String zuVerschickendeDateiedit = zuVerschickendeDatei.replace('\\', '/');
+					String fileName = zuVerschickendeDateiedit.substring( zuVerschickendeDateiedit.lastIndexOf('/')+1, zuVerschickendeDateiedit.length() );
+					Client.send(HauptFenster.username, nameGespraech,
+							"### Die Datei "+fileName+ " wird gesendet und auf dem Desktop von "+nameGespraech+" gespeichert. ###");
 				}
 			}
 

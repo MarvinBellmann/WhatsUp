@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Client.FileSenderThread;
+import SendData.ByteData;
 import SendData.Message;
 import SendData.StartData;
 
@@ -89,6 +91,30 @@ public class WorkerRunnable implements Runnable {
 
 					index++;
 				}
+				
+				
+				
+				if (MultiThreadedServer.byteList.size() > 0) {
+				//	for (ByteData b : MultiThreadedServer.byteList) {
+					if (MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1).to.equalsIgnoreCase(this.user)) {
+						String dataa=MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1).dateiname;
+						System.out.println(dataa);
+						oos.writeObject(MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1));
+						MultiThreadedServer.byteList.remove(MultiThreadedServer.byteList.size() - 1);
+						System.out.println("ByteData send");
+						FileSenderThread fs = new FileSenderThread(
+								dataa,clientSocket,oos);
+						fs.setName("1A FileSenderSeverThread");
+
+						fs.start();
+					}
+				//	}
+				}
+				
+				
+				
+				
+				
 			} catch (Exception e) {
 				ServerStart.SystemWriteLogln("!!! Abmeldung Client: [" + clientIP
 						+ " |Port:" + clientPort

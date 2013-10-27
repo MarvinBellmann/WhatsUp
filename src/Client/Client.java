@@ -1,14 +1,19 @@
 package Client;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
+import SendData.ByteData;
 import SendData.Message;
 import SendData.SQLData;
 import SendData.StartData;
@@ -20,10 +25,13 @@ public class Client extends Thread {
 	String anmeldepw;
 	public static ArrayList<Message> messageList = new ArrayList<Message>();
 	public static ArrayList<SQLData> sqlBefehlsListe = new ArrayList<SQLData>();
+	public static ArrayList<ByteData> byteList = new ArrayList<ByteData>();
 	static boolean verbindungscheck;
 	static String erfolg = "Noch ungewiss";
 	boolean nurAnmeldeClient = false;
 	static boolean amLaufen = true;
+	static Socket socket;
+	static ObjectOutputStream oos=null;
 
 	public static void send(String From, String To, String Text) {
 		messageList.add(new Message(From, To, Text));
@@ -57,8 +65,8 @@ public class Client extends Thread {
 		System.out.println("*** Verbinde an: "
 				+ InetAddress.getByName(serverIP));
 		InetAddress host = InetAddress.getByName(serverIP);// InetAddress.getLocalHost();
-		Socket socket = null;
-		ObjectOutputStream oos = null;
+		socket = null;
+		
 		ObjectInputStream ois = null;
 
 		while (amLaufen == true) {
@@ -84,6 +92,7 @@ public class Client extends Thread {
 
 				if (messageList.size() > 0) {
 					oos.writeObject(messageList.get(messageList.size() - 1));
+					//oos.wr
 					System.out.println(">>> Message send to "
 							+ messageList.get(messageList.size() - 1).to + " ("
 							+ messageList.get(messageList.size() - 1).date
@@ -100,6 +109,19 @@ public class Client extends Thread {
 					oos.writeObject(sqlBefehlsListe.get(sqlBefehlsListe.size() - 1));
 					sqlBefehlsListe.remove(sqlBefehlsListe.size() - 1);
 				}
+				
+				if (byteList.size() > 0) {
+					String dataa=byteList.get(byteList.size() - 1).dateiname;
+					System.out.println(dataa);
+					oos.writeObject(byteList.get(byteList.size() - 1));
+					byteList.remove(byteList.size() - 1);
+					System.out.println("ByteData send");
+					FileSenderThread fs = new FileSenderThread(
+							dataa,socket,oos);
+					fs.setName("1A FileSenderThread");
+
+					fs.start();
+				}
 
 				erfolg = "Erfolg";
 			} catch (Exception e) {
@@ -114,5 +136,29 @@ public class Client extends Thread {
 
 			Thread.sleep(60);// 100
 		}
+	}
+
+	public static void sendBytes(String bfrom, String bto, String zuVerschickendeDatei) {
+		// TODO Auto-generated method stub
+		File myFile = new File(zuVerschickendeDatei.replace('\\', '/'));
+		FileInputStream fis;
+		long count=0;
+		try {
+			fis = new FileInputStream(myFile);
+			FileChannel fileChannel = fis.getChannel();
+			count = fileChannel.size();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//os = sock.getOutputStream();
+		
+		
+		
+		byteList.add(new ByteData(bfrom,bto,zuVerschickendeDatei.replace('\\', '/'),count));
+			
+			//oos.writeObject(new ByteData("zuVerschickendeDatei"));
+		
+		
 	}
 }

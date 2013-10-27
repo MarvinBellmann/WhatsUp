@@ -4,57 +4,58 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-//import java.net.ServerSocket;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.channels.FileChannel;
 
-public class FileSenderThread extends Thread {
+public class CopyOfFileSenderThread extends Thread {
 	static FileInputStream fis;
 	static Socket sock;
 	static OutputStream os;
 	static boolean stop;
 	static String sendingData = "C:/vwlmitschriften.pdf";
-	ObjectOutputStream oos;
 
-	public FileSenderThread(String data,Socket sock, ObjectOutputStream oos) {
+	public CopyOfFileSenderThread(String data) {
 		sendingData = data;
-		this.oos=oos;
-		//this.sock=sock;
 	}
 
 	public void run() {
 
-	//	System.out.println("$$$ SenderServer gestartet");
+		System.out.println("$$$ SenderServer gestartet");
 
-
+		ServerSocket servsock = null;
+		try {
+			servsock = new ServerSocket(7867);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		File myFile = new File(sendingData.replace('\\', '/'));
 
 		System.out.println("$$$ Zu verschickende Datei: "
 				+ myFile.getAbsolutePath());
 		FileInputStream fis = null;
-		//OutputStream os = null;
-
-	//	while (stop == false) {
-			//System.out.println("$$$ SenderServer wartet auf Client");
+		OutputStream os = null;
+		Socket sock = null;
+		while (stop == false) {
+			System.out.println("$$$ SenderServer wartet auf Client");
 			try {
 
-			//	sock = servsock.accept();
+				sock = servsock.accept();
 
 				byte[] mybytearray = new byte[1024];
 				fis = new FileInputStream(myFile);
-				//os = sock.getOutputStream();
+				os = sock.getOutputStream();
 				FileChannel fileChannel = fis.getChannel();
 				int count;
 				System.out.println("$$$ Starting to Send KBytes: "
 						+ fileChannel.size() / 1024);
 				while ((count = fis.read(mybytearray)) >= 0) {
-					oos.write(mybytearray, 0, count);
-System.out.println(fileChannel.position()/1024 +"/"+fileChannel.size()/1024+" kybte");
+					os.write(mybytearray, 0, count);
+
 				}
 				System.out.println("$$$ Done!");
-				oos.flush();
+				os.flush();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -62,17 +63,16 @@ System.out.println(fileChannel.position()/1024 +"/"+fileChannel.size()/1024+" ky
 			} finally {
 				try {
 					fis.close();
-					//os.close();
-				//	sock.close();
+					os.close();
+					sock.close();
 					System.out.println("$$$ Stopped loop");
 					stop = true;
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-			//	System.out.println("$$$ Socket closed");
+				System.out.println("$$$ Socket closed");
 			}
-			System.out.println("senden fertig?");
-		//}
+		}
 	}
 }

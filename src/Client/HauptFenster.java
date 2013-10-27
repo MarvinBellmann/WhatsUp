@@ -297,11 +297,11 @@ public class HauptFenster {
 		
 		JMenuBar menuBar = new JMenuBar(){
 			Color bgColor=new Color(27, 130, 165);//Color.BLUE.brighter();
-        	public void setColor(Color color)
+        /*	public void setColor(Color color)
             {
                 bgColor=color;
             }
-
+*/
             @Override
             protected void paintComponent(Graphics g)
             {
