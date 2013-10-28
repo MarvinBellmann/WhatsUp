@@ -146,15 +146,15 @@ public class HauptFenster {
 			int rowCount = model.getRowCount();
 
 			if (rowCount > 0) {
-
 				table.setModel(new DefaultTableModel(new Object[][] {,},
-						new String[] { "Profilbild", "Status", "Name" }));
+						new String[] { "Kontakte" }));
 				model = (DefaultTableModel) table.getModel();
 				System.out.println("### Tablelleneinträge gelöscht!");
 			}
 
 			if (username.equals("Admin")) {
-				model.addRow(new Object[] { iDB, "Online", "ServerDB" });
+				model.addRow(new Object[] { new ContactCard(iDB, "Online",
+						"ServerDB") });
 			}
 
 			for (int i = 0; i < gesplittet.length; i = i + 3) {
@@ -191,8 +191,10 @@ public class HauptFenster {
 					avatarImage = i1;
 				}
 
-				model.addRow(new Object[] { avatarImage, gesplittet[i + 1],
-						gesplittet[i] });
+				// model.addRow(new Object[] { avatarImage, gesplittet[i + 1],
+				// gesplittet[i] });
+				model.addRow(new Object[] { new ContactCard(avatarImage,
+						gesplittet[i + 1], gesplittet[i]) });
 			}
 
 			System.out
@@ -611,12 +613,6 @@ public class HauptFenster {
 				if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false
 						&& txtSuche.getText().equalsIgnoreCase("admin") == false) {
 
-					/*
-					 * JFrame dt = new JFrame(); dt.setLocation(100,100);
-					 * dt.setSize(350,200); dt.setTitle("Dialog-Test");
-					 * dt.show();
-					 */
-
 					if (btnKontaktSuche.getText().equalsIgnoreCase("+")) {
 						Client.sendSQL(new SQLData(
 								"Select * From user where username like '"
@@ -645,9 +641,7 @@ public class HauptFenster {
 		}
 
 		// Tabelle
-		DefaultTableModel model = new DefaultTableModel(new Object[][] {,},
-				new String[] { "Profilbild", "Status", "Name" });
-
+		DefaultTableModel model = new DefaultTableModel();
 		table = new JTable(model) {
 
 			public Class<?> getColumnClass(int column) {
@@ -662,29 +656,26 @@ public class HauptFenster {
 					int row, int column) {
 				Component c = super.prepareRenderer(renderer, row, column);
 
-				// Color row based on a cell value
-
-				// if (!isRowSelected(row)) {
-				// c.setBackground(getBackground());
 				int modelRow = convertRowIndexToModel(row);
-				String type = (String) getModel().getValueAt(modelRow, 1);
-				if ("Online".equals(type)) {
+				// String type = (String) getModel().getValueAt(modelRow, 1);
+				ContactCard card = (ContactCard) getModel().getValueAt(
+						modelRow, 0);
+				if ("Online".equals(card.getStatus())) {
 					c.setBackground(new Color(190, 250, 190));
 					c.setForeground(Color.GREEN.darker());
 					c.setFont(new Font("Miriam", Font.BOLD, 14));
 				}
-				if ("Offline".equals(type)) {
+				if ("Offline".equals(card.getStatus())) {
 					c.setBackground(new Color(250, 190, 190));
 					c.setForeground(Color.RED.darker());
 					c.setFont(new Font("Miriam", Font.PLAIN, 14));
 				}
-				// table.repaint();
-				// }
 
 				return c;
 			}
 
 		};
+		table.setDefaultRenderer(ContactCard.class, new ContactCardRenderer());
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		table.getSelectionModel().setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);
@@ -693,23 +684,20 @@ public class HauptFenster {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-
+				ContactCard card = (ContactCard) table.getValueAt(
+						table.getSelectedRow(), 0);
 				boolean abbruch = false;
 
 				for (ChatFenster CF : ChatFensterList) {
-					if (CF.nameGespraech.equalsIgnoreCase((String) table
-							.getValueAt(table.getSelectedRow(), 2))) {
+					if (CF.nameGespraech.equalsIgnoreCase(card.getName())) {
 						abbruch = true;
 					}
 				}
 				if (abbruch == false) {
-					ChatFenster c = new ChatFenster((String) table.getValueAt(
-							table.getSelectedRow(), 2), (String) table
-							.getValueAt(table.getSelectedRow(), 1));
-
+					ChatFenster c = new ChatFenster(card.getName(), card
+							.getStatus());
 					ChatFensterList.add(c);
-					System.out.println("### Chatfenster mit "
-							+ table.getValueAt(table.getSelectedRow(), 2)
+					System.out.println("### Chatfenster mit " + card.getName()
 							+ " geöffnet.");
 				}
 			}

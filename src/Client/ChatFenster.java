@@ -78,10 +78,12 @@ public class ChatFenster {
 		String userInTabelle = "";
 
 		for (int row = 0; row <= HauptFenster.table.getRowCount() - 1; row++) {
-			userInTabelle = (String) HauptFenster.table.getValueAt(row, 2);
+			ContactCard card = (ContactCard) HauptFenster.table.getValueAt(row,
+					0);
+			userInTabelle = card.getName();
 			if (userInTabelle.equalsIgnoreCase(nameGespraech)) {
-				statusneu = (String) HauptFenster.table.getValueAt(row, 1);
-				avatar = (ImageIcon) HauptFenster.table.getValueAt(row, 0);
+				statusneu = card.getStatus();
+				avatar = card.getAvatar();
 				break;
 			}
 		}
