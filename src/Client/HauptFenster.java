@@ -2,6 +2,7 @@ package Client;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -65,7 +66,7 @@ public class HauptFenster {
 	public static JLabel label_2;
 	JLabel lblUsername;
 	JButton btnKontaktSuche;
-	static boolean byteUebertragungsBeschuetzer=false;
+	static boolean byteUebertragungsBeschuetzer = false;
 
 	private static JTextField txtSuche;
 	public static JLabel statuslabel;
@@ -94,7 +95,10 @@ public class HauptFenster {
 	}
 
 	public static void Chatparser(String sfrom, String text) {
+		// text-String ändern in html-fähigen code
+		//
 		for (ChatFenster c : ChatFensterList) {
+			System.out.println(c.txtPanel.getText());
 			if (c.nameGespraech.equalsIgnoreCase(sfrom)) {
 				if (c.txtPanel.getText().equals("")) {
 					c.txtPanel.setText(text);
@@ -267,8 +271,7 @@ public class HauptFenster {
 		i7 = new ImageIcon(getClass().getResource("/data/7.jpg"));
 		i8 = new ImageIcon(getClass().getResource("/data/8.png"));
 		i9 = new ImageIcon(getClass().getResource("/data/9.jpg"));
-		iDB = new ImageIcon(getClass().getResource("/data/database.png")); //
-		// i91 = new ImageIcon(getClass().getResource("/data/2.png"));
+		iDB = new ImageIcon(getClass().getResource("/data/database.png"));
 
 		desktopPath = System.getProperty("user.home") + "/Desktop";
 		desktopPath = desktopPath.replace("\\", "/");
@@ -276,178 +279,159 @@ public class HauptFenster {
 
 		frame = new JFrame();
 		frame.setResizable(false);
-		//frame.setR
-		//frame.setMaximumSize(new Dimension(width+1, height+100));  
+		// frame.setR
+		// frame.setMaximumSize(new Dimension(width+1, height+100));
 		// frame.setMinimumSize(new Dimension(width, height-100));
-		//Rectangle bounds = new Rectangle(100, 50, width, width+10);
-	       // setMaximizedBounds(bounds);
-	       // frame.setMaximizedBounds(bounds);  
-		
-	         
+		// Rectangle bounds = new Rectangle(100, 50, width, width+10);
+		// setMaximizedBounds(bounds);
+		// frame.setMaximizedBounds(bounds);
+
 		frame.setBounds(ge.getMaximumWindowBounds().width - width - 20,
 				(ge.getMaximumWindowBounds().height - height) / 6, width,
 				height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		
-		
-		
-		
-		
-		
-		JMenuBar menuBar = new JMenuBar(){
-			Color bgColor=new Color(27, 130, 165);//Color.BLUE.brighter();
-        /*	public void setColor(Color color)
-            {
-                bgColor=color;
-            }
-*/
-            @Override
-            protected void paintComponent(Graphics g)
-            {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setColor(bgColor);
-                g2d.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-            }
-        };
-        menuBar.setBorder(null);
-        menuBar.setBackground(new Color(27, 130, 165));
-        
-        JMenu mMenu = new JMenu("Menü");
-        mMenu.setForeground(Color.WHITE);
-        menuBar.add(mMenu);
-        JMenuItem mMenuitem1 = new JMenuItem("Beenden");
-        mMenuitem1.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        mMenu.add(mMenuitem1);
-        
-        ////////////////////////////////////////////////////////////////////////////
-        
-        JMenu mEinstellungen = new JMenu("Einstellungen");
-        mEinstellungen.setForeground(Color.WHITE);
-        menuBar.add(mEinstellungen);
-        JMenuItem mEinstellungenitem1 = new JMenuItem("Größe 3");
-        mEinstellungenitem1.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                height=494;
-                frame.setSize(frame.getWidth(), height);
-            }
-        });
-        mEinstellungen.add(mEinstellungenitem1);
-        
-        JMenuItem mEinstellungenitem2 = new JMenuItem("Größe 4");
-        mEinstellungenitem2.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	height=578-5;
-                frame.setSize(frame.getWidth(), height);
-            }
-        });
-        mEinstellungen.add(mEinstellungenitem2);
-        
-        JMenuItem mEinstellungenitem3 = new JMenuItem("Größe 5");
-        mEinstellungenitem3.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	height=658-5;
-                frame.setSize(frame.getWidth(), height);
-            }
-        });
-        mEinstellungen.add(mEinstellungenitem3);
-        
-        JMenuItem mEinstellungenitem4 = new JMenuItem("Größe 6");
-        mEinstellungenitem4.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	height=740-3;
-                frame.setSize(frame.getWidth(), height);
-            }
-        });
-        mEinstellungen.add(mEinstellungenitem4);
-        
-        JMenuItem mEinstellungenitem5 = new JMenuItem("Größe 7");
-        mEinstellungenitem5.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	height=820;
-                frame.setSize(frame.getWidth(), height);
-            }
-        });
-        mEinstellungen.add(mEinstellungenitem5);
-        
-        
-        ////////////////////////////////////////////////////////////////////////////
-        
-        JMenu mKontakte = new JMenu("Kontakte");
-        mKontakte.setForeground(Color.WHITE);
-        menuBar.add(mKontakte);
-        
-        JMenuItem mKontakteitem1 = new JMenuItem("Zur Kontaktliste hinzufügen");
-        mKontakteitem1.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	btnKontaktSuche.setText("+");
-            }
-        });
-        mKontakte.add(mKontakteitem1);
-        JMenuItem mKontakteitem2 = new JMenuItem("Aus Kontaktliste löschen");
-        mKontakteitem2.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	btnKontaktSuche.setText("-");
-            }
-        });
-        mKontakte.add(mKontakteitem2);
-        
- ////////////////////////////////////////////////////////////////////////////
-        
-        
-        if(username.equalsIgnoreCase("Admin")){
-        
-        JMenu mSQL = new JMenu("SQL");
-        mSQL.setForeground(Color.YELLOW);
-        menuBar.add(mSQL);
-        
-        JMenuItem item8 = new JMenuItem("SQL Tips");
-        item8.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	JOptionPane.showMessageDialog(null, 
-            			 "-Alle Benutzerdaten ausgeben: SELECT * from user order by username\n"
-                    	+ "\n"
-            			+ "-Benutzer bannen: DELETE from user where username like 'XXX'\n"
-            			+ "                                   DELETE from contacts where username like 'XXX' or contact like 'XXX'\n"
-            			+ "\n"
-            			+ "-Benutzer Pw ändern: UPDATE user set password = '????' where username like 'XXX'\n"
-            			+ "\n"            			
-            			+ "-Kontakt anlegen: INSERT IGNORE INTO contacts (username, contact) values ('XXX','YYY')\n"
-            			+ "                                  INSERT IGNORE INTO contacts (username, contact) values ('YYY','XXX')\n"
-            			+ "\n"
-            			+ "-Kontakt löschen: DELETE from contacts where username like 'XXX' and contact like 'YYY')\n"
-            			+ "                                  DELETE from contacts where username like 'YYY' and contact like 'XXX')");
-            }
-        });
-        mSQL.add(item8);
-        }
-        
-        
-        
-        
-        
-        
-        frame.setJMenuBar(menuBar);
-		
-		
-		
-		
+		JMenuBar menuBar = new JMenuBar() {
+			Color bgColor = new Color(27, 130, 165);// Color.BLUE.brighter();
+
+			/*
+			 * public void setColor(Color color) { bgColor=color; }
+			 */
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Graphics2D g2d = (Graphics2D) g;
+				g2d.setColor(bgColor);
+				g2d.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
+
+			}
+		};
+		menuBar.setBorder(null);
+		menuBar.setBackground(new Color(27, 130, 165));
+
+		JMenu mMenu = new JMenu("Menü");
+		mMenu.setForeground(Color.WHITE);
+		menuBar.add(mMenu);
+		JMenuItem mMenuitem1 = new JMenuItem("Beenden");
+		mMenuitem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		mMenu.add(mMenuitem1);
+
+		// //////////////////////////////////////////////////////////////////////////
+
+		JMenu mEinstellungen = new JMenu("Einstellungen");
+		mEinstellungen.setForeground(Color.WHITE);
+		menuBar.add(mEinstellungen);
+		JMenuItem mEinstellungenitem1 = new JMenuItem("Größe 3");
+		mEinstellungenitem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				height = 494;
+				frame.setSize(frame.getWidth(), height);
+			}
+		});
+		mEinstellungen.add(mEinstellungenitem1);
+
+		JMenuItem mEinstellungenitem2 = new JMenuItem("Größe 4");
+		mEinstellungenitem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				height = 578 - 5;
+				frame.setSize(frame.getWidth(), height);
+			}
+		});
+		mEinstellungen.add(mEinstellungenitem2);
+
+		JMenuItem mEinstellungenitem3 = new JMenuItem("Größe 5");
+		mEinstellungenitem3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				height = 658 - 5;
+				frame.setSize(frame.getWidth(), height);
+			}
+		});
+		mEinstellungen.add(mEinstellungenitem3);
+
+		JMenuItem mEinstellungenitem4 = new JMenuItem("Größe 6");
+		mEinstellungenitem4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				height = 740 - 3;
+				frame.setSize(frame.getWidth(), height);
+			}
+		});
+		mEinstellungen.add(mEinstellungenitem4);
+
+		JMenuItem mEinstellungenitem5 = new JMenuItem("Größe 7");
+		mEinstellungenitem5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				height = 820;
+				frame.setSize(frame.getWidth(), height);
+			}
+		});
+		mEinstellungen.add(mEinstellungenitem5);
+
+		// //////////////////////////////////////////////////////////////////////////
+
+		JMenu mKontakte = new JMenu("Kontakte");
+		mKontakte.setForeground(Color.WHITE);
+		menuBar.add(mKontakte);
+
+		JMenuItem mKontakteitem1 = new JMenuItem("Zur Kontaktliste hinzufügen");
+		mKontakteitem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnKontaktSuche.setText("+");
+			}
+		});
+		mKontakte.add(mKontakteitem1);
+		JMenuItem mKontakteitem2 = new JMenuItem("Aus Kontaktliste löschen");
+		mKontakteitem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnKontaktSuche.setText("-");
+			}
+		});
+		mKontakte.add(mKontakteitem2);
+
+		// //////////////////////////////////////////////////////////////////////////
+
+		if (username.equalsIgnoreCase("Admin")) {
+
+			JMenu mSQL = new JMenu("SQL");
+			mSQL.setForeground(Color.YELLOW);
+			menuBar.add(mSQL);
+
+			JMenuItem item8 = new JMenuItem("SQL Tips");
+			item8.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"-Alle Benutzerdaten ausgeben: SELECT * from user order by username\n"
+											+ "\n"
+											+ "-Benutzer bannen: DELETE from user where username like 'XXX'\n"
+											+ "                                   DELETE from contacts where username like 'XXX' or contact like 'XXX'\n"
+											+ "\n"
+											+ "-Benutzer Pw ändern: UPDATE user set password = '????' where username like 'XXX'\n"
+											+ "\n"
+											+ "-Kontakt anlegen: INSERT IGNORE INTO contacts (username, contact) values ('XXX','YYY')\n"
+											+ "                                  INSERT IGNORE INTO contacts (username, contact) values ('YYY','XXX')\n"
+											+ "\n"
+											+ "-Kontakt löschen: DELETE from contacts where username like 'XXX' and contact like 'YYY')\n"
+											+ "                                  DELETE from contacts where username like 'YYY' and contact like 'XXX')");
+				}
+			});
+			mSQL.add(item8);
+		}
+
+		frame.setJMenuBar(menuBar);
 
 		mainPanel = new GradientPanel(new Color(27, 130, 165), new Color(204,
 				204, 255));
@@ -458,6 +442,140 @@ public class HauptFenster {
 		label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(HauptFenster.class
 				.getResource("/data/1.jpg")));
+		label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int aWidth = 400;
+				int aHeight = 320;
+				JFrame avatarFrame = new JFrame();
+				if (HauptFenster.frame.getX() - aWidth - 7 <= 0) {
+					avatarFrame.setLocation(HauptFenster.frame.getX()
+							+ HauptFenster.frame.getWidth() + 7,
+							HauptFenster.frame.getY());
+				} else {
+					avatarFrame.setLocation(HauptFenster.frame.getX() - aWidth
+							- 7, HauptFenster.frame.getY());
+				}
+				avatarFrame.setResizable(false);
+				avatarFrame.setSize(aWidth, aHeight);
+				avatarFrame.setVisible(true);
+
+				GradientPanel avatarPanel = new GradientPanel(new Color(27,
+						130, 165), new Color(204, 204, 255));
+				avatarPanel.setLayout(new MigLayout("fill, wrap 3"));
+
+				JLabel avatarImage1 = new JLabel("");
+				avatarImage1.setIcon(i1);
+				avatarImage1.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage1.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage1);
+
+				JLabel avatarImage2 = new JLabel("");
+				avatarImage2.setIcon(i2);
+				avatarImage2.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage2.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage2);
+
+				JLabel avatarImage3 = new JLabel("");
+				avatarImage3.setIcon(i3);
+				avatarImage3.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage3.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage3);
+
+				JLabel avatarImage4 = new JLabel("");
+				avatarImage4.setIcon(i4);
+				avatarImage4.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage4.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage4);
+
+				JLabel avatarImage5 = new JLabel("");
+				avatarImage5.setIcon(i5);
+				avatarImage5.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage5.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage5);
+
+				JLabel avatarImage6 = new JLabel("");
+				avatarImage6.setIcon(i6);
+				avatarImage6.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage6.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage6);
+
+				JLabel avatarImage7 = new JLabel("");
+				avatarImage7.setIcon(i7);
+				avatarImage7.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage7.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage7);
+
+				JLabel avatarImage8 = new JLabel("");
+				avatarImage8.setIcon(i8);
+				avatarImage8.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage8.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage8);
+
+				JLabel avatarImage9 = new JLabel("");
+				avatarImage9.setIcon(i9);
+				avatarImage9.setCursor(Cursor
+						.getPredefinedCursor(Cursor.HAND_CURSOR));
+				avatarImage9.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// Datenbankeintrag
+					}
+				});
+				avatarPanel.add(avatarImage9);
+
+				avatarFrame.setContentPane(avatarPanel);
+			}
+		});
 		mainPanel.add(label_2, "span 1 2");
 
 		lblUsername = new JLabel(username);
@@ -490,27 +608,29 @@ public class HauptFenster {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
-			    if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false && txtSuche.getText().equalsIgnoreCase("admin")==false) {
+				if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false
+						&& txtSuche.getText().equalsIgnoreCase("admin") == false) {
 
-				/*JFrame dt = new JFrame();
-				dt.setLocation(100,100);
-				dt.setSize(350,200);
-				dt.setTitle("Dialog-Test");
-				dt.show();*/
-				
-				if(btnKontaktSuche.getText().equalsIgnoreCase("+")){
-				Client.sendSQL(new SQLData("Select * From user where username like '"
-							+ txtSuche.getText()
-							+ "';",'h',username));
-				}else{
-					Client.sendSQL(new SQLData("Select * From user where username like '"
-							+ txtSuche.getText()
-							+ "';",'l',username));
-					
+					/*
+					 * JFrame dt = new JFrame(); dt.setLocation(100,100);
+					 * dt.setSize(350,200); dt.setTitle("Dialog-Test");
+					 * dt.show();
+					 */
+
+					if (btnKontaktSuche.getText().equalsIgnoreCase("+")) {
+						Client.sendSQL(new SQLData(
+								"Select * From user where username like '"
+										+ txtSuche.getText() + "';", 'h',
+								username));
+					} else {
+						Client.sendSQL(new SQLData(
+								"Select * From user where username like '"
+										+ txtSuche.getText() + "';", 'l',
+								username));
+
+					}
+
 				}
-				
-				
-			    }
 			}
 
 		});
@@ -603,34 +723,32 @@ public class HauptFenster {
 		frame.getContentPane().add(mainPanel);
 	}
 
-	
 	public static void KontaktHinzufuegen() {
-	    
-		
-		int ok = JOptionPane.showConfirmDialog(null, 
-				"Wollen sie den Benutzer (" +txtSuche.getText()+") zu Ihrer Kontaktliste hinzufuegen?","Benutzer gefunden! Hinzufuegen?", 
-			JOptionPane.YES_NO_CANCEL_OPTION);
+
+		int ok = JOptionPane.showConfirmDialog(null,
+				"Wollen sie den Benutzer (" + txtSuche.getText()
+						+ ") zu Ihrer Kontaktliste hinzufuegen?",
+				"Benutzer gefunden! Hinzufuegen?",
+				JOptionPane.YES_NO_CANCEL_OPTION);
 		if (ok == JOptionPane.YES_OPTION) {
 
+			Client.sendSQL(new SQLData(
+					"UPDATE user set status='Online' where username like '"
+							+ username + "'", 'i'));
 
-		    Client.sendSQL(new SQLData(
-			    "UPDATE user set status='Online' where username like '"
-				    + username + "'", 'i'));
+			Client.sendSQL(new SQLData(
+					"INSERT IGNORE INTO contacts (username,contact) values ('"
+							+ username + "','" + txtSuche.getText() + "') ",
+					'i', username));
+			Client.sendSQL(new SQLData(
+					"INSERT IGNORE INTO contacts (username,contact) values ('"
+							+ txtSuche.getText() + "','" + username + "')",
+					'i', username));
 
-		    Client.sendSQL(new SQLData(
-			    "INSERT IGNORE INTO contacts (username,contact) values ('"
-				    + username + "','" + txtSuche.getText()
-				    + "') ", 'i', username));
-		    Client.sendSQL(new SQLData(
-			    "INSERT IGNORE INTO contacts (username,contact) values ('"
-				    + txtSuche.getText() + "','" + username
-				    + "')", 'i', username));
-
-		    txtSuche.setText("");
+			txtSuche.setText("");
 		}
-		}
-	
-	
+	}
+
 	public static void PictureUpdater(String picID) {
 
 		String shortendPicID = picID.substring(0, 1);
@@ -682,24 +800,27 @@ public class HauptFenster {
 	}
 
 	public static void KontaktLoeschen() {
-		int ok = JOptionPane.showConfirmDialog(null, 
-				"Wollen sie den Benutzer (" +txtSuche.getText()+") aus Ihrer Kontaktliste loeschen?","Benutzer gefunden! Loeschen?", 
+		int ok = JOptionPane.showConfirmDialog(null,
+				"Wollen sie den Benutzer (" + txtSuche.getText()
+						+ ") aus Ihrer Kontaktliste loeschen?",
+				"Benutzer gefunden! Loeschen?",
 				JOptionPane.YES_NO_CANCEL_OPTION);
-			if (ok == JOptionPane.YES_OPTION) {
+		if (ok == JOptionPane.YES_OPTION) {
 
+			Client.sendSQL(new SQLData(
+					"UPDATE user set status='Online' where username like '"
+							+ username + "'", 'i'));
 
-			    Client.sendSQL(new SQLData(
-				    "UPDATE user set status='Online' where username like '"
-					    + username + "'", 'i'));
+			Client.sendSQL(new SQLData(
+					"DELETE from contacts where username like '" + username
+							+ "' and contact like'" + txtSuche.getText() + "'",
+					'i', username));
+			Client.sendSQL(new SQLData(
+					"DELETE from contacts where username like '"
+							+ txtSuche.getText() + "' and contact like'"
+							+ username + "'", 'i', username));
 
-			    Client.sendSQL(new SQLData(
-				     "DELETE from contacts where username like '"
-					    + username + "' and contact like'"+txtSuche.getText()+"'", 'i', username));
-			    Client.sendSQL(new SQLData(
-					     "DELETE from contacts where username like '"
-						    + txtSuche.getText() + "' and contact like'"+username+"'", 'i', username));
-
-			    txtSuche.setText("");
-			}
+			txtSuche.setText("");
+		}
 	}
 }

@@ -7,8 +7,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import Client.FileSenderThreadClient;
-import SendData.ByteData;
 import SendData.Message;
 import SendData.StartData;
 
@@ -27,7 +25,7 @@ public class WorkerRunnable implements Runnable {
 	public String user;
 	boolean gecheckt;
 	int genutztegecheckt = 1;
-	boolean byteUebertragungsBeschuetzer=false;
+	boolean byteUebertragungsBeschuetzer = false;
 
 	public WorkerRunnable(Socket clientSocket, String serverText) {
 		this.clientSocket = clientSocket;
@@ -45,27 +43,11 @@ public class WorkerRunnable implements Runnable {
 		try {
 			ois = new ObjectInputStream(clientSocket.getInputStream());
 
-			if (clientAnwesend == true ) {
+			if (clientAnwesend == true) {
 				WorkerRunnableRead serverReaderThread = new WorkerRunnableRead(
 						clientSocket, ois, this);
 				serverReaderThread.setName("1A serverReaderThread");
 				serverReaderThread.start();
-				
-				/*boolean nichtErneutEinfügen=false;
-				for(WorkerRunnableRead wr: MultiThreadedServer.AngemeldeteWorkerRunnableRead){
-				    if(wr.user.equalsIgnoreCase(user)){
-					nichtErneutEinfügen=true;
-				    }
-				    
-				
-				}
-				
-				if(nichtErneutEinfügen==false){
-				    MultiThreadedServer.AngemeldeteWorkerRunnableRead
-					.add(serverReaderThread);
-				}
-				ServerStart.SystemWriteLogln("ZZZZZZZZZZZZZZZZZZZZZZ size workerrunnablelis:"+MultiThreadedServer.AngemeldeteWorkerRunnableRead.size());
-			*/
 			}
 
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -74,8 +56,8 @@ public class WorkerRunnable implements Runnable {
 		}
 
 		while (clientAnwesend == true) {
-			
-			//if(byteUebertragungsBeschuetzer==false){
+
+			// if(byteUebertragungsBeschuetzer==false){
 
 			try {
 				messageListChecken.clear();
@@ -86,42 +68,42 @@ public class WorkerRunnable implements Runnable {
 
 					if (m.to.equalsIgnoreCase(this.user)) {
 						oos.writeObject(m);
-						ServerStart.SystemWriteLogln("<<< Message weitergeleitet an "
-								+ this.user + "!");
+						ServerStart
+								.SystemWriteLogln("<<< Message weitergeleitet an "
+										+ this.user + "!");
 						MultiThreadedServer.messageList.remove(index);
 						break;
 					}
 
 					index++;
 				}
-				
-				
-				
+
 				if (MultiThreadedServer.byteList.size() > 0) {
-					byteUebertragungsBeschuetzer=true;
-				//	for (ByteData b : MultiThreadedServer.byteList) {
-					if (MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1).to.equalsIgnoreCase(this.user)) {
-						String dataa=MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1).dateiname;
+					byteUebertragungsBeschuetzer = true;
+					// for (ByteData b : MultiThreadedServer.byteList) {
+					if (MultiThreadedServer.byteList
+							.get(MultiThreadedServer.byteList.size() - 1).to
+							.equalsIgnoreCase(this.user)) {
+						String dataa = MultiThreadedServer.byteList
+								.get(MultiThreadedServer.byteList.size() - 1).dateiname;
 						System.out.println(dataa);
-						oos.writeObject(MultiThreadedServer.byteList.get(MultiThreadedServer.byteList.size() - 1));
-						MultiThreadedServer.byteList.remove(MultiThreadedServer.byteList.size() - 1);
+						oos.writeObject(MultiThreadedServer.byteList
+								.get(MultiThreadedServer.byteList.size() - 1));
+						MultiThreadedServer.byteList
+								.remove(MultiThreadedServer.byteList.size() - 1);
 						System.out.println("ByteData send");
 						FileSenderThreadServer fs = new FileSenderThreadServer(
-								dataa,clientSocket,oos,this);
+								dataa, clientSocket, oos, this);
 						fs.setName("1A FileSenderSeverThread");
 
 						fs.start();
 					}
-				//	}
+					// }
 				}
-				
-				
-				
-				
-				
+
 			} catch (Exception e) {
-				ServerStart.SystemWriteLogln("!!! Abmeldung Client: [" + clientIP
-						+ " |Port:" + clientPort
+				ServerStart.SystemWriteLogln("!!! Abmeldung Client: ["
+						+ clientIP + " |Port:" + clientPort
 						+ "] - schließe Thread; Grund: " + e.getMessage());
 				clientAnwesend = false;
 			}
@@ -131,6 +113,6 @@ public class WorkerRunnable implements Runnable {
 				e.printStackTrace();
 			}
 		}
-	//}
+		// }
 	}
 }

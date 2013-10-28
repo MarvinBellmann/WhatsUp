@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-//import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,6 +28,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
+
+//import java.io.IOException;
 
 public class ChatFenster {
 
@@ -93,15 +94,14 @@ public class ChatFenster {
 		} else {
 			online_lbl.setForeground(Color.RED);
 		}
-		
-		
-		if(online_lbl.getText().equalsIgnoreCase("Online")==false || this.nameGespraech.equalsIgnoreCase("ServerDB")){
+
+		if (online_lbl.getText().equalsIgnoreCase("Online") == false
+				|| this.nameGespraech.equalsIgnoreCase("ServerDB")) {
 			dataSend_btn.setEnabled(false);
-		}else{
+		} else {
 			dataSend_btn.setEnabled(true);
 		}
-		
-		
+
 	}
 
 	public void UpdateStatusServerLost() {
@@ -123,8 +123,14 @@ public class ChatFenster {
 	@SuppressWarnings("serial")
 	private JFrame initialize() {
 		frame = new JFrame();
-		frame.setLocation(HauptFenster.frame.getX() - width - 7,
-				HauptFenster.frame.getY()-5);
+		if (HauptFenster.frame.getX() - width - 7 <= 0) {
+			frame.setLocation(
+					HauptFenster.frame.getX() + HauptFenster.frame.getWidth()
+							+ 7, HauptFenster.frame.getY());
+		} else {
+			frame.setLocation(HauptFenster.frame.getX() - width - 7,
+					HauptFenster.frame.getY());
+		}
 		frame.setMinimumSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
 
@@ -190,17 +196,10 @@ public class ChatFenster {
 			}
 		};
 		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
-		txtField.setContentType("text/html");
 		txtField.setBorder(raisedetched);
 		txtField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					// Letztes Word auslesen
-					// Nach Smiley Code aussuchen
-					// ggf. Smiley Icon Kreieren
-				}
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Client.send(HauptFenster.username, nameGespraech,
@@ -218,25 +217,6 @@ public class ChatFenster {
 				.getResource("/data/1.jpg")));
 		panel_1.add(ichbild_lbl, "aligny top,wrap");
 
-	/*	// Empfangen-Button
-		JButton dataFetch_btn = new JButton("Empfange");
-		dataFetch_btn.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				FileReceiverThread fr = new FileReceiverThread(txtField
-						.getText());
-				try {
-					fr.domain();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				txtField.setText("");
-			}
-
-		});
-		dataFetch_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		panel_1.add(dataFetch_btn, "split 2");*/
-
 		// Datei senden
 		dataSend_btn = new JButton("Datei senden");
 		dataSend_btn.addActionListener(new ActionListener() {
@@ -252,12 +232,18 @@ public class ChatFenster {
 							.getAbsolutePath();
 					System.out.println("Die zu verschickende Datei ist: "
 							+ zuVerschickendeDatei);
-					Client.sendBytes(HauptFenster.username, nameGespraech,zuVerschickendeDatei);
-					
-					String zuVerschickendeDateiedit = zuVerschickendeDatei.replace('\\', '/');
-					String fileName = zuVerschickendeDateiedit.substring( zuVerschickendeDateiedit.lastIndexOf('/')+1, zuVerschickendeDateiedit.length() );
+					Client.sendBytes(HauptFenster.username, nameGespraech,
+							zuVerschickendeDatei);
+
+					String zuVerschickendeDateiedit = zuVerschickendeDatei
+							.replace('\\', '/');
+					String fileName = zuVerschickendeDateiedit.substring(
+							zuVerschickendeDateiedit.lastIndexOf('/') + 1,
+							zuVerschickendeDateiedit.length());
 					Client.send(HauptFenster.username, nameGespraech,
-							"### Die Datei "+fileName+ " wird gesendet und auf dem Desktop von "+nameGespraech+" gespeichert. ###");
+							"### Die Datei " + fileName
+									+ " wird gesendet und auf dem Desktop von "
+									+ nameGespraech + " gespeichert. ###");
 				}
 			}
 
