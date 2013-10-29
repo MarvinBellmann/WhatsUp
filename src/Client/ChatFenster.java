@@ -172,7 +172,7 @@ public class ChatFenster {
 
 		// Image
 		label = new JLabel("");
-		label.setIcon(new ImageIcon("src/data/1.png"));
+		label.setIcon(new ImageIcon("src/data/loading.gif"));
 		panel_1.add(label, "aligny top,wrap");
 
 		// Name
