@@ -123,12 +123,12 @@ public class ClientRead extends Thread {
 
 									for (int row = 0; row <= HauptFenster.table
 											.getRowCount() - 1; row++) {
-										fromfrom = (String) HauptFenster.table
-												.getValueAt(row, 2);
+										ContactCard card = (ContactCard) HauptFenster.table
+												.getValueAt(row, 0);
+										fromfrom = card.getName();
 										if (fromfrom
 												.equalsIgnoreCase(messageIGot.from)) {
-											statusfrom = (String) HauptFenster.table
-													.getValueAt(row, 1);
+											statusfrom = card.getStatus();
 											break;
 
 										}

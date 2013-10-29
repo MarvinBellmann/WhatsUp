@@ -18,6 +18,10 @@ public class ContactCard {
 		return this.status;
 	}
 
+	public void setStatus(String newStatus) {
+		this.status = newStatus;
+	}
+
 	public String getName() {
 		return this.name;
 	}

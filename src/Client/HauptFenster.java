@@ -47,22 +47,23 @@ public class HauptFenster {
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
 
 	static JFrame frame;
+	static JFrame avatarFrame;
 	static GradientPanel mainPanel;
 	static String desktopPath;
 	public static int messagesLeft = 10;
 	private static int width = 250;
 	private static int height = 573;
 	static JTable table;
-	static ImageIcon i1;
-	static ImageIcon i2;
-	static ImageIcon i3;
-	static ImageIcon i4;
-	static ImageIcon i5;
-	static ImageIcon i6;
-	static ImageIcon i7;
-	static ImageIcon i8;
-	static ImageIcon i9;
-	static ImageIcon iDB;
+	static String i1 = "src/data/1.jpg";
+	static String i2 = "src/data/2.png";
+	static String i3 = "src/data/3.jpg";
+	static String i4 = "src/data/4.jpg";
+	static String i5 = "src/data/5.jpg";
+	static String i6 = "src/data/6.jpg";
+	static String i7 = "src/data/7.jpg";
+	static String i8 = "src/data/8.png";
+	static String i9 = "src/data/9.jpg";
+	static String iDB = "src/data/database.png";
 	public static JLabel label_2;
 	JLabel lblUsername;
 	JButton btnKontaktSuche;
@@ -153,46 +154,45 @@ public class HauptFenster {
 			}
 
 			if (username.equals("Admin")) {
-				model.addRow(new Object[] { new ContactCard(iDB, "Online",
-						"ServerDB") });
+				model.addRow(new Object[] { new ContactCard(new ImageIcon(iDB),
+						"Online", "ServerDB") });
 			}
 
 			for (int i = 0; i < gesplittet.length; i = i + 3) {
 				ImageIcon avatarImage = new ImageIcon();
+				String filename;
 				switch (gesplittet[i + 2]) {
 				case "1":
-					avatarImage = i1;
+					filename = i1;
 					break;
 				case "2":
-					avatarImage = i2;
+					filename = i2;
 					break;
 				case "3":
-					avatarImage = i3;
+					filename = i3;
 					break;
 				case "4":
-					avatarImage = i4;
+					filename = i4;
 					break;
 				case "5":
-					avatarImage = i5;
+					filename = i5;
 					break;
 				case "6":
-					avatarImage = i6;
+					filename = i6;
 					break;
 				case "7":
-					avatarImage = i7;
+					filename = i7;
 					break;
 				case "8":
-					avatarImage = i8;
+					filename = i8;
 					break;
 				case "9":
-					avatarImage = i9;
+					filename = i9;
 					break;
 				default:
-					avatarImage = i1;
+					filename = i1;
 				}
-
-				// model.addRow(new Object[] { avatarImage, gesplittet[i + 1],
-				// gesplittet[i] });
+				avatarImage = new ImageIcon(filename);
 				model.addRow(new Object[] { new ContactCard(avatarImage,
 						gesplittet[i + 1], gesplittet[i]) });
 			}
@@ -206,21 +206,12 @@ public class HauptFenster {
 
 			for (int row = 0; row < table.getRowCount(); row++) {
 				int rowHeight = table.getRowHeight();
-				int rowWidth = 50;
 
-				for (int column = 0; column < table.getColumnCount(); column++) {
-					Component comp = table.prepareRenderer(
-							table.getCellRenderer(row, column), row, column);
-					rowHeight = Math.max(rowHeight,
-							comp.getPreferredSize().height);
-					rowWidth = Math.max(rowHeight,
-							comp.getPreferredSize().width);
-				}
-
+				Component comp = table.prepareRenderer(
+						table.getCellRenderer(row, 0), row, 0);
+				rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
 				table.setRowHeight(row, rowHeight);
-				table.getColumnModel().getColumn(0).setPreferredWidth(rowWidth);
 			}
-
 			table.repaint();
 
 		} catch (Exception e) {
@@ -236,8 +227,8 @@ public class HauptFenster {
 		int rowCount = model.getRowCount();
 		for (int i = rowCount - 1; i >= 0; i--) {
 
-			model.setValueAt("Verb.Abbruch", i, 1);
-
+			ContactCard card = (ContactCard) model.getValueAt(i, 0);
+			card.setStatus("Verb. Abbruch");
 		}
 	}
 
@@ -264,17 +255,6 @@ public class HauptFenster {
 	 */
 	@SuppressWarnings("serial")
 	private void initialize() {
-		i1 = new ImageIcon(getClass().getResource("/data/1.jpg"));
-		i2 = new ImageIcon(getClass().getResource("/data/2.png"));
-		i3 = new ImageIcon(getClass().getResource("/data/3.jpg"));
-		i4 = new ImageIcon(getClass().getResource("/data/4.jpg"));
-		i5 = new ImageIcon(getClass().getResource("/data/5.jpg"));
-		i6 = new ImageIcon(getClass().getResource("/data/6.jpg"));
-		i7 = new ImageIcon(getClass().getResource("/data/7.jpg"));
-		i8 = new ImageIcon(getClass().getResource("/data/8.png"));
-		i9 = new ImageIcon(getClass().getResource("/data/9.jpg"));
-		iDB = new ImageIcon(getClass().getResource("/data/database.png"));
-
 		desktopPath = System.getProperty("user.home") + "/Desktop";
 		desktopPath = desktopPath.replace("\\", "/");
 		System.out.println("*** Anmeldungsversuch als: " + username);
@@ -447,135 +427,137 @@ public class HauptFenster {
 		label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label_2.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				int aWidth = 400;
-				int aHeight = 320;
-				JFrame avatarFrame = new JFrame();
-				if (HauptFenster.frame.getX() - aWidth - 7 <= 0) {
-					avatarFrame.setLocation(HauptFenster.frame.getX()
-							+ HauptFenster.frame.getWidth() + 7,
-							HauptFenster.frame.getY());
-				} else {
-					avatarFrame.setLocation(HauptFenster.frame.getX() - aWidth
-							- 7, HauptFenster.frame.getY());
+			public void mousePressed(MouseEvent e) {
+				if (avatarFrame == null || avatarFrame.isVisible() == false) {
+					int aWidth = 400;
+					int aHeight = 320;
+					avatarFrame = new JFrame();
+					if (HauptFenster.frame.getX() - aWidth - 7 <= 0) {
+						avatarFrame.setLocation(HauptFenster.frame.getX()
+								+ HauptFenster.frame.getWidth() + 7,
+								HauptFenster.frame.getY());
+					} else {
+						avatarFrame.setLocation(HauptFenster.frame.getX()
+								- aWidth - 7, HauptFenster.frame.getY());
+					}
+					avatarFrame.setResizable(false);
+					avatarFrame.setSize(aWidth, aHeight);
+					avatarFrame.setVisible(true);
+
+					GradientPanel avatarPanel = new GradientPanel(new Color(27,
+							130, 165), new Color(204, 204, 255));
+					avatarPanel.setLayout(new MigLayout("fill, wrap 3"));
+
+					JLabel avatarImage1 = new JLabel("");
+					avatarImage1.setIcon(new ImageIcon(i1));
+					avatarImage1.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage1.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage1);
+
+					JLabel avatarImage2 = new JLabel("");
+					avatarImage2.setIcon(new ImageIcon(i2));
+					avatarImage2.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage2.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage2);
+
+					JLabel avatarImage3 = new JLabel("");
+					avatarImage3.setIcon(new ImageIcon(i3));
+					avatarImage3.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage3.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage3);
+
+					JLabel avatarImage4 = new JLabel("");
+					avatarImage4.setIcon(new ImageIcon(i4));
+					avatarImage4.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage4.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage4);
+
+					JLabel avatarImage5 = new JLabel("");
+					avatarImage5.setIcon(new ImageIcon(i5));
+					avatarImage5.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage5.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage5);
+
+					JLabel avatarImage6 = new JLabel("");
+					avatarImage6.setIcon(new ImageIcon(i6));
+					avatarImage6.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage6.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage6);
+
+					JLabel avatarImage7 = new JLabel("");
+					avatarImage7.setIcon(new ImageIcon(i7));
+					avatarImage7.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage7.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage7);
+
+					JLabel avatarImage8 = new JLabel("");
+					avatarImage8.setIcon(new ImageIcon(i8));
+					avatarImage8.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage8.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage8);
+
+					JLabel avatarImage9 = new JLabel("");
+					avatarImage9.setIcon(new ImageIcon(i9));
+					avatarImage9.setCursor(Cursor
+							.getPredefinedCursor(Cursor.HAND_CURSOR));
+					avatarImage9.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// Datenbankeintrag
+						}
+					});
+					avatarPanel.add(avatarImage9);
+
+					avatarFrame.setContentPane(avatarPanel);
 				}
-				avatarFrame.setResizable(false);
-				avatarFrame.setSize(aWidth, aHeight);
-				avatarFrame.setVisible(true);
-
-				GradientPanel avatarPanel = new GradientPanel(new Color(27,
-						130, 165), new Color(204, 204, 255));
-				avatarPanel.setLayout(new MigLayout("fill, wrap 3"));
-
-				JLabel avatarImage1 = new JLabel("");
-				avatarImage1.setIcon(i1);
-				avatarImage1.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage1.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage1);
-
-				JLabel avatarImage2 = new JLabel("");
-				avatarImage2.setIcon(i2);
-				avatarImage2.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage2.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage2);
-
-				JLabel avatarImage3 = new JLabel("");
-				avatarImage3.setIcon(i3);
-				avatarImage3.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage3.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage3);
-
-				JLabel avatarImage4 = new JLabel("");
-				avatarImage4.setIcon(i4);
-				avatarImage4.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage4.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage4);
-
-				JLabel avatarImage5 = new JLabel("");
-				avatarImage5.setIcon(i5);
-				avatarImage5.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage5.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage5);
-
-				JLabel avatarImage6 = new JLabel("");
-				avatarImage6.setIcon(i6);
-				avatarImage6.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage6.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage6);
-
-				JLabel avatarImage7 = new JLabel("");
-				avatarImage7.setIcon(i7);
-				avatarImage7.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage7.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage7);
-
-				JLabel avatarImage8 = new JLabel("");
-				avatarImage8.setIcon(i8);
-				avatarImage8.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage8.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage8);
-
-				JLabel avatarImage9 = new JLabel("");
-				avatarImage9.setIcon(i9);
-				avatarImage9.setCursor(Cursor
-						.getPredefinedCursor(Cursor.HAND_CURSOR));
-				avatarImage9.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// Datenbankeintrag
-					}
-				});
-				avatarPanel.add(avatarImage9);
-
-				avatarFrame.setContentPane(avatarPanel);
 			}
 		});
 		mainPanel.add(label_2, "span 1 2");
@@ -741,48 +723,50 @@ public class HauptFenster {
 
 		String shortendPicID = picID.substring(0, 1);
 		System.out.println("picID:" + picID + "|" + shortendPicID);
-		ImageIcon avatarImage = new ImageIcon();
+		ImageIcon avatarImage;
+		String filename;
 		switch (shortendPicID) {
 		case "1":
 			System.out.println("pic1");
-			avatarImage = i1;
+			filename = i1;
 			break;
 		case "2":
 			System.out.println("pic2");
-			avatarImage = i2;
+			filename = i2;
 			break;
 		case "3":
 			System.out.println("pic3");
-			avatarImage = i3;
+			filename = i3;
 			break;
 		case "4":
 			System.out.println("pic4");
-			avatarImage = i4;
+			filename = i4;
 			break;
 		case "5":
 			System.out.println("pic5");
-			avatarImage = i5;
+			filename = i5;
 			break;
 		case "6":
 			System.out.println("pic6");
-			avatarImage = i6;
+			filename = i6;
 			break;
 		case "7":
 			System.out.println("pic7");
-			avatarImage = i7;
+			filename = i7;
 			break;
 		case "8":
 			System.out.println("pic8");
-			avatarImage = i8;
+			filename = i8;
 			break;
 		case "9":
 			System.out.println("pic9");
-			avatarImage = i9;
+			filename = i9;
 			break;
 		default:
 			System.out.println("pic1");
-			avatarImage = i1;
+			filename = i1;
 		}
+		avatarImage = new ImageIcon(filename);
 		label_2.setIcon(avatarImage);
 
 	}

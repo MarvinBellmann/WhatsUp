@@ -73,7 +73,7 @@ public class ChatFenster {
 
 	public void UpdateStatus() {
 
-		ImageIcon avatar = new ImageIcon();
+		ImageIcon avatar = null;
 		String statusneu = "";
 		String userInTabelle = "";
 
@@ -83,7 +83,13 @@ public class ChatFenster {
 			userInTabelle = card.getName();
 			if (userInTabelle.equalsIgnoreCase(nameGespraech)) {
 				statusneu = card.getStatus();
-				avatar = card.getAvatar();
+				String avatarFile = card
+						.getAvatar()
+						.getDescription()
+						.substring(
+								card.getAvatar().getDescription()
+										.lastIndexOf('/'));
+				avatar = new ImageIcon("src/data/" + avatarFile);
 				break;
 			}
 		}
