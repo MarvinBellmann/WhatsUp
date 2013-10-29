@@ -232,7 +232,10 @@ public class HauptFenster {
 
 			ContactCard card = (ContactCard) model.getValueAt(i, 0);
 			card.setStatus("Verb. Abbruch");
+			card.setColor1(Color.white);
+			card.setColor2(Color.gray);
 		}
+		table.repaint();
 	}
 
 	public static void StatusChanger() throws InterruptedException {
