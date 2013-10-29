@@ -642,21 +642,16 @@ public class HauptFenster {
 				Component c = super.prepareRenderer(renderer, row, column);
 
 				int modelRow = convertRowIndexToModel(row);
-				// String type = (String) getModel().getValueAt(modelRow, 1);
 				ContactCard card = (ContactCard) getModel().getValueAt(
 						modelRow, 0);
 				if ("Online".equals(card.getStatus())) {
-					// c.setBackground(new Color(190, 250, 190));
-					// c.setForeground(Color.GREEN.darker());
 					card.setColor1(Color.green);
 					card.setColor2(Color.green.darker());
 					c.setFont(new Font("Miriam", Font.BOLD, 14));
 				}
 				if ("Offline".equals(card.getStatus())) {
-					// c.setBackground(new Color(250, 190, 190));
-					// c.setForeground(Color.RED.darker());
-					card.setColor1(new Color(255, 50, 50).brighter());
-					card.setColor2(new Color(255, 50, 50).darker());
+					card.setColor1(new Color(245, 30, 30));
+					card.setColor2(new Color(220, 20, 20));
 					c.setFont(new Font("Miriam", Font.PLAIN, 14));
 				}
 
