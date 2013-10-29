@@ -423,7 +423,7 @@ public class HauptFenster {
 						"[30px:n:30px][45px::45px,top][40px::40px,bottom][30px::30px][]"));
 
 		label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon(i1));
+		label_2.setIcon(new ImageIcon("src/data/loading.gif"));
 		label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label_2.addMouseListener(new MouseAdapter() {
 			@Override

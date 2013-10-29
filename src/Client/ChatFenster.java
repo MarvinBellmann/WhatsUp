@@ -220,7 +220,7 @@ public class ChatFenster {
 
 		// Ich-Image
 		ichbild_lbl = new JLabel("");
-		ichbild_lbl.setIcon(new ImageIcon("src/data/1.png"));
+		ichbild_lbl.setIcon(new ImageIcon("src/data/loading.gif"));
 		panel_1.add(ichbild_lbl, "aligny top,wrap");
 
 		// Datei senden
