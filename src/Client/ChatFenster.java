@@ -28,6 +28,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
+import SendData.SQLData;
 
 //import java.io.IOException;
 
@@ -71,19 +72,20 @@ public class ChatFenster {
 		UpdateStatus();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void UpdateStatus() {
 
 		ImageIcon avatar = null;
 		String statusneu = "";
 		String userInTabelle = "";
-
+		String avatarFile="";
 		for (int row = 0; row <= HauptFenster.table.getRowCount() - 1; row++) {
 			ContactCard card = (ContactCard) HauptFenster.table.getValueAt(row,
 					0);
 			userInTabelle = card.getName();
 			if (userInTabelle.equalsIgnoreCase(nameGespraech)) {
 				statusneu = card.getStatus();
-				String avatarFile = card
+				avatarFile = card
 						.getAvatar()
 						.getDescription()
 						.substring(
@@ -92,6 +94,21 @@ public class ChatFenster {
 				avatar = new ImageIcon("src/data/" + avatarFile);
 				break;
 			}
+		}
+		//System.out.println("|||"+avatarFile+"|||");
+		if(this.nameGespraech.equalsIgnoreCase("ServerDB")==false && avatarFile.equals("")){
+		  
+		    
+		    HauptFenster.ChatFensterList.remove(this);
+		//HauptFenster.loescheCF(this);
+		    frame.hide();
+		   
+		    Client.sendSQL(new SQLData(
+				"UPDATE user set status='Online' where username like '"
+						+ HauptFenster.username + "'", 'i'));
+		    
+		    
+		  // HauptFenster.table.repaint();
 		}
 		ichbild_lbl.setIcon(HauptFenster.label_2.getIcon());
 		label.setIcon(avatar);
@@ -291,5 +308,11 @@ public class ChatFenster {
 	public String getLastWord() {
 		String lastWord = null;
 		return lastWord;
+	}
+
+	@SuppressWarnings("deprecation")
+	public void hiding() {
+	    // TODO Auto-generated method stub
+	    frame.hide();
 	}
 }

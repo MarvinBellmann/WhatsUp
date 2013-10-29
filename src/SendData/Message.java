@@ -151,7 +151,9 @@ public class Message implements Serializable {
 		kurztext = kurztext.replaceAll("   ", " ");
 		kurztext = kurztext.replaceAll("  ", " ");
 		kurztext = kurztext.replaceAll("  ", " ");
-		kurztext = kurztext.substring(1);
+		if (kurztext.substring(0, 1).equalsIgnoreCase(" ")) {
+			kurztext = kurztext.substring(1);
+		}
 
 		return (kurztext);// + System.getProperty("line.separator")
 	}
