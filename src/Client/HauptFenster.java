@@ -67,6 +67,8 @@ public class HauptFenster {
 	public static JLabel label_2;
 	JLabel lblUsername;
 	JButton btnKontaktSuche;
+	ImageIcon addIcon = new ImageIcon("src/data/add.png");
+	ImageIcon removeIcon = new ImageIcon("src/data/remove.png");
 	static boolean byteUebertragungsBeschuetzer = false;
 
 	private static JTextField txtSuche;
@@ -369,7 +371,7 @@ public class HauptFenster {
 		mKontakteitem1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnKontaktSuche.setText("+");
+				btnKontaktSuche.setIcon(addIcon);
 			}
 		});
 		mKontakte.add(mKontakteitem1);
@@ -377,7 +379,7 @@ public class HauptFenster {
 		mKontakteitem2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnKontaktSuche.setText("-");
+				btnKontaktSuche.setIcon(removeIcon);
 			}
 		});
 		mKontakte.add(mKontakteitem2);
@@ -586,7 +588,8 @@ public class HauptFenster {
 		txtSuche.setHorizontalAlignment(SwingConstants.CENTER);
 		mainPanel.add(txtSuche, "growx, spanx 2, split2");
 
-		btnKontaktSuche = new JButton("+");
+		btnKontaktSuche = new JButton("");
+		btnKontaktSuche.setIcon(addIcon);
 		btnKontaktSuche.addActionListener(new ActionListener() {
 
 			@Override
@@ -595,7 +598,7 @@ public class HauptFenster {
 				if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false
 						&& txtSuche.getText().equalsIgnoreCase("admin") == false) {
 
-					if (btnKontaktSuche.getText().equalsIgnoreCase("+")) {
+					if (btnKontaktSuche.getIcon().equals(addIcon)) {
 						Client.sendSQL(new SQLData(
 								"Select * From user where username like '"
 										+ txtSuche.getText() + "';", 'h',
