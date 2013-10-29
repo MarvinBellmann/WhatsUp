@@ -172,8 +172,7 @@ public class ChatFenster {
 
 		// Image
 		label = new JLabel("");
-		label.setIcon(new ImageIcon(ChatFenster.class
-				.getResource("/data/2.png")));
+		label.setIcon(new ImageIcon("src/data/1.png"));
 		panel_1.add(label, "aligny top,wrap");
 
 		// Name
@@ -221,8 +220,7 @@ public class ChatFenster {
 
 		// Ich-Image
 		ichbild_lbl = new JLabel("");
-		ichbild_lbl.setIcon(new ImageIcon(ChatFenster.class
-				.getResource("/data/1.jpg")));
+		ichbild_lbl.setIcon(new ImageIcon("src/data/1.png"));
 		panel_1.add(ichbild_lbl, "aligny top,wrap");
 
 		// Datei senden

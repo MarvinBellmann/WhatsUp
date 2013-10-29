@@ -54,15 +54,15 @@ public class HauptFenster {
 	private static int width = 250;
 	private static int height = 573;
 	static JTable table;
-	static String i1 = "src/data/1.jpg";
+	static String i1 = "src/data/1.png";
 	static String i2 = "src/data/2.png";
-	static String i3 = "src/data/3.jpg";
-	static String i4 = "src/data/4.jpg";
-	static String i5 = "src/data/5.jpg";
-	static String i6 = "src/data/6.jpg";
-	static String i7 = "src/data/7.jpg";
+	static String i3 = "src/data/3.png";
+	static String i4 = "src/data/4.png";
+	static String i5 = "src/data/5.png";
+	static String i6 = "src/data/6.png";
+	static String i7 = "src/data/7.png";
 	static String i8 = "src/data/8.png";
-	static String i9 = "src/data/9.jpg";
+	static String i9 = "src/data/9.png";
 	static String iDB = "src/data/database.png";
 	public static JLabel label_2;
 	JLabel lblUsername;
@@ -154,8 +154,9 @@ public class HauptFenster {
 			}
 
 			if (username.equals("Admin")) {
-				model.addRow(new Object[] { new ContactCard(new ImageIcon(iDB),
-						"Online", "ServerDB") });
+				ImageIcon avatarDB = new ImageIcon(iDB);
+				model.addRow(new Object[] { new ContactCard(avatarDB, "Online",
+						"ServerDB") });
 			}
 
 			for (int i = 0; i < gesplittet.length; i = i + 3) {
@@ -422,8 +423,7 @@ public class HauptFenster {
 						"[30px:n:30px][45px::45px,top][40px::40px,bottom][30px::30px][]"));
 
 		label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon(HauptFenster.class
-				.getResource("/data/1.jpg")));
+		label_2.setIcon(new ImageIcon(i1));
 		label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label_2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -723,7 +723,7 @@ public class HauptFenster {
 
 		String shortendPicID = picID.substring(0, 1);
 		System.out.println("picID:" + picID + "|" + shortendPicID);
-		ImageIcon avatarImage;
+		ImageIcon avatarImage = new ImageIcon();
 		String filename;
 		switch (shortendPicID) {
 		case "1":
