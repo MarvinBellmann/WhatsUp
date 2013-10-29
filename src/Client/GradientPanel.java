@@ -15,8 +15,8 @@ public class GradientPanel extends JPanel {
 	private static final long serialVersionUID = 46778110791286960L;
 
 	public GradientPanel(Color col1, Color col2) {
-		color1 = col1;
-		color2 = col2;
+		this.color1 = col1;
+		this.color2 = col2;
 	}
 
 	protected void paintComponent(Graphics g) {

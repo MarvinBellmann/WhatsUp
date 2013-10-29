@@ -5,7 +5,6 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
@@ -18,7 +17,8 @@ public class ContactCardRenderer implements TableCellRenderer {
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		ContactCard card = (ContactCard) value;
 
-		JPanel panel = new JPanel();
+		GradientPanel panel = new GradientPanel(card.getColor1(),
+				card.getColor2());
 		panel.setLayout(new MigLayout("fill", "[55px::55px][]", "[][]"));
 
 		JLabel image = new JLabel();
