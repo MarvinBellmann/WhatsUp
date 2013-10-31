@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -227,14 +228,20 @@ public class ChatFenster {
 		};
 		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
 		txtField.setBorder(raisedetched);
+		//txtField.getDocument().putProperty("filterNewlines", Boolean.TRUE);
+		txtField.getInputMap().put(KeyStroke.getKeyStroke("ENTER"),"doNothing");
 		txtField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				    //if(txtField.getText().length()<1)
+				    if(txtField.getText().length()>0){
 					Client.send(HauptFenster.username, nameGespraech,
-							txtField.getText());
+						txtField.getText());
 					txtField.setText("");
+				    }
+				   //((Object) e).preventDefault();
 				}
 			}
 
@@ -285,9 +292,11 @@ public class ChatFenster {
 		JButton send_btn = new JButton("Senden");
 		send_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			    if(txtField.getText().length()>0){
 				Client.send(HauptFenster.username, nameGespraech,
 						txtField.getText());
 				txtField.setText("");
+			    }
 			}
 		});
 		send_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
