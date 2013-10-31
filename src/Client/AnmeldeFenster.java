@@ -64,7 +64,7 @@ public class AnmeldeFenster {
 	public AnmeldeFenster() {
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"src/data/Logo.png"));
+				getClass().getClassLoader().getResource("data/Logo.png")));
 		frame.setTitle("Anmeldung");
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,7 +82,8 @@ public class AnmeldeFenster {
 				.setLayout(new MigLayout("wrap 1, fillx", "[]", "[]14px[][]"));
 
 		JLabel lblWhatsup = new JLabel("");
-		ImageIcon logo = new ImageIcon("src/data/Logo.png");
+		ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(
+				"data/Logo.png"));
 		logo.setImage(logo.getImage().getScaledInstance(70, 70,
 				Image.SCALE_DEFAULT));
 		lblWhatsup.setIcon(logo);

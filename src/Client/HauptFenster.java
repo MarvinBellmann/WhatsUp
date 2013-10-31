@@ -55,21 +55,23 @@ public class HauptFenster {
 	private static int width = 250;
 	private static int height = 573;
 	static JTable table;
-	static String i1 = "src/data/1.png";
-	static String i2 = "src/data/2.png";
-	static String i3 = "src/data/3.png";
-	static String i4 = "src/data/4.png";
-	static String i5 = "src/data/5.png";
-	static String i6 = "src/data/6.png";
-	static String i7 = "src/data/7.png";
-	static String i8 = "src/data/8.png";
-	static String i9 = "src/data/9.png";
-	static String iDB = "src/data/database.png";
+	static String i1 = "data/1.png";
+	static String i2 = "data/2.png";
+	static String i3 = "data/3.png";
+	static String i4 = "data/4.png";
+	static String i5 = "data/5.png";
+	static String i6 = "data/6.png";
+	static String i7 = "data/7.png";
+	static String i8 = "data/8.png";
+	static String i9 = "data/9.png";
+	static String iDB = "data/database.png";
 	public static JLabel label_2;
 	JLabel lblUsername;
 	JButton btnKontaktSuche;
-	ImageIcon addIcon = new ImageIcon("src/data/add.png");
-	ImageIcon removeIcon = new ImageIcon("src/data/remove.png");
+	ImageIcon addIcon = new ImageIcon(HauptFenster.class.getClassLoader()
+			.getResource("data/add.png"));
+	ImageIcon removeIcon = new ImageIcon(HauptFenster.class.getClassLoader()
+			.getResource("data/remove.png"));
 	static boolean byteUebertragungsBeschuetzer = false;
 
 	private static JTextField txtSuche;
@@ -157,7 +159,8 @@ public class HauptFenster {
 			}
 
 			if (username.equals("Admin")) {
-				ImageIcon avatarDB = new ImageIcon(iDB);
+				ImageIcon avatarDB = new ImageIcon(HauptFenster.class
+						.getClassLoader().getResource(iDB));
 				model.addRow(new Object[] { new ContactCard(avatarDB, "Online",
 						"ServerDB") });
 			}
@@ -196,7 +199,8 @@ public class HauptFenster {
 				default:
 					filename = i1;
 				}
-				avatarImage = new ImageIcon(filename);
+				avatarImage = new ImageIcon(HauptFenster.class.getClassLoader()
+						.getResource(filename));
 				model.addRow(new Object[] { new ContactCard(avatarImage,
 						gesplittet[i + 1], gesplittet[i]) });
 			}
@@ -268,7 +272,8 @@ public class HauptFenster {
 
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"src/data/Logo.png"));
+				HauptFenster.class.getClassLoader()
+						.getResource("data/Logo.png")));
 		frame.setTitle("WAKenger!");
 		frame.setResizable(false);
 		frame.setBounds(ge.getMaximumWindowBounds().width - width - 20,
@@ -425,7 +430,8 @@ public class HauptFenster {
 						"[30px:n:30px][45px::45px,top][20px::20px,bottom][30px::30px][]"));
 
 		label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon("src/data/loading.gif"));
+		label_2.setIcon(new ImageIcon(HauptFenster.class.getClassLoader()
+				.getResource("data/loading.gif")));
 		label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label_2.addMouseListener(new MouseAdapter() {
 			@Override
@@ -435,7 +441,9 @@ public class HauptFenster {
 					int aHeight = 320;
 					avatarFrame = new JFrame();
 					avatarFrame.setIconImage(Toolkit.getDefaultToolkit()
-							.getImage("src/data/Logo.png"));
+							.getImage(
+									HauptFenster.class.getClassLoader()
+											.getResource("data/Logo.png")));
 					avatarFrame.setTitle("Avatarauswahl");
 					if (HauptFenster.frame.getX() - aWidth - 7 <= 0) {
 						avatarFrame.setLocation(HauptFenster.frame.getX()
@@ -454,7 +462,8 @@ public class HauptFenster {
 					avatarPanel.setLayout(new MigLayout("fill, wrap 3"));
 
 					JLabel avatarImage1 = new JLabel("");
-					avatarImage1.setIcon(new ImageIcon(i1));
+					avatarImage1.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i1)));
 					avatarImage1.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage1.addMouseListener(new MouseAdapter() {
@@ -470,14 +479,16 @@ public class HauptFenster {
 									"UPDATE user set picture='1' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i1));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i1)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage1);
 
 					JLabel avatarImage2 = new JLabel("");
-					avatarImage2.setIcon(new ImageIcon(i2));
+					avatarImage2.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i2)));
 					avatarImage2.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage2.addMouseListener(new MouseAdapter() {
@@ -493,14 +504,16 @@ public class HauptFenster {
 									"UPDATE user set picture='2' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i2));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i2)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage2);
 
 					JLabel avatarImage3 = new JLabel("");
-					avatarImage3.setIcon(new ImageIcon(i3));
+					avatarImage3.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i3)));
 					avatarImage3.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage3.addMouseListener(new MouseAdapter() {
@@ -516,14 +529,16 @@ public class HauptFenster {
 									"UPDATE user set picture='3' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i3));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i3)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage3);
 
 					JLabel avatarImage4 = new JLabel("");
-					avatarImage4.setIcon(new ImageIcon(i4));
+					avatarImage4.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i4)));
 					avatarImage4.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage4.addMouseListener(new MouseAdapter() {
@@ -539,14 +554,16 @@ public class HauptFenster {
 									"UPDATE user set picture='4' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i4));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i4)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage4);
 
 					JLabel avatarImage5 = new JLabel("");
-					avatarImage5.setIcon(new ImageIcon(i5));
+					avatarImage5.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i5)));
 					avatarImage5.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage5.addMouseListener(new MouseAdapter() {
@@ -562,14 +579,16 @@ public class HauptFenster {
 									"UPDATE user set picture='5' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i5));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i5)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage5);
 
 					JLabel avatarImage6 = new JLabel("");
-					avatarImage6.setIcon(new ImageIcon(i6));
+					avatarImage6.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i6)));
 					avatarImage6.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage6.addMouseListener(new MouseAdapter() {
@@ -585,14 +604,16 @@ public class HauptFenster {
 									"UPDATE user set picture='6' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i6));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i6)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage6);
 
 					JLabel avatarImage7 = new JLabel("");
-					avatarImage7.setIcon(new ImageIcon(i7));
+					avatarImage7.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i7)));
 					avatarImage7.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage7.addMouseListener(new MouseAdapter() {
@@ -608,14 +629,16 @@ public class HauptFenster {
 									"UPDATE user set picture='7' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i7));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i7)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage7);
 
 					JLabel avatarImage8 = new JLabel("");
-					avatarImage8.setIcon(new ImageIcon(i8));
+					avatarImage8.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i8)));
 					avatarImage8.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage8.addMouseListener(new MouseAdapter() {
@@ -631,14 +654,16 @@ public class HauptFenster {
 									"UPDATE user set picture='8' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i8));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i8)));
 							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage8);
 
 					JLabel avatarImage9 = new JLabel("");
-					avatarImage9.setIcon(new ImageIcon(i9));
+					avatarImage9.setIcon(new ImageIcon(HauptFenster.class
+							.getClassLoader().getResource(i9)));
 					avatarImage9.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage9.addMouseListener(new MouseAdapter() {
@@ -654,7 +679,8 @@ public class HauptFenster {
 									"UPDATE user set picture='9' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(i9));
+							label_2.setIcon(new ImageIcon(HauptFenster.class
+									.getClassLoader().getResource(i9)));
 							avatarFrame.hide();
 						}
 					});
@@ -871,7 +897,8 @@ public class HauptFenster {
 			System.out.println("pic1");
 			filename = i1;
 		}
-		avatarImage = new ImageIcon(filename);
+		avatarImage = new ImageIcon(HauptFenster.class.getClassLoader()
+				.getResource(filename));
 		label_2.setIcon(avatarImage);
 
 	}

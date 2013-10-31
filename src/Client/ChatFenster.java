@@ -92,7 +92,9 @@ public class ChatFenster {
 						.substring(
 								card.getAvatar().getDescription()
 										.lastIndexOf('/'));
-				avatar = new ImageIcon("src/data/" + avatarFile);
+				System.out.println(avatarFile);
+				avatar = new ImageIcon(getClass().getClassLoader().getResource(
+						"data" + avatarFile));
 				break;
 			}
 		}
@@ -149,7 +151,7 @@ public class ChatFenster {
 	private JFrame initialize() {
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"src/data/Logo.png"));
+				getClass().getClassLoader().getResource("data/Logo.png")));
 		frame.setTitle("Chat mit " + nameGespraech);
 		if (HauptFenster.frame.getX() - width - 7 <= 0) {
 			frame.setLocation(
@@ -192,7 +194,8 @@ public class ChatFenster {
 
 		// Image
 		label = new JLabel("");
-		label.setIcon(new ImageIcon("src/data/loading.gif"));
+		label.setIcon(new ImageIcon(getClass().getClassLoader().getResource(
+				"data/loading.gif")));
 		panel_1.add(label, "aligny top,wrap");
 
 		// Name
@@ -240,7 +243,8 @@ public class ChatFenster {
 
 		// Ich-Image
 		ichbild_lbl = new JLabel("");
-		ichbild_lbl.setIcon(new ImageIcon("src/data/loading.gif"));
+		ichbild_lbl.setIcon(new ImageIcon(getClass().getClassLoader()
+				.getResource("data/loading.gif")));
 		panel_1.add(ichbild_lbl, "aligny top,wrap");
 
 		// Datei senden
