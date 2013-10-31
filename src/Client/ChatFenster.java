@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -78,7 +79,7 @@ public class ChatFenster {
 		ImageIcon avatar = null;
 		String statusneu = "";
 		String userInTabelle = "";
-		String avatarFile="";
+		String avatarFile = "";
 		for (int row = 0; row <= HauptFenster.table.getRowCount() - 1; row++) {
 			ContactCard card = (ContactCard) HauptFenster.table.getValueAt(row,
 					0);
@@ -95,20 +96,19 @@ public class ChatFenster {
 				break;
 			}
 		}
-		//System.out.println("|||"+avatarFile+"|||");
-		if(this.nameGespraech.equalsIgnoreCase("ServerDB")==false && avatarFile.equals("")){
-		  
-		    
-		    HauptFenster.ChatFensterList.remove(this);
-		//HauptFenster.loescheCF(this);
-		    frame.hide();
-		   
-		    Client.sendSQL(new SQLData(
-				"UPDATE user set status='Online' where username like '"
-						+ HauptFenster.username + "'", 'i'));
-		    
-		    
-		  // HauptFenster.table.repaint();
+		// System.out.println("|||"+avatarFile+"|||");
+		if (this.nameGespraech.equalsIgnoreCase("ServerDB") == false
+				&& avatarFile.equals("")) {
+
+			HauptFenster.ChatFensterList.remove(this);
+			// HauptFenster.loescheCF(this);
+			frame.hide();
+
+			Client.sendSQL(new SQLData(
+					"UPDATE user set status='Online' where username like '"
+							+ HauptFenster.username + "'", 'i'));
+
+			// HauptFenster.table.repaint();
 		}
 		ichbild_lbl.setIcon(HauptFenster.label_2.getIcon());
 		label.setIcon(avatar);
@@ -148,6 +148,9 @@ public class ChatFenster {
 	@SuppressWarnings("serial")
 	private JFrame initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				"src/data/Logo.png"));
+		frame.setTitle("Chat mit " + nameGespraech);
 		if (HauptFenster.frame.getX() - width - 7 <= 0) {
 			frame.setLocation(
 					HauptFenster.frame.getX() + HauptFenster.frame.getWidth()
@@ -312,7 +315,7 @@ public class ChatFenster {
 
 	@SuppressWarnings("deprecation")
 	public void hiding() {
-	    // TODO Auto-generated method stub
-	    frame.hide();
+		// TODO Auto-generated method stub
+		frame.hide();
 	}
 }

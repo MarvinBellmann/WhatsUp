@@ -3,6 +3,8 @@ package Client;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ObjectInputStream;
@@ -11,6 +13,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -60,10 +63,13 @@ public class AnmeldeFenster {
      */
 	public AnmeldeFenster() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				"src/data/Logo.png"));
+		frame.setTitle("Anmeldung");
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-		frame.setSize(250, 260);
+		frame.setSize(250, 320);
 		frame.setLocation(frame.getLocation().x - (frame.getWidth() / 2),
 				frame.getLocation().y - (frame.getHeight() / 2));
 		frame.setVisible(true);
@@ -75,11 +81,18 @@ public class AnmeldeFenster {
 		contentPane
 				.setLayout(new MigLayout("wrap 1, fillx", "[]", "[]14px[][]"));
 
-		JLabel lblWhatsup = new JLabel("WAK-enger!");
-		lblWhatsup.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWhatsup.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblWhatsup.setForeground(Color.white);
-		contentPane.add(lblWhatsup, "span,alignx center,aligny center");
+		JLabel lblWhatsup = new JLabel("");
+		ImageIcon logo = new ImageIcon("src/data/Logo.png");
+		logo.setImage(logo.getImage().getScaledInstance(70, 70,
+				Image.SCALE_DEFAULT));
+		lblWhatsup.setIcon(logo);
+		contentPane.add(lblWhatsup, "alignx center, aligny top, h 60px::60px");
+
+		JLabel title = new JLabel("WAKenger!");
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setFont(new Font("Tahoma", Font.BOLD, 16));
+		title.setForeground(Color.white);
+		contentPane.add(title, "span,alignx center,aligny top, h 18px::18px");
 
 		JLabel lblName = new JLabel("Name");
 		lblName.setHorizontalAlignment(SwingConstants.LEFT);

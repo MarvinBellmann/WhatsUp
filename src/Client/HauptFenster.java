@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -266,6 +267,9 @@ public class HauptFenster {
 		System.out.println("*** Anmeldungsversuch als: " + username);
 
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				"src/data/Logo.png"));
+		frame.setTitle("Wakenger");
 		frame.setResizable(false);
 		// frame.setR
 		// frame.setMaximumSize(new Dimension(width+1, height+100));
@@ -437,6 +441,9 @@ public class HauptFenster {
 					int aWidth = 400;
 					int aHeight = 320;
 					avatarFrame = new JFrame();
+					avatarFrame.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage("src/data/Logo.png"));
+					avatarFrame.setTitle("Avatarauswahl");
 					if (HauptFenster.frame.getX() - aWidth - 7 <= 0) {
 						avatarFrame.setLocation(HauptFenster.frame.getX()
 								+ HauptFenster.frame.getWidth() + 7,
