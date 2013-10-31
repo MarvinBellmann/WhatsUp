@@ -1,7 +1,6 @@
 package Client;
 
 import java.awt.Color;
-import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -215,8 +214,8 @@ public class ClientRead extends Thread {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					Desktop dt = Desktop.getDesktop();
-					dt.open(ff);
+					//Desktop dt = Desktop.getDesktop();
+					//dt.open(ff);
 				}
 				HauptFenster.byteUebertragungsBeschuetzer = false;
 			}
