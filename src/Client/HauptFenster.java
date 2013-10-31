@@ -458,19 +458,20 @@ public class HauptFenster {
 					avatarImage1.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage1.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='1' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='1' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i1));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i1));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage1);
@@ -480,19 +481,20 @@ public class HauptFenster {
 					avatarImage2.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage2.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='2' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='2' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i2));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i2));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage2);
@@ -502,19 +504,20 @@ public class HauptFenster {
 					avatarImage3.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage3.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='3' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='3' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i3));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i3));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage3);
@@ -524,19 +527,20 @@ public class HauptFenster {
 					avatarImage4.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage4.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='4' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='4' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i4));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i4));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage4);
@@ -546,19 +550,20 @@ public class HauptFenster {
 					avatarImage5.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage5.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='5' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='5' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i5));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i5));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage5);
@@ -568,19 +573,20 @@ public class HauptFenster {
 					avatarImage6.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage6.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='6' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='6' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i6));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i6));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage6);
@@ -590,19 +596,20 @@ public class HauptFenster {
 					avatarImage7.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage7.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='7' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='7' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i7));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i7));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage7);
@@ -612,19 +619,20 @@ public class HauptFenster {
 					avatarImage8.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage8.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='8' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='8' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i8));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i8));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage8);
@@ -634,19 +642,20 @@ public class HauptFenster {
 					avatarImage9.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
 					avatarImage9.addMouseListener(new MouseAdapter() {
+						@SuppressWarnings("deprecation")
 						@Override
 						public void mouseClicked(MouseEvent e) {
-						    // Datenbankeintrag
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set status='Online' where username like '"
-								    + username + "'", 'i'));
+							// Datenbankeintrag
+							Client.sendSQL(new SQLData(
+									"UPDATE user set status='Online' where username like '"
+											+ username + "'", 'i'));
 
-						    Client.sendSQL(new SQLData(
-							    "UPDATE user set picture='9' where username like '"
-								    + username + "'", 'i'));
+							Client.sendSQL(new SQLData(
+									"UPDATE user set picture='9' where username like '"
+											+ username + "'", 'i'));
 
-						    label_2.setIcon(new ImageIcon(i9));
-						    avatarFrame.hide();
+							label_2.setIcon(new ImageIcon(i9));
+							avatarFrame.hide();
 						}
 					});
 					avatarPanel.add(avatarImage9);
@@ -887,34 +896,32 @@ public class HauptFenster {
 							+ txtSuche.getText() + "' and contact like'"
 							+ username + "'", 'i', username));
 
-			
-			//txtSuche.getText()
+			// txtSuche.getText()
 			int index = 0;
 			for (ChatFenster CF : HauptFenster.ChatFensterList) {
 				if (CF.nameGespraech.equalsIgnoreCase(txtSuche.getText())) {
-				    CF.hiding();
-				    break;
+					CF.hiding();
+					break;
 				}
 				index++;
-				
+
 			}
-			HauptFenster.ChatFensterList
-			.remove(HauptFenster.ChatFensterList.get(index));
-			
+			HauptFenster.ChatFensterList.remove(HauptFenster.ChatFensterList
+					.get(index));
+
 			txtSuche.setText("");
 		}
 	}
 
 	public static void loescheCF(ChatFenster CFchatFenster) {
-	    // TODO Auto-generated method stub
-	/*    int index=0;
-	    for (ChatFenster CF : ChatFensterList) {
-		if (CF.nameGespraech.equals(chatFenster.nameGespraech)) {
-			break;
-		}
-		index++;
-	}
-	HauptFenster.ChatFensterList.remove(HauptFenster.ChatFensterList.get(index));*/
-	    ChatFensterList.remove(CFchatFenster);
+		// TODO Auto-generated method stub
+		/*
+		 * int index=0; for (ChatFenster CF : ChatFensterList) { if
+		 * (CF.nameGespraech.equals(chatFenster.nameGespraech)) { break; }
+		 * index++; }
+		 * HauptFenster.ChatFensterList.remove(HauptFenster.ChatFensterList
+		 * .get(index));
+		 */
+		ChatFensterList.remove(CFchatFenster);
 	}
 }
