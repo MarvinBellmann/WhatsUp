@@ -101,7 +101,7 @@ public class AnmeldeFenster {
 		contentPane.add(lblName);
 
 		txtName = new JTextField();
-		txtName.setText("Admin");
+		txtName.setText("");
 		txtName.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusGained(java.awt.event.FocusEvent evt) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -122,7 +122,7 @@ public class AnmeldeFenster {
 		contentPane.add(lblPasswort);
 
 		textPW = new JPasswordField(25);
-		textPW.setText("1234");
+		textPW.setText("");
 		textPW.setColumns(10);
 		textPW.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusGained(java.awt.event.FocusEvent evt) {
