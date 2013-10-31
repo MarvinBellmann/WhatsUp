@@ -774,6 +774,7 @@ public class HauptFenster {
 				ListSelectionModel.SINGLE_SELECTION);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.setFocusable(false);
+		table.setTableHeader(null);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
