@@ -13,7 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
+
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
@@ -87,6 +89,28 @@ public class HauptFenster {
 	 * @wbp.parser.constructor
 	 */
 	public HauptFenster(String user, String pw, String server) {
+		/*Properties pi = System.getProperties ();
+		pi.put ("file.encoding", "UTF-8"); // To add a new one
+		System.setProperties(pi);*/
+		
+		
+	/*
+        try {
+        	Class<Charset> c = Charset.class;
+            Field defaultCharsetField = c.getDeclaredField("defaultCharset");
+            defaultCharsetField.setAccessible(true);
+			defaultCharsetField.set(null, Charset.forName("latin2"));
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 		username = user;
 		serverIP = server;
 		initialize();
@@ -94,6 +118,8 @@ public class HauptFenster {
 		Client client = new Client(serverIP);
 		client.setName("1A clientThread");
 		client.start();
+		
+		
 	}
 
 	public HauptFenster() {

@@ -185,6 +185,7 @@ public class ChatFenster {
 		txtPanel.setEditable(false);
 		txtPanel.setLineWrap(true);
 		txtPanel.setWrapStyleWord(true);
+		//txtPanel.setContentType("text/html; charset=UTF-8");
 
 		JScrollPane sp = new JScrollPane(txtPanel);
 		sp.add(txtPanel);
@@ -226,6 +227,7 @@ public class ChatFenster {
 						.getSize().width;
 			}
 		};
+		txtField.setContentType("text/html; charset=UTF-8");
 		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
 		txtField.setBorder(raisedetched);
 		//txtField.getDocument().putProperty("filterNewlines", Boolean.TRUE);
