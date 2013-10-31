@@ -57,13 +57,13 @@ public class DBConnectorThread extends Thread {
 			if (sqldata.sqlBefehl.length() < 11) {
 				sqldata.sqlBefehl = "Select * from user";
 			}
-			if (sqldata.sqlBefehl.substring(0, 10).contains("CREATE")
-					| sqldata.sqlBefehl.substring(0, 10).contains("INSERT")
-					| sqldata.sqlBefehl.substring(0, 10).contains("UPDATE")
-					| sqldata.sqlBefehl.substring(0, 10).contains("IF NOT EX")
-					| sqldata.sqlBefehl.substring(0, 10).contains("DELETE")) {
+			if (sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("create")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("insert")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("update")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("if not ex")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("delete")) {
 
-				if (sqldata.sqlBefehl.substring(0, 10).contains("CREATE")) {
+				if (sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("create")) {
 
 					ServerStart.SystemWriteLogln("create!");
 					SQLCreate(sqldata.sqlBefehl);
