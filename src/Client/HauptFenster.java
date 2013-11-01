@@ -913,7 +913,7 @@ public class HauptFenster {
 		if (ok == JOptionPane.YES_OPTION) {
 
 			Client.sendSQL(new SQLData(
-					"UPDATE user set status='Online' where username like '"
+					"UPDATE user set status='"+statuslabel.getText()+"' where username like '"
 							+ username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
@@ -990,8 +990,8 @@ public class HauptFenster {
 				JOptionPane.YES_NO_CANCEL_OPTION);
 		if (ok == JOptionPane.YES_OPTION) {
 
-			Client.sendSQL(new SQLData(
-					"UPDATE user set status='Online' where username like '"
+		Client.sendSQL(new SQLData(
+					"UPDATE user set status='"+HauptFenster.statuslabel.getText()+"' where username like '"
 							+ username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
@@ -1004,7 +1004,7 @@ public class HauptFenster {
 							+ username + "'", 'i', username));
 
 			// txtSuche.getText()
-			int index = 0;
+			/*int index = 0;
 			for (ChatFenster CF : HauptFenster.ChatFensterList) {
 				if (CF.nameGespraech.equalsIgnoreCase(txtSuche.getText())) {
 					CF.hiding();
@@ -1014,7 +1014,7 @@ public class HauptFenster {
 
 			}
 			HauptFenster.ChatFensterList.remove(HauptFenster.ChatFensterList
-					.get(index));
+					.get(index));*/
 
 			txtSuche.setText("");
 		}

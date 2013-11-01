@@ -30,7 +30,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
-import SendData.SQLData;
 
 //import java.io.IOException;
 
@@ -103,15 +102,16 @@ public class ChatFenster {
 		if (this.nameGespraech.equalsIgnoreCase("ServerDB") == false
 				&& avatarFile.equals("")) {
 
-			HauptFenster.ChatFensterList.remove(this);
+		//	HauptFenster.ChatFensterList.remove(this);
 			// HauptFenster.loescheCF(this);
-			frame.hide();
+		//	frame.hide();
 
-			Client.sendSQL(new SQLData(
-					"UPDATE user set status='Online' where username like '"
-							+ HauptFenster.username + "'", 'i'));
+		//	Client.sendSQL(new SQLData(
+		//			"UPDATE user set status='Online' where username like '"
+		//					+ HauptFenster.username + "'", 'i'));
 
-			// HauptFenster.table.repaint();
+		//	 HauptFenster.statuslabel.setText("Online");
+		//	 HauptFenster.statuslabel.setForeground(Color.GREEN);
 		}
 		ichbild_lbl.setIcon(HauptFenster.label_2.getIcon());
 		label.setIcon(avatar);
