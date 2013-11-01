@@ -120,7 +120,11 @@ public class ChatFenster {
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
 		} else {
+		    if (status.equals("Abwesend")) {
+			online_lbl.setForeground(Color.YELLOW);
+		    }else{
 			online_lbl.setForeground(Color.RED);
+		    }
 		}
 
 		if (online_lbl.getText().equalsIgnoreCase("Online") == false
@@ -139,7 +143,11 @@ public class ChatFenster {
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
 		} else {
+		    if (status.equals("Abwesend")) {
+			online_lbl.setForeground(Color.YELLOW);
+		    }else{
 			online_lbl.setForeground(Color.RED);
+		    }
 		}
 	}
 
@@ -216,7 +224,11 @@ public class ChatFenster {
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
 		} else {
+		    if (status.equals("Abwesend")) {
+			online_lbl.setForeground(Color.YELLOW);
+		    }else{
 			online_lbl.setForeground(Color.RED);
+		    }
 		}
 		panel_1.add(online_lbl, "wrap 50px");
 

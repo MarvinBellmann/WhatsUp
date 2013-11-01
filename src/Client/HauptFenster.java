@@ -13,9 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import java.util.ArrayList;
-
 import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
@@ -155,6 +153,19 @@ public class HauptFenster {
 	}
 
 	public static void Chatparserecho(String sto, String text) {
+	    
+	    /*
+	     *     String utftext="";
+	    try {
+
+		byte[] array = text.getBytes("UTF-8");
+		utftext = new String(array, Charset.forName("UTF-8"));
+		//utftext = new String(text.getBytes("utf-8"));
+	    } catch (UnsupportedEncodingException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	     */
 		for (ChatFenster c : ChatFensterList) {
 			if (c.nameGespraech.equalsIgnoreCase(sto)) {
 				if (c.txtPanel.getText().equals("")) {
@@ -339,54 +350,54 @@ public class HauptFenster {
 
 		// //////////////////////////////////////////////////////////////////////////
 
-		JMenu mEinstellungen = new JMenu("Einstellungen");
+		JMenu mEinstellungen = new JMenu("Größe");
 		mEinstellungen.setForeground(Color.WHITE);
 		menuBar.add(mEinstellungen);
-		JMenuItem mEinstellungenitem1 = new JMenuItem("Größe 3");
+		JMenuItem mEinstellungenitem1 = new JMenuItem("Größe 1");
 		mEinstellungenitem1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 494;
+				height = 494-80-7;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
 		mEinstellungen.add(mEinstellungenitem1);
 
-		JMenuItem mEinstellungenitem2 = new JMenuItem("Größe 4");
+		JMenuItem mEinstellungenitem2 = new JMenuItem("Größe 2");
 		mEinstellungenitem2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 578 - 5;
+				height = 578 - 5-80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
 		mEinstellungen.add(mEinstellungenitem2);
 
-		JMenuItem mEinstellungenitem3 = new JMenuItem("Größe 5");
+		JMenuItem mEinstellungenitem3 = new JMenuItem("Größe 3");
 		mEinstellungenitem3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 658 - 5;
+				height = 658 - 5-80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
 		mEinstellungen.add(mEinstellungenitem3);
 
-		JMenuItem mEinstellungenitem4 = new JMenuItem("Größe 6");
+		JMenuItem mEinstellungenitem4 = new JMenuItem("Größe 4");
 		mEinstellungenitem4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 740 - 3;
+				height = 740 - 3-80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
 		mEinstellungen.add(mEinstellungenitem4);
 
-		JMenuItem mEinstellungenitem5 = new JMenuItem("Größe 7");
+		JMenuItem mEinstellungenitem5 = new JMenuItem("Größe 5");
 		mEinstellungenitem5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 820;
+				height = 820-80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -394,26 +405,63 @@ public class HauptFenster {
 
 		// //////////////////////////////////////////////////////////////////////////
 
-		JMenu mKontakte = new JMenu("Kontakte");
-		mKontakte.setForeground(Color.WHITE);
-		menuBar.add(mKontakte);
+		JMenu mStatus = new JMenu("Status");
+		mStatus.setForeground(Color.WHITE);
+		menuBar.add(mStatus);
 
-		JMenuItem mKontakteitem1 = new JMenuItem("Zur Kontaktliste hinzufügen");
-		mKontakteitem1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnKontaktSuche.setIcon(addIcon);
+		JMenuItem mStatusitem1 = new JMenuItem("Online");
+		mStatusitem1.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+			//btnKontaktSuche.setIcon(addIcon);
+			if(statuslabel.getText().equalsIgnoreCase("Offline")==false){
+			    Client.sendSQL(new SQLData(
+				    "UPDATE user set status='Online' where username like '"
+					    + username + "'", 'i'));
+			    statuslabel.setText("Online");
+			    statuslabel.setForeground(Color.green);
 			}
+		    }
 		});
-		mKontakte.add(mKontakteitem1);
-		JMenuItem mKontakteitem2 = new JMenuItem("Aus Kontaktliste löschen");
-		mKontakteitem2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btnKontaktSuche.setIcon(removeIcon);
+		mStatus.add(mStatusitem1);
+		JMenuItem mStatusitem2 = new JMenuItem("Abwesend");
+		mStatusitem2.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+			//btnKontaktSuche.setIcon(removeIcon);
+			if(statuslabel.getText().equalsIgnoreCase("Offline")==false){
+			    Client.sendSQL(new SQLData(
+				    "UPDATE user set status='Abwesend' where username like '"
+					    + username + "'", 'i'));
+			    statuslabel.setText("Abwesend");
+			    statuslabel.setForeground(Color.YELLOW);
 			}
+		    }
 		});
-		mKontakte.add(mKontakteitem2);
+		mStatus.add(mStatusitem2);
+
+		// //////////////////////////////////////////////////////////////////////////
+
+				JMenu mKontakte = new JMenu("Kontakte");
+				mKontakte.setForeground(Color.WHITE);
+				menuBar.add(mKontakte);
+
+				JMenuItem mKontakteitem1 = new JMenuItem("Zur Kontaktliste hinzufügen");
+				mKontakteitem1.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btnKontaktSuche.setIcon(addIcon);
+					}
+				});
+				mKontakte.add(mKontakteitem1);
+				JMenuItem mKontakteitem2 = new JMenuItem("Aus Kontaktliste löschen");
+				mKontakteitem2.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						btnKontaktSuche.setIcon(removeIcon);
+					}
+				});
+				mKontakte.add(mKontakteitem2);
 
 		// //////////////////////////////////////////////////////////////////////////
 
@@ -802,6 +850,11 @@ public class HauptFenster {
 					card.setColor1(Color.green);
 					card.setColor2(Color.green.darker());
 					c.setFont(new Font("Miriam", Font.BOLD, 14));
+				}
+				if ("Abwesend".equals(card.getStatus())) {
+					card.setColor1(Color.YELLOW.brighter());
+					card.setColor2(Color.YELLOW.darker());
+					c.setFont(new Font("Miriam", Font.PLAIN, 14));
 				}
 				if ("Offline".equals(card.getStatus())) {
 					card.setColor1(new Color(245, 30, 30));
