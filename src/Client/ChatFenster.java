@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -250,7 +252,9 @@ public class ChatFenster {
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				    //if(txtField.getText().length()<1)
-				    if(txtField.getText().length()>0){
+					String shorttext = txtField.getText();
+				    if(toTextString(txtField.getText()).length()>0){
+				    	System.out.println("TTT"+toTextString(txtField.getText())+"TTT"+toTextString(txtField.getText()).length());
 					Client.send(HauptFenster.username, nameGespraech,
 						txtField.getText());
 					txtField.setText("");
@@ -306,7 +310,7 @@ public class ChatFenster {
 		JButton send_btn = new JButton("Senden");
 		send_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			    if(txtField.getText().length()>0){
+			    if(toTextString(txtField.getText()).length()>0){
 				Client.send(HauptFenster.username, nameGespraech,
 						txtField.getText());
 				txtField.setText("");
@@ -345,4 +349,32 @@ public class ChatFenster {
 		// TODO Auto-generated method stub
 		frame.hide();
 	}
+	
+	public String toTextString(String text) {
+		// html to string umformung der nachricht
+		String kurztext = text;
+		Pattern p = Pattern.compile("<(.*?)>");
+		Matcher m = p.matcher(kurztext);
+		while (m.find()) {
+			kurztext = kurztext.replaceAll(m.group(), "");
+		}
+		kurztext = kurztext
+				.replaceAll(System.getProperty("line.separator"), ""); // ("\\\n",
+																		// "");//Replace(Nz(meinString,
+																		// ""),
+																		// vbCrLf,
+																		// "")//string=
+																		// string.replaceAll("\\\n",
+																		// "<br />");
+		kurztext = kurztext.replaceAll("    ", " ");
+		kurztext = kurztext.replaceAll("   ", " ");
+		kurztext = kurztext.replaceAll("  ", " ");
+		kurztext = kurztext.replaceAll("  ", " ");
+		if (kurztext.substring(0, 1).equalsIgnoreCase(" ")) {
+			kurztext = kurztext.substring(1);
+		}
+
+		return (kurztext);// + System.getProperty("line.separator")
+	}
+	
 }

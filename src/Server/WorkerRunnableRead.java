@@ -46,7 +46,7 @@ public class WorkerRunnableRead extends Thread {
 
 			try {
 				Empfange();
-				Thread.sleep(100);
+				Thread.sleep(20);
 			} catch (Exception e) {
 				clientAnwesend = false;
 				// ServerStart.SystemWriteLogln("Server read Problem.");
