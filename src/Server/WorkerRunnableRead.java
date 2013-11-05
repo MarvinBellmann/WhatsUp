@@ -45,7 +45,7 @@ public class WorkerRunnableRead extends Thread {
 		while (clientAnwesend == true) {
 
 			try {
-				Empfange();
+				recieve();
 				Thread.sleep(20);
 			} catch (Exception e) {
 				clientAnwesend = false;
@@ -101,7 +101,7 @@ public class WorkerRunnableRead extends Thread {
 
 	}
 
-	public void Empfange() throws ClassNotFoundException, IOException {
+	public void recieve() throws ClassNotFoundException, IOException {
 		Object obj = ois.readObject();
 		// ServerStart.SystemWriteLogln("<<< Message erhalten");
 
@@ -268,8 +268,6 @@ public class WorkerRunnableRead extends Thread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				// Desktop dt = Desktop.getDesktop();
-				// dt.open(ff);
 			}
 
 			sendBytes(bytedata.from, bytedata.to, ff.getAbsolutePath());
@@ -277,13 +275,10 @@ public class WorkerRunnableRead extends Thread {
 			byteUebertragungsBeschuetzer = false;
 			w.byteUebertragungsBeschuetzer = false;
 		}
-		// }
-		// IN PROGRESS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	}
 
 	public static void sendBytes(String bfrom, String bto,
 			String zuVerschickendeDatei) {
-		// TODO Auto-generated method stub
 		File myFile = new File(zuVerschickendeDatei.replace('\\', '/'));
 		FileInputStream fis;
 		long count = 0;
@@ -292,7 +287,6 @@ public class WorkerRunnableRead extends Thread {
 			FileChannel fileChannel = fis.getChannel();
 			count = fileChannel.size();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// os = sock.getOutputStream();

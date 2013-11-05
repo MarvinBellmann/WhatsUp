@@ -47,8 +47,6 @@ public class Message implements Serializable {
 		try {
 			aInputStream.defaultReadObject();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			System.out.println(e);
 		}
 
@@ -56,17 +54,11 @@ public class Message implements Serializable {
 
 	private void writeObject(ObjectOutputStream aOutputStream)
 			throws IOException {
-		// perform the default serialization for all non-transient, non-static
-		// fields
 		try {
 			aOutputStream.defaultWriteObject();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			System.out.println(e);
 		}
-		// new ClearThread(10).start();
-
 	}
 
 	public String getfrom() {
@@ -74,7 +66,6 @@ public class Message implements Serializable {
 	}
 
 	public String toString() {
-		// html to string umformung der nachricht
 		String kurztext = text;
 		Pattern p = Pattern.compile("<(.*?)>");
 		Matcher m = p.matcher(kurztext);
@@ -82,13 +73,7 @@ public class Message implements Serializable {
 			kurztext = kurztext.replaceAll(m.group(), "");
 		}
 		kurztext = kurztext
-				.replaceAll(System.getProperty("line.separator"), ""); // ("\\\n",
-																		// "");//Replace(Nz(meinString,
-																		// ""),
-																		// vbCrLf,
-																		// "")//string=
-																		// string.replaceAll("\\\n",
-																		// "<br />");
+				.replaceAll(System.getProperty("line.separator"), "");
 		kurztext = kurztext.replaceAll("    ", " ");
 		kurztext = kurztext.replaceAll("   ", " ");
 		kurztext = kurztext.replaceAll("  ", " ");
@@ -100,7 +85,6 @@ public class Message implements Serializable {
 		// rückgabe
 		return ("(From: " + from + " |To: " + to + " |Date: " + date + " |"
 				+ "Message: " + kurztext + ")");// +
-												// System.getProperty("line.separator")
 	}
 
 	public String toText() {
@@ -112,13 +96,7 @@ public class Message implements Serializable {
 			kurztext = kurztext.replaceAll(m.group(), "");
 		}
 		kurztext = kurztext
-				.replaceAll(System.getProperty("line.separator"), ""); // ("\\\n",
-																		// "");//Replace(Nz(meinString,
-																		// ""),
-																		// vbCrLf,
-																		// "")//string=
-																		// string.replaceAll("\\\n",
-																		// "<br />");
+				.replaceAll(System.getProperty("line.separator"), "");
 		kurztext = kurztext.replaceAll("    ", " ");
 		kurztext = kurztext.replaceAll("   ", " ");
 		kurztext = kurztext.replaceAll("  ", " ");
@@ -140,13 +118,7 @@ public class Message implements Serializable {
 			kurztext = kurztext.replaceAll(m.group(), "");
 		}
 		kurztext = kurztext
-				.replaceAll(System.getProperty("line.separator"), ""); // ("\\\n",
-																		// "");//Replace(Nz(meinString,
-																		// ""),
-																		// vbCrLf,
-																		// "")//string=
-																		// string.replaceAll("\\\n",
-																		// "<br />");
+				.replaceAll(System.getProperty("line.separator"), "");
 		kurztext = kurztext.replaceAll("    ", " ");
 		kurztext = kurztext.replaceAll("   ", " ");
 		kurztext = kurztext.replaceAll("  ", " ");
@@ -166,7 +138,7 @@ public class Message implements Serializable {
 		return text;
 	}
 
-	public void ausgeben() {
+	public void printOut() {
 		System.out.println("Von: " + from);
 		System.out.println("An: " + to);
 		System.out.println("Text: " + text);

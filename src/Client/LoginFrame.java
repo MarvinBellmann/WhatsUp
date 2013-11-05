@@ -23,6 +23,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -30,7 +31,7 @@ import SendData.Message;
 import SendData.SQLData;
 import SendData.StartData;
 
-public class AnmeldeFenster {
+public class LoginFrame {
 
 	private JPanel contentPane;
 	private JTextField txtName;
@@ -50,8 +51,9 @@ public class AnmeldeFenster {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new AnmeldeFenster();
-
+					UIManager
+							.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+					new LoginFrame();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -61,7 +63,7 @@ public class AnmeldeFenster {
 
 	/**
      */
-	public AnmeldeFenster() {
+	public LoginFrame() {
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
 				getClass().getClassLoader().getResource("data/Logo.png")));
@@ -69,7 +71,7 @@ public class AnmeldeFenster {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-		frame.setSize(250, 320);
+		frame.setSize(250, 340);
 		frame.setLocation(frame.getLocation().x - (frame.getWidth() / 2),
 				frame.getLocation().y - (frame.getHeight() / 2));
 		frame.setVisible(true);
@@ -158,8 +160,8 @@ public class AnmeldeFenster {
 		textServer.setColumns(10);
 		contentPane.add(textServer, "growx");
 
-		JButton btnAnmelden = new JButton("Anmelden");
-		btnAnmelden.addActionListener(new ActionListener() {
+		JButton btnLogin = new JButton("Anmelden");
+		btnLogin.addActionListener(new ActionListener() {
 
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
@@ -217,9 +219,9 @@ public class AnmeldeFenster {
 							.println("Anmeldung akzeptiert: Starte HauptFenster");
 
 					try {
-						new HauptFenster(txtName.getText(), textPW.getText(),
+						new MainFrame(txtName.getText(), textPW.getText(),
 								textServer.getText());
-						HauptFenster.frame.setVisible(true);
+						MainFrame.frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -232,11 +234,11 @@ public class AnmeldeFenster {
 				}
 			}
 		});
-		btnAnmelden.setFont(new Font("Tahoma", Font.BOLD, 12));
-		contentPane.add(btnAnmelden, "split 2, growx");
+		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
+		contentPane.add(btnLogin, "split 2, growx");
 
-		JButton btnRegistrieren = new JButton("Registrieren");
-		btnRegistrieren.addActionListener(new ActionListener() {
+		JButton btnRegister = new JButton("Registrieren");
+		btnRegister.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -294,37 +296,8 @@ public class AnmeldeFenster {
 				}
 			}
 		});
-		btnRegistrieren.setFont(new Font("Tahoma", Font.BOLD, 12));
-		contentPane.add(btnRegistrieren);
-
-		// JButton btnPing = new JButton("Ping");
-		// btnPing.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent arg0) {
-		// try {
-		// InetAddress host = InetAddress.getByName(textServer
-		// .getText());// InetAddress.getLocalHost();
-		// Socket socket = new Socket(host.getHostName(), 7866);
-		// ObjectOutputStream oos = new ObjectOutputStream(socket
-		// .getOutputStream());
-		// ObjectInputStream ois = new ObjectInputStream(socket
-		// .getInputStream());
-		// oos.close();
-		// ois.close();
-		// socket.close();
-		// JOptionPane.showMessageDialog(null, "Ping erfolgreich!");
-		//
-		// } catch (Exception e) {
-		// System.out.println("Konnte nicht anpingen!");
-		// JOptionPane
-		// .showMessageDialog(null,
-		// "Ping fehlgeschlagen. Es läuft kein JavaServer auf der IP");
-		//
-		// }
-		//
-		// }
-		// });
-		//
-		// contentPane.add(btnPing, "cell 0 5,grow");
+		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 12));
+		contentPane.add(btnRegister);
 
 		JLabel lblYourIp = new JLabel("Your IP: ");
 		lblYourIp.setHorizontalAlignment(SwingConstants.LEFT);

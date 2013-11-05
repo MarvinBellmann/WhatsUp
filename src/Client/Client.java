@@ -31,7 +31,7 @@ public class Client extends Thread {
 	boolean nurAnmeldeClient = false;
 	static boolean amLaufen = true;
 	static Socket socket;
-	static ObjectOutputStream oos=null;
+	static ObjectOutputStream oos = null;
 
 	public static void send(String From, String To, String Text) {
 		messageList.add(new Message(From, To, Text));
@@ -54,114 +54,105 @@ public class Client extends Thread {
 
 	public void run() {
 		try {
-			mach();
+			work();
 		} catch (ClassNotFoundException | IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void mach() throws UnknownHostException, IOException,
+	public static void work() throws UnknownHostException, IOException,
 			ClassNotFoundException, InterruptedException {
 		System.out.println("*** Verbinde an: "
 				+ InetAddress.getByName(serverIP));
 		InetAddress host = InetAddress.getByName(serverIP);// InetAddress.getLocalHost();
 		socket = null;
-		
+
 		ObjectInputStream ois = null;
 
 		while (amLaufen == true) {
-			
-			if(HauptFenster.byteUebertragungsBeschuetzer==false){
-			
-			try {
 
-				if (socket == null) {
-					socket = new Socket(host.getHostName(), 7866);
-					socket.setTcpNoDelay(true);
-					oos = new ObjectOutputStream(socket.getOutputStream());
-					ois = new ObjectInputStream(socket.getInputStream());
+			if (MainFrame.byteUebertragungsBeschuetzer == false) {
+
+				try {
+
+					if (socket == null) {
+						socket = new Socket(host.getHostName(), 7866);
+						socket.setTcpNoDelay(true);
+						oos = new ObjectOutputStream(socket.getOutputStream());
+						ois = new ObjectInputStream(socket.getInputStream());
+					}
+
+					if (socket != null && verbindungscheck == false) {
+						System.out.println("*** Erfolgreich verbunden.");
+						MainFrame.statusChanger();
+						verbindungscheck = true;
+						oos.writeObject(new StartData(MainFrame.username));
+						ClientRead clientReaderThread = new ClientRead(socket,
+								ois);
+						clientReaderThread.setName("1A clientReadThread");
+						clientReaderThread.start();
+
+					}
+
+					if (messageList.size() > 0) {
+						oos.writeObject(messageList.get(messageList.size() - 1));
+						// oos.wr
+						System.out.println(">>> Message send to "
+								+ messageList.get(messageList.size() - 1).to
+								+ " ("
+								+ messageList.get(messageList.size() - 1).date
+								+ ")");
+
+						MainFrame.chatparserecho(messageList.get(messageList
+								.size() - 1).to,
+								messageList.get(messageList.size() - 1)
+										.toText());
+
+						messageList.remove(messageList.size() - 1);
+					}
+
+					if (sqlBefehlsListe.size() > 0) {
+						oos.writeObject(sqlBefehlsListe.get(sqlBefehlsListe
+								.size() - 1));
+						sqlBefehlsListe.remove(sqlBefehlsListe.size() - 1);
+					}
+
+					if (byteList.size() > 0) {
+						String dataa = byteList.get(byteList.size() - 1).dateiname;
+						System.out.println(dataa);
+						oos.writeObject(byteList.get(byteList.size() - 1));
+						byteList.remove(byteList.size() - 1);
+						System.out.println("ByteData send");
+						FileSenderThreadClient fs = new FileSenderThreadClient(
+								dataa, socket, oos);
+						fs.setName("1A FileSenderThread");
+
+						fs.start();
+					}
+
+					erfolg = "Erfolg";
+				} catch (Exception e) {
+					erfolg = "Fehschlag";
+					MainFrame.statuslabel.setText("Offline");
+					MainFrame.statuslabel.setForeground(Color.RED);
+					System.out
+							.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:"
+									+ e.getMessage());
+					Thread.sleep(5000);
 				}
-
-				if (socket != null && verbindungscheck == false) {
-					System.out.println("*** Erfolgreich verbunden.");
-					HauptFenster.StatusChanger();
-					verbindungscheck = true;
-					oos.writeObject(new StartData(HauptFenster.username));
-					ClientRead clientReaderThread = new ClientRead(socket, ois);
-					clientReaderThread.setName("1A clientReadThread");
-					clientReaderThread.start();
-
-				}
-
-				if (messageList.size() > 0) {
-					oos.writeObject(messageList.get(messageList.size() - 1));
-					//oos.wr
-					System.out.println(">>> Message send to "
-							+ messageList.get(messageList.size() - 1).to + " ("
-							+ messageList.get(messageList.size() - 1).date
-							+ ")");
-
-					HauptFenster.Chatparserecho(
-							messageList.get(messageList.size() - 1).to,
-							messageList.get(messageList.size() - 1).toText());
-
-					messageList.remove(messageList.size() - 1);
-				}
-
-				if (sqlBefehlsListe.size() > 0) {
-					oos.writeObject(sqlBefehlsListe.get(sqlBefehlsListe.size() - 1));
-					sqlBefehlsListe.remove(sqlBefehlsListe.size() - 1);
-				}
-				
-				if (byteList.size() > 0) {
-					String dataa=byteList.get(byteList.size() - 1).dateiname;
-					System.out.println(dataa);
-					oos.writeObject(byteList.get(byteList.size() - 1));
-					byteList.remove(byteList.size() - 1);
-					System.out.println("ByteData send");
-					FileSenderThreadClient fs = new FileSenderThreadClient(
-							dataa,socket,oos);
-					fs.setName("1A FileSenderThread");
-
-					fs.start();
-				}
-
-				erfolg = "Erfolg";
-			} catch (Exception e) {
-				erfolg = "Fehschlag";
-				HauptFenster.statuslabel.setText("Offline");
-				HauptFenster.statuslabel.setForeground(Color.RED);
-				System.out
-						.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:"
-								+ e.getMessage());
-				Thread.sleep(5000);
 			}
 
-			
-			
-			
-			
-			
-			
-			
-			
-		}
-		
-		
 			Thread.sleep(60);// 100
-			
-			
-			
-			
-		
+
 		}
 	}
 
-	public static void sendBytes(String bfrom, String bto, String zuVerschickendeDatei) {
+	public static void sendBytes(String bfrom, String bto,
+			String zuVerschickendeDatei) {
 		// TODO Auto-generated method stub
 		File myFile = new File(zuVerschickendeDatei.replace('\\', '/'));
 		FileInputStream fis;
-		long count=0;
+		long count = 0;
 		try {
 			fis = new FileInputStream(myFile);
 			FileChannel fileChannel = fis.getChannel();
@@ -170,14 +161,12 @@ public class Client extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//os = sock.getOutputStream();
-		
-		
-		
-		byteList.add(new ByteData(bfrom,bto,zuVerschickendeDatei.replace('\\', '/'),count));
-			
-			//oos.writeObject(new ByteData("zuVerschickendeDatei"));
-		
-		
+		// os = sock.getOutputStream();
+
+		byteList.add(new ByteData(bfrom, bto, zuVerschickendeDatei.replace(
+				'\\', '/'), count));
+
+		// oos.writeObject(new ByteData("zuVerschickendeDatei"));
+
 	}
 }

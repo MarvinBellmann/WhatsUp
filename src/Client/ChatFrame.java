@@ -35,7 +35,7 @@ import net.miginfocom.swing.MigLayout;
 
 //import java.io.IOException;
 
-public class ChatFenster {
+public class ChatFrame {
 
 	public JFrame frame;
 	public JTextPane txtField;
@@ -66,7 +66,7 @@ public class ChatFenster {
 	/**
 	 * Create the application.
 	 */
-	public ChatFenster(String name, String status) {
+	public ChatFrame(String name, String status) {
 		this.nameGespraech = name;
 		this.status = status;
 
@@ -75,15 +75,14 @@ public class ChatFenster {
 		UpdateStatus();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void UpdateStatus() {
 
 		ImageIcon avatar = null;
 		String statusneu = "";
 		String userInTabelle = "";
 		String avatarFile = "";
-		for (int row = 0; row <= HauptFenster.table.getRowCount() - 1; row++) {
-			ContactCard card = (ContactCard) HauptFenster.table.getValueAt(row,
+		for (int row = 0; row <= MainFrame.table.getRowCount() - 1; row++) {
+			ContactCard card = (ContactCard) MainFrame.table.getValueAt(row,
 					0);
 			userInTabelle = card.getName();
 			if (userInTabelle.equalsIgnoreCase(nameGespraech)) {
@@ -100,33 +99,22 @@ public class ChatFenster {
 				break;
 			}
 		}
-		// System.out.println("|||"+avatarFile+"|||");
 		if (this.nameGespraech.equalsIgnoreCase("ServerDB") == false
 				&& avatarFile.equals("")) {
 
-		//	HauptFenster.ChatFensterList.remove(this);
-			// HauptFenster.loescheCF(this);
-		//	frame.hide();
-
-		//	Client.sendSQL(new SQLData(
-		//			"UPDATE user set status='Online' where username like '"
-		//					+ HauptFenster.username + "'", 'i'));
-
-		//	 HauptFenster.statuslabel.setText("Online");
-		//	 HauptFenster.statuslabel.setForeground(Color.GREEN);
 		}
-		ichbild_lbl.setIcon(HauptFenster.label_2.getIcon());
+		ichbild_lbl.setIcon(MainFrame.label_2.getIcon());
 		label.setIcon(avatar);
 		this.status = statusneu;
 		online_lbl.setText(this.status);
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
 		} else {
-		    if (status.equals("Abwesend")) {
-			online_lbl.setForeground(Color.YELLOW);
-		    }else{
-			online_lbl.setForeground(Color.RED);
-		    }
+			if (status.equals("Abwesend")) {
+				online_lbl.setForeground(Color.YELLOW);
+			} else {
+				online_lbl.setForeground(Color.RED);
+			}
 		}
 
 		if (online_lbl.getText().equalsIgnoreCase("Online") == false
@@ -145,11 +133,11 @@ public class ChatFenster {
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
 		} else {
-		    if (status.equals("Abwesend")) {
-			online_lbl.setForeground(Color.YELLOW);
-		    }else{
-			online_lbl.setForeground(Color.RED);
-		    }
+			if (status.equals("Abwesend")) {
+				online_lbl.setForeground(Color.YELLOW);
+			} else {
+				online_lbl.setForeground(Color.RED);
+			}
 		}
 	}
 
@@ -164,13 +152,13 @@ public class ChatFenster {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
 				getClass().getClassLoader().getResource("data/Logo.png")));
 		frame.setTitle("Chat mit " + nameGespraech);
-		if (HauptFenster.frame.getX() - width - 7 <= 0) {
+		if (MainFrame.frame.getX() - width - 7 <= 0) {
 			frame.setLocation(
-					HauptFenster.frame.getX() + HauptFenster.frame.getWidth()
-							+ 7, HauptFenster.frame.getY());
+					MainFrame.frame.getX() + MainFrame.frame.getWidth()
+							+ 7, MainFrame.frame.getY());
 		} else {
-			frame.setLocation(HauptFenster.frame.getX() - width - 7,
-					HauptFenster.frame.getY());
+			frame.setLocation(MainFrame.frame.getX() - width - 7,
+					MainFrame.frame.getY());
 		}
 		frame.setMinimumSize(new Dimension(width, height));
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);// EXIT_ON_CLOSE
@@ -195,7 +183,7 @@ public class ChatFenster {
 		txtPanel.setEditable(false);
 		txtPanel.setLineWrap(true);
 		txtPanel.setWrapStyleWord(true);
-		//txtPanel.setContentType("text/html; charset=UTF-8");
+		// txtPanel.setContentType("text/html; charset=UTF-8");
 
 		JScrollPane sp = new JScrollPane(txtPanel);
 		sp.add(txtPanel);
@@ -226,11 +214,11 @@ public class ChatFenster {
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
 		} else {
-		    if (status.equals("Abwesend")) {
-			online_lbl.setForeground(Color.YELLOW);
-		    }else{
-			online_lbl.setForeground(Color.RED);
-		    }
+			if (status.equals("Abwesend")) {
+				online_lbl.setForeground(Color.YELLOW);
+			} else {
+				online_lbl.setForeground(Color.RED);
+			}
 		}
 		panel_1.add(online_lbl, "wrap 50px");
 
@@ -244,22 +232,24 @@ public class ChatFenster {
 		txtField.setContentType("text/html; charset=UTF-8");
 		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
 		txtField.setBorder(raisedetched);
-		//txtField.getDocument().putProperty("filterNewlines", Boolean.TRUE);
-		txtField.getInputMap().put(KeyStroke.getKeyStroke("ENTER"),"doNothing");
+		// txtField.getDocument().putProperty("filterNewlines", Boolean.TRUE);
+		txtField.getInputMap()
+				.put(KeyStroke.getKeyStroke("ENTER"), "doNothing");
 		txtField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				    //if(txtField.getText().length()<1)
-					String shorttext = txtField.getText();
-				    if(toTextString(txtField.getText()).length()>0){
-				    	System.out.println("TTT"+toTextString(txtField.getText())+"TTT"+toTextString(txtField.getText()).length());
-					Client.send(HauptFenster.username, nameGespraech,
-						txtField.getText());
-					txtField.setText("");
-				    }
-				   //((Object) e).preventDefault();
+					// if(txtField.getText().length()<1)
+					if (toTextString(txtField.getText()).length() > 0) {
+						System.out.println("TTT"
+								+ toTextString(txtField.getText()) + "TTT"
+								+ toTextString(txtField.getText()).length());
+						Client.send(MainFrame.username, nameGespraech,
+								txtField.getText());
+						txtField.setText("");
+					}
+					// ((Object) e).preventDefault();
 				}
 			}
 
@@ -278,7 +268,7 @@ public class ChatFenster {
 
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(new File(HauptFenster.desktopPath));
+				chooser.setCurrentDirectory(new File(MainFrame.desktopPath));
 				int rueckgabeWert = chooser.showDialog(null, "Auswählen");
 
 				if (rueckgabeWert == JFileChooser.APPROVE_OPTION) {
@@ -287,7 +277,7 @@ public class ChatFenster {
 							.getAbsolutePath();
 					System.out.println("Die zu verschickende Datei ist: "
 							+ zuVerschickendeDatei);
-					Client.sendBytes(HauptFenster.username, nameGespraech,
+					Client.sendBytes(MainFrame.username, nameGespraech,
 							zuVerschickendeDatei);
 
 					String zuVerschickendeDateiedit = zuVerschickendeDatei
@@ -295,7 +285,7 @@ public class ChatFenster {
 					String fileName = zuVerschickendeDateiedit.substring(
 							zuVerschickendeDateiedit.lastIndexOf('/') + 1,
 							zuVerschickendeDateiedit.length());
-					Client.send(HauptFenster.username, nameGespraech,
+					Client.send(MainFrame.username, nameGespraech,
 							"### Die Datei " + fileName
 									+ " wird gesendet und auf dem Desktop von "
 									+ nameGespraech + " gespeichert. ###");
@@ -310,11 +300,11 @@ public class ChatFenster {
 		JButton send_btn = new JButton("Senden");
 		send_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			    if(toTextString(txtField.getText()).length()>0){
-				Client.send(HauptFenster.username, nameGespraech,
-						txtField.getText());
-				txtField.setText("");
-			    }
+				if (toTextString(txtField.getText()).length() > 0) {
+					Client.send(MainFrame.username, nameGespraech,
+							txtField.getText());
+					txtField.setText("");
+				}
 			}
 		});
 		send_btn.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -325,14 +315,14 @@ public class ChatFenster {
 
 			public void windowClosing(WindowEvent e) {
 				int index = 0;
-				for (ChatFenster CF : HauptFenster.ChatFensterList) {
+				for (ChatFrame CF : MainFrame.ChatFensterList) {
 					if (CF.nameGespraech.equals(nameGespraech)) {
 						break;
 					}
 					index++;
 				}
-				HauptFenster.ChatFensterList
-						.remove(HauptFenster.ChatFensterList.get(index));
+				MainFrame.ChatFensterList
+						.remove(MainFrame.ChatFensterList.get(index));
 			}
 
 		});
@@ -349,7 +339,7 @@ public class ChatFenster {
 		// TODO Auto-generated method stub
 		frame.hide();
 	}
-	
+
 	public String toTextString(String text) {
 		// html to string umformung der nachricht
 		String kurztext = text;
@@ -376,5 +366,5 @@ public class ChatFenster {
 
 		return (kurztext);// + System.getProperty("line.separator")
 	}
-	
+
 }

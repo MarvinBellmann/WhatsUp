@@ -30,7 +30,7 @@ public class FileSenderThreadClient extends Thread {
 
 	@SuppressWarnings("deprecation")
 	public void run() {
-		HauptFenster.byteUebertragungsBeschuetzer = true;
+		MainFrame.byteUebertragungsBeschuetzer = true;
 
 		JFrame frame = new JFrame();
 		frame.setResizable(false);
@@ -94,6 +94,6 @@ public class FileSenderThreadClient extends Thread {
 		// }
 
 		// myFile.
-		HauptFenster.byteUebertragungsBeschuetzer = false;
+		MainFrame.byteUebertragungsBeschuetzer = false;
 	}
 }

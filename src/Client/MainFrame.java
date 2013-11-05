@@ -38,7 +38,7 @@ import javax.swing.table.TableCellRenderer;
 import net.miginfocom.swing.MigLayout;
 import SendData.SQLData;
 
-public class HauptFenster {
+public class MainFrame {
 
 	public static GraphicsEnvironment ge = GraphicsEnvironment
 			.getLocalGraphicsEnvironment();
@@ -68,47 +68,22 @@ public class HauptFenster {
 	public static JLabel label_2;
 	JLabel lblUsername;
 	JButton btnKontaktSuche;
-	ImageIcon addIcon = new ImageIcon(HauptFenster.class.getClassLoader()
+	ImageIcon addIcon = new ImageIcon(MainFrame.class.getClassLoader()
 			.getResource("data/add.png"));
-	ImageIcon removeIcon = new ImageIcon(HauptFenster.class.getClassLoader()
+	ImageIcon removeIcon = new ImageIcon(MainFrame.class.getClassLoader()
 			.getResource("data/remove.png"));
 	static boolean byteUebertragungsBeschuetzer = false;
 
 	private static JTextField txtSuche;
 	public static JLabel statuslabel;
-	public static ArrayList<ChatFenster> ChatFensterList = new ArrayList<ChatFenster>();
+	public static ArrayList<ChatFrame> ChatFensterList = new ArrayList<ChatFrame>();
 
 	static String serverIP = "localhost";
 
 	/**
 	 * Create the application.
 	 */
-	/**
-	 * @wbp.parser.constructor
-	 */
-	public HauptFenster(String user, String pw, String server) {
-		/*Properties pi = System.getProperties ();
-		pi.put ("file.encoding", "UTF-8"); // To add a new one
-		System.setProperties(pi);*/
-		
-		
-	/*
-        try {
-        	Class<Charset> c = Charset.class;
-            Field defaultCharsetField = c.getDeclaredField("defaultCharset");
-            defaultCharsetField.setAccessible(true);
-			defaultCharsetField.set(null, Charset.forName("latin2"));
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
+	public MainFrame(String user, String pw, String server) {
 		username = user;
 		serverIP = server;
 		initialize();
@@ -116,23 +91,19 @@ public class HauptFenster {
 		Client client = new Client(serverIP);
 		client.setName("1A clientThread");
 		client.start();
-		
-		
 	}
 
-	public HauptFenster() {
+	public MainFrame() {
 		initialize();
 	}
 
-	public static void Chatparser(String sfrom, String text) {
-		// text-String ändern in html-fähigen code
-		//
-		for (ChatFenster c : ChatFensterList) {
+	public static void chatparser(String sfrom, String text) {
+		for (ChatFrame c : ChatFensterList) {
 			System.out.println(c.txtPanel.getText());
 			if (c.nameGespraech.equalsIgnoreCase(sfrom)) {
 				if (c.txtPanel.getText().equals("")) {
 					c.txtPanel.setText(text);
-					final ChatFenster cstatic = c;
+					final ChatFrame cstatic = c;
 					EventQueue.invokeLater(new Runnable() {
 
 						@Override
@@ -152,21 +123,8 @@ public class HauptFenster {
 		}
 	}
 
-	public static void Chatparserecho(String sto, String text) {
-	    
-	    /*
-	     *     String utftext="";
-	    try {
-
-		byte[] array = text.getBytes("UTF-8");
-		utftext = new String(array, Charset.forName("UTF-8"));
-		//utftext = new String(text.getBytes("utf-8"));
-	    } catch (UnsupportedEncodingException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	    }
-	     */
-		for (ChatFenster c : ChatFensterList) {
+	public static void chatparserecho(String sto, String text) {
+		for (ChatFrame c : ChatFensterList) {
 			if (c.nameGespraech.equalsIgnoreCase(sto)) {
 				if (c.txtPanel.getText().equals("")) {
 					c.txtPanel.setText(text);
@@ -179,7 +137,7 @@ public class HauptFenster {
 		}
 	}
 
-	public static void KontaktListeUpdater(String text, char typ) {
+	public static void kontaktListeUpdater(String text, char typ) {
 
 		try {
 			Pattern p = Pattern.compile("[/.,]");
@@ -196,7 +154,7 @@ public class HauptFenster {
 			}
 
 			if (username.equals("Admin")) {
-				ImageIcon avatarDB = new ImageIcon(HauptFenster.class
+				ImageIcon avatarDB = new ImageIcon(MainFrame.class
 						.getClassLoader().getResource(iDB));
 				model.addRow(new Object[] { new ContactCard(avatarDB, "Online",
 						"ServerDB") });
@@ -236,7 +194,7 @@ public class HauptFenster {
 				default:
 					filename = i1;
 				}
-				avatarImage = new ImageIcon(HauptFenster.class.getClassLoader()
+				avatarImage = new ImageIcon(MainFrame.class.getClassLoader()
 						.getResource(filename));
 				model.addRow(new Object[] { new ContactCard(avatarImage,
 						gesplittet[i + 1], gesplittet[i]) });
@@ -245,7 +203,7 @@ public class HauptFenster {
 			System.out
 					.println("### Tablelleneinträge inkl neuer Stati geladen aus DB!");
 
-			for (ChatFenster CF : ChatFensterList) {
+			for (ChatFrame CF : ChatFensterList) {
 				CF.UpdateStatus();
 			}
 
@@ -266,7 +224,7 @@ public class HauptFenster {
 
 	}
 
-	public static void StatusTabelleServerLost() {
+	public static void statusTableServerLost() {
 
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		int rowCount = model.getRowCount();
@@ -280,7 +238,7 @@ public class HauptFenster {
 		table.repaint();
 	}
 
-	public static void StatusChanger() throws InterruptedException {
+	public static void statusChanger() throws InterruptedException {
 
 		Thread.sleep(1000);
 		statuslabel.setForeground(Color.GREEN);
@@ -309,8 +267,7 @@ public class HauptFenster {
 
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				HauptFenster.class.getClassLoader()
-						.getResource("data/Logo.png")));
+				MainFrame.class.getClassLoader().getResource("data/Logo.png")));
 		frame.setTitle("WAKenger!");
 		frame.setResizable(false);
 		frame.setBounds(ge.getMaximumWindowBounds().width - width - 20,
@@ -357,7 +314,7 @@ public class HauptFenster {
 		mEinstellungenitem1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 494-80-7;
+				height = 494 - 80 - 7;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -367,7 +324,7 @@ public class HauptFenster {
 		mEinstellungenitem2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 578 - 5-80;
+				height = 578 - 5 - 80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -377,7 +334,7 @@ public class HauptFenster {
 		mEinstellungenitem3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 658 - 5-80;
+				height = 658 - 5 - 80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -387,7 +344,7 @@ public class HauptFenster {
 		mEinstellungenitem4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 740 - 3-80;
+				height = 740 - 3 - 80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -397,7 +354,7 @@ public class HauptFenster {
 		mEinstellungenitem5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 820-80;
+				height = 820 - 80;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -411,57 +368,57 @@ public class HauptFenster {
 
 		JMenuItem mStatusitem1 = new JMenuItem("Online");
 		mStatusitem1.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-			//btnKontaktSuche.setIcon(addIcon);
-			if(statuslabel.getText().equalsIgnoreCase("Offline")==false){
-			    Client.sendSQL(new SQLData(
-				    "UPDATE user set status='Online' where username like '"
-					    + username + "'", 'i'));
-			    statuslabel.setText("Online");
-			    statuslabel.setForeground(Color.green);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// btnKontaktSuche.setIcon(addIcon);
+				if (statuslabel.getText().equalsIgnoreCase("Offline") == false) {
+					Client.sendSQL(new SQLData(
+							"UPDATE user set status='Online' where username like '"
+									+ username + "'", 'i'));
+					statuslabel.setText("Online");
+					statuslabel.setForeground(Color.green);
+				}
 			}
-		    }
 		});
 		mStatus.add(mStatusitem1);
 		JMenuItem mStatusitem2 = new JMenuItem("Abwesend");
 		mStatusitem2.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-			//btnKontaktSuche.setIcon(removeIcon);
-			if(statuslabel.getText().equalsIgnoreCase("Offline")==false){
-			    Client.sendSQL(new SQLData(
-				    "UPDATE user set status='Abwesend' where username like '"
-					    + username + "'", 'i'));
-			    statuslabel.setText("Abwesend");
-			    statuslabel.setForeground(Color.YELLOW);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// btnKontaktSuche.setIcon(removeIcon);
+				if (statuslabel.getText().equalsIgnoreCase("Offline") == false) {
+					Client.sendSQL(new SQLData(
+							"UPDATE user set status='Abwesend' where username like '"
+									+ username + "'", 'i'));
+					statuslabel.setText("Abwesend");
+					statuslabel.setForeground(Color.YELLOW);
+				}
 			}
-		    }
 		});
 		mStatus.add(mStatusitem2);
 
 		// //////////////////////////////////////////////////////////////////////////
 
-				JMenu mKontakte = new JMenu("Kontakte");
-				mKontakte.setForeground(Color.WHITE);
-				menuBar.add(mKontakte);
+		JMenu mKontakte = new JMenu("Kontakte");
+		mKontakte.setForeground(Color.WHITE);
+		menuBar.add(mKontakte);
 
-				JMenuItem mKontakteitem1 = new JMenuItem("Zur Kontaktliste hinzufügen");
-				mKontakteitem1.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						btnKontaktSuche.setIcon(addIcon);
-					}
-				});
-				mKontakte.add(mKontakteitem1);
-				JMenuItem mKontakteitem2 = new JMenuItem("Aus Kontaktliste löschen");
-				mKontakteitem2.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						btnKontaktSuche.setIcon(removeIcon);
-					}
-				});
-				mKontakte.add(mKontakteitem2);
+		JMenuItem mKontakteitem1 = new JMenuItem("Zur Kontaktliste hinzufügen");
+		mKontakteitem1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnKontaktSuche.setIcon(addIcon);
+			}
+		});
+		mKontakte.add(mKontakteitem1);
+		JMenuItem mKontakteitem2 = new JMenuItem("Aus Kontaktliste löschen");
+		mKontakteitem2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnKontaktSuche.setIcon(removeIcon);
+			}
+		});
+		mKontakte.add(mKontakteitem2);
 
 		// //////////////////////////////////////////////////////////////////////////
 
@@ -504,7 +461,7 @@ public class HauptFenster {
 						"[30px:n:30px][45px::45px,top][20px::20px,bottom][30px::30px][]"));
 
 		label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon(HauptFenster.class.getClassLoader()
+		label_2.setIcon(new ImageIcon(MainFrame.class.getClassLoader()
 				.getResource("data/loading.gif")));
 		label_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label_2.addMouseListener(new MouseAdapter() {
@@ -516,16 +473,16 @@ public class HauptFenster {
 					avatarFrame = new JFrame();
 					avatarFrame.setIconImage(Toolkit.getDefaultToolkit()
 							.getImage(
-									HauptFenster.class.getClassLoader()
+									MainFrame.class.getClassLoader()
 											.getResource("data/Logo.png")));
 					avatarFrame.setTitle("Avatarauswahl");
-					if (HauptFenster.frame.getX() - aWidth - 7 <= 0) {
-						avatarFrame.setLocation(HauptFenster.frame.getX()
-								+ HauptFenster.frame.getWidth() + 7,
-								HauptFenster.frame.getY());
+					if (MainFrame.frame.getX() - aWidth - 7 <= 0) {
+						avatarFrame.setLocation(MainFrame.frame.getX()
+								+ MainFrame.frame.getWidth() + 7,
+								MainFrame.frame.getY());
 					} else {
-						avatarFrame.setLocation(HauptFenster.frame.getX()
-								- aWidth - 7, HauptFenster.frame.getY());
+						avatarFrame.setLocation(MainFrame.frame.getX() - aWidth
+								- 7, MainFrame.frame.getY());
 					}
 					avatarFrame.setResizable(false);
 					avatarFrame.setSize(aWidth, aHeight);
@@ -536,7 +493,7 @@ public class HauptFenster {
 					avatarPanel.setLayout(new MigLayout("fill, wrap 3"));
 
 					JLabel avatarImage1 = new JLabel("");
-					avatarImage1.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage1.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i1)));
 					avatarImage1.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -553,7 +510,7 @@ public class HauptFenster {
 									"UPDATE user set picture='1' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i1)));
 							avatarFrame.hide();
 						}
@@ -561,7 +518,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage1);
 
 					JLabel avatarImage2 = new JLabel("");
-					avatarImage2.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage2.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i2)));
 					avatarImage2.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -578,7 +535,7 @@ public class HauptFenster {
 									"UPDATE user set picture='2' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i2)));
 							avatarFrame.hide();
 						}
@@ -586,7 +543,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage2);
 
 					JLabel avatarImage3 = new JLabel("");
-					avatarImage3.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage3.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i3)));
 					avatarImage3.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -603,7 +560,7 @@ public class HauptFenster {
 									"UPDATE user set picture='3' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i3)));
 							avatarFrame.hide();
 						}
@@ -611,7 +568,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage3);
 
 					JLabel avatarImage4 = new JLabel("");
-					avatarImage4.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage4.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i4)));
 					avatarImage4.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -628,7 +585,7 @@ public class HauptFenster {
 									"UPDATE user set picture='4' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i4)));
 							avatarFrame.hide();
 						}
@@ -636,7 +593,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage4);
 
 					JLabel avatarImage5 = new JLabel("");
-					avatarImage5.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage5.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i5)));
 					avatarImage5.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -653,7 +610,7 @@ public class HauptFenster {
 									"UPDATE user set picture='5' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i5)));
 							avatarFrame.hide();
 						}
@@ -661,7 +618,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage5);
 
 					JLabel avatarImage6 = new JLabel("");
-					avatarImage6.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage6.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i6)));
 					avatarImage6.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -678,7 +635,7 @@ public class HauptFenster {
 									"UPDATE user set picture='6' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i6)));
 							avatarFrame.hide();
 						}
@@ -686,7 +643,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage6);
 
 					JLabel avatarImage7 = new JLabel("");
-					avatarImage7.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage7.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i7)));
 					avatarImage7.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -703,7 +660,7 @@ public class HauptFenster {
 									"UPDATE user set picture='7' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i7)));
 							avatarFrame.hide();
 						}
@@ -711,7 +668,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage7);
 
 					JLabel avatarImage8 = new JLabel("");
-					avatarImage8.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage8.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i8)));
 					avatarImage8.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -728,7 +685,7 @@ public class HauptFenster {
 									"UPDATE user set picture='8' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i8)));
 							avatarFrame.hide();
 						}
@@ -736,7 +693,7 @@ public class HauptFenster {
 					avatarPanel.add(avatarImage8);
 
 					JLabel avatarImage9 = new JLabel("");
-					avatarImage9.setIcon(new ImageIcon(HauptFenster.class
+					avatarImage9.setIcon(new ImageIcon(MainFrame.class
 							.getClassLoader().getResource(i9)));
 					avatarImage9.setCursor(Cursor
 							.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -753,7 +710,7 @@ public class HauptFenster {
 									"UPDATE user set picture='9' where username like '"
 											+ username + "'", 'i'));
 
-							label_2.setIcon(new ImageIcon(HauptFenster.class
+							label_2.setIcon(new ImageIcon(MainFrame.class
 									.getClassLoader().getResource(i9)));
 							avatarFrame.hide();
 						}
@@ -880,13 +837,13 @@ public class HauptFenster {
 						table.getSelectedRow(), 0);
 				boolean abbruch = false;
 
-				for (ChatFenster CF : ChatFensterList) {
+				for (ChatFrame CF : ChatFensterList) {
 					if (CF.nameGespraech.equalsIgnoreCase(card.getName())) {
 						abbruch = true;
 					}
 				}
 				if (abbruch == false) {
-					ChatFenster c = new ChatFenster(card.getName(), card
+					ChatFrame c = new ChatFrame(card.getName(), card
 							.getStatus());
 					ChatFensterList.add(c);
 					System.out.println("### Chatfenster mit " + card.getName()
@@ -903,7 +860,7 @@ public class HauptFenster {
 		frame.getContentPane().add(mainPanel);
 	}
 
-	public static void KontaktHinzufuegen() {
+	public static void addContact() {
 
 		int ok = JOptionPane.showConfirmDialog(null,
 				"Wollen sie den Benutzer (" + txtSuche.getText()
@@ -912,9 +869,9 @@ public class HauptFenster {
 				JOptionPane.YES_NO_CANCEL_OPTION);
 		if (ok == JOptionPane.YES_OPTION) {
 
-			Client.sendSQL(new SQLData(
-					"UPDATE user set status='"+statuslabel.getText()+"' where username like '"
-							+ username + "'", 'i'));
+			Client.sendSQL(new SQLData("UPDATE user set status='"
+					+ statuslabel.getText() + "' where username like '"
+					+ username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
 					"INSERT IGNORE INTO contacts (username,contact) values ('"
@@ -929,7 +886,7 @@ public class HauptFenster {
 		}
 	}
 
-	public static void PictureUpdater(String picID) {
+	public static void pictureUpdater(String picID) {
 
 		String shortendPicID = picID.substring(0, 1);
 		System.out.println("picID:" + picID + "|" + shortendPicID);
@@ -976,13 +933,13 @@ public class HauptFenster {
 			System.out.println("pic1");
 			filename = i1;
 		}
-		avatarImage = new ImageIcon(HauptFenster.class.getClassLoader()
+		avatarImage = new ImageIcon(MainFrame.class.getClassLoader()
 				.getResource(filename));
 		label_2.setIcon(avatarImage);
 
 	}
 
-	public static void KontaktLoeschen() {
+	public static void removeContact() {
 		int ok = JOptionPane.showConfirmDialog(null,
 				"Wollen sie den Benutzer (" + txtSuche.getText()
 						+ ") aus Ihrer Kontaktliste loeschen?",
@@ -990,9 +947,9 @@ public class HauptFenster {
 				JOptionPane.YES_NO_CANCEL_OPTION);
 		if (ok == JOptionPane.YES_OPTION) {
 
-		Client.sendSQL(new SQLData(
-					"UPDATE user set status='"+HauptFenster.statuslabel.getText()+"' where username like '"
-							+ username + "'", 'i'));
+			Client.sendSQL(new SQLData("UPDATE user set status='"
+					+ MainFrame.statuslabel.getText()
+					+ "' where username like '" + username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
 					"DELETE from contacts where username like '" + username
@@ -1002,33 +959,11 @@ public class HauptFenster {
 					"DELETE from contacts where username like '"
 							+ txtSuche.getText() + "' and contact like'"
 							+ username + "'", 'i', username));
-
-			// txtSuche.getText()
-			/*int index = 0;
-			for (ChatFenster CF : HauptFenster.ChatFensterList) {
-				if (CF.nameGespraech.equalsIgnoreCase(txtSuche.getText())) {
-					CF.hiding();
-					break;
-				}
-				index++;
-
-			}
-			HauptFenster.ChatFensterList.remove(HauptFenster.ChatFensterList
-					.get(index));*/
-
 			txtSuche.setText("");
 		}
 	}
 
-	public static void loescheCF(ChatFenster CFchatFenster) {
-		// TODO Auto-generated method stub
-		/*
-		 * int index=0; for (ChatFenster CF : ChatFensterList) { if
-		 * (CF.nameGespraech.equals(chatFenster.nameGespraech)) { break; }
-		 * index++; }
-		 * HauptFenster.ChatFensterList.remove(HauptFenster.ChatFensterList
-		 * .get(index));
-		 */
+	public static void deleteCF(ChatFrame CFchatFenster) {
 		ChatFensterList.remove(CFchatFenster);
 	}
 }

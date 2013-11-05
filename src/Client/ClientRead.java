@@ -36,15 +36,15 @@ public class ClientRead extends Thread {
 		while (ServerAnwesend == true) {
 
 			try {
-				Empfange();
+				recieve();
 				Thread.sleep(100);
 			} catch (Exception e) {
 				ServerAnwesend = false;
 				System.out.println("Client read Problem. " + e.getMessage());
-				HauptFenster.statuslabel.setText("Offline");
-				HauptFenster.statuslabel.setForeground(Color.RED);
-				HauptFenster.StatusTabelleServerLost();
-				for (ChatFenster CF : HauptFenster.ChatFensterList) {
+				MainFrame.statuslabel.setText("Offline");
+				MainFrame.statuslabel.setForeground(Color.RED);
+				MainFrame.statusTableServerLost();
+				for (ChatFrame CF : MainFrame.ChatFensterList) {
 					CF.UpdateStatusServerLost();
 				}
 			}
@@ -58,9 +58,9 @@ public class ClientRead extends Thread {
 
 	}
 
-	public void Empfange() throws ClassNotFoundException, IOException {
+	public void recieve() throws ClassNotFoundException, IOException {
 
-		if (HauptFenster.byteUebertragungsBeschuetzer == false) {
+		if (MainFrame.byteUebertragungsBeschuetzer == false) {
 			Object obj = ois.readObject();
 
 			if (obj instanceof Message) {
@@ -69,12 +69,12 @@ public class ClientRead extends Thread {
 						+ messageIGot.toString());
 
 				if (messageIGot.from.equals("KontaktDBAntwort")) {
-					HauptFenster.KontaktListeUpdater(messageIGot.text,
+					MainFrame.kontaktListeUpdater(messageIGot.text,
 							messageIGot.typ);
 				} else {
 
 					if (messageIGot.from.equals("PictureDBAntwort")) {
-						HauptFenster.PictureUpdater(messageIGot.text);
+						MainFrame.pictureUpdater(messageIGot.text);
 						// HauptFenster.PictureUpdater(picID);
 
 					} else {
@@ -82,7 +82,7 @@ public class ClientRead extends Thread {
 						if (messageIGot.from.equals("HinzufuegenDBAntwort")) {
 							System.out.println(messageIGot.text);
 							if (messageIGot.text.contains("Keine Eintr") == false) {
-								HauptFenster.KontaktHinzufuegen();
+								MainFrame.addContact();
 							} else {
 								JOptionPane
 										.showMessageDialog(null,
@@ -96,7 +96,7 @@ public class ClientRead extends Thread {
 							if (messageIGot.from.equals("LoeschenDBAntwort")) {
 								System.out.println(messageIGot.text);
 								if (messageIGot.text.contains("Keine Eintr") == false) {
-									HauptFenster.KontaktLoeschen();
+									MainFrame.removeContact();
 								} else {
 									JOptionPane
 											.showMessageDialog(null,
@@ -108,7 +108,7 @@ public class ClientRead extends Thread {
 							} else {
 
 								boolean checkopen = true;
-								for (ChatFenster CF : HauptFenster.ChatFensterList) {
+								for (ChatFrame CF : MainFrame.ChatFensterList) {
 									if (CF.nameGespraech
 											.equalsIgnoreCase(messageIGot.from)) {
 										checkopen = false;
@@ -120,9 +120,9 @@ public class ClientRead extends Thread {
 									String statusfrom = "";
 									String fromfrom = "";
 
-									for (int row = 0; row <= HauptFenster.table
+									for (int row = 0; row <= MainFrame.table
 											.getRowCount() - 1; row++) {
-										ContactCard card = (ContactCard) HauptFenster.table
+										ContactCard card = (ContactCard) MainFrame.table
 												.getValueAt(row, 0);
 										fromfrom = card.getName();
 										if (fromfrom
@@ -138,13 +138,13 @@ public class ClientRead extends Thread {
 										statusfrom = "Online";
 									}
 									// ImageIcon i = new ImageIcon();
-									ChatFenster c = new ChatFenster(
+									ChatFrame c = new ChatFrame(
 											messageIGot.from, statusfrom);
-									HauptFenster.ChatFensterList.add(c);
+									MainFrame.ChatFensterList.add(c);
 									System.out.println("### Chatfenster mit "
 											+ messageIGot.from + " geöffnet.");
 								}
-								HauptFenster.Chatparser(messageIGot.from,
+								MainFrame.chatparser(messageIGot.from,
 										messageIGot.toText());
 
 							}
@@ -153,7 +153,7 @@ public class ClientRead extends Thread {
 				}
 			}
 			if (obj instanceof ByteData) {
-				HauptFenster.byteUebertragungsBeschuetzer = true;
+				MainFrame.byteUebertragungsBeschuetzer = true;
 				ByteData bytedata = (ByteData) obj;
 				System.out.println("1");
 				byte[] mybytearray = new byte[1024];
@@ -217,7 +217,7 @@ public class ClientRead extends Thread {
 					//Desktop dt = Desktop.getDesktop();
 					//dt.open(ff);
 				}
-				HauptFenster.byteUebertragungsBeschuetzer = false;
+				MainFrame.byteUebertragungsBeschuetzer = false;
 			}
 		}
 	}

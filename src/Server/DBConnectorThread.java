@@ -23,7 +23,7 @@ public class DBConnectorThread extends Thread {
 
 	public void run() {
 
-		ConnectToDB();
+		connectToDB();
 		try {
 			stmt.executeUpdate("UPDATE user set status='Offline'");
 		} catch (SQLException e1) {
@@ -36,7 +36,7 @@ public class DBConnectorThread extends Thread {
 				sqlBefehlsListeChecken
 						.addAll(MultiThreadedServer.sqlBefehlsListe);
 				if (sqlBefehlsListeChecken.size() > 0) {
-					SQLBefehl(sqlBefehlsListeChecken.get(0));
+					sqlCommand(sqlBefehlsListeChecken.get(0));
 					MultiThreadedServer.sqlBefehlsListe.remove(0);
 				}
 
@@ -51,33 +51,40 @@ public class DBConnectorThread extends Thread {
 
 	}
 
-	public void SQLBefehl(SQLData sqldata) { //'p'=Picture; 'h'=hinzufügen eines Kontaktes;'l'=löschen aus Kontaktliste; 'k'=Kontaktliste zurückgeben; 'a'=anmelden
+	public void sqlCommand(SQLData sqldata) {
 		try {
 
 			if (sqldata.sqlBefehl.length() < 11) {
 				sqldata.sqlBefehl = "Select * from user";
 			}
-			if (sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("create")
-					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("insert")
-					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("update")
-					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("if not ex")
-					| sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("delete")) {
+			if (sqldata.sqlBefehl.substring(0, 10).toLowerCase()
+					.contains("create")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase()
+							.contains("insert")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase()
+							.contains("update")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase()
+							.contains("if not ex")
+					| sqldata.sqlBefehl.substring(0, 10).toLowerCase()
+							.contains("delete")) {
 
-				if (sqldata.sqlBefehl.substring(0, 10).toLowerCase().contains("create")) {
+				if (sqldata.sqlBefehl.substring(0, 10).toLowerCase()
+						.contains("create")) {
 
 					ServerStart.SystemWriteLogln("create!");
-					SQLCreate(sqldata.sqlBefehl);
+					sqlCreate(sqldata.sqlBefehl);
 
 				} else {
-					SQLManipulation(sqldata.sqlBefehl);
+					sqlManipulation(sqldata.sqlBefehl);
 				}
 
 			}
-				// ALSO SELECT!
+			// ALSO SELECT!
 			else {
 
 				rs = stmt.executeQuery(sqldata.sqlBefehl);// .executeQuery(sql);
-				ServerStart.SystemWriteLogln("*DB<-* '" + sqldata.sqlBefehl + "'");
+				ServerStart.SystemWriteLogln("*DB<-* '" + sqldata.sqlBefehl
+						+ "'");
 
 				ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -96,14 +103,16 @@ public class DBConnectorThread extends Thread {
 				}
 				ServerStart.SystemWriteLogln("");
 				antwort = antwort + "\n";
-				if (sqldata.typ == 'k' | sqldata.typ == 'p'| sqldata.typ == 'h'| sqldata.typ == 'l') {
+				if (sqldata.typ == 'k' | sqldata.typ == 'p'
+						| sqldata.typ == 'h' | sqldata.typ == 'l') {
 					antwort = "";
 					ServerStart.SystemWriteLog("*DB->* ");
 				}
 				while (rs.next()) {
 					int i = 1;
 
-					if (sqldata.typ != 'k' && sqldata.typ != 'p'| sqldata.typ == 'h'| sqldata.typ == 'l') {
+					if (sqldata.typ != 'k' && sqldata.typ != 'p'
+							| sqldata.typ == 'h' | sqldata.typ == 'l') {
 
 						antwort = antwort + "*DB->* | ";
 						ServerStart.SystemWriteLog("*DB->* | ");
@@ -136,7 +145,8 @@ public class DBConnectorThread extends Thread {
 							"Admin", antwort));
 
 				}
-				if (sqldata.typ == 'a' | sqldata.typ == 'h' | sqldata.typ == 'l') {
+				if (sqldata.typ == 'a' | sqldata.typ == 'h'
+						| sqldata.typ == 'l') {
 					rs.last();
 					if (rs.getRow() == 0) {
 						antwort = "\n";
@@ -152,7 +162,7 @@ public class DBConnectorThread extends Thread {
 					}
 					MultiThreadedServer.messageList.add(new Message("ServerDB",
 							"Anmelder", antwort));
-					//ServerStart.SystemWriteLogln("message müsste geaddet sein");
+					// ServerStart.SystemWriteLogln("message müsste geaddet sein");
 
 				}
 				if (sqldata.typ == 'k') {
@@ -164,33 +174,30 @@ public class DBConnectorThread extends Thread {
 					}
 				}
 				if (sqldata.typ == 'p') {
-				   // ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
+					// ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
 					ServerStart.SystemWriteLog("\n");
 					if (sqldata.sqlBefehl.contains("Select picture from")) {
-						MultiThreadedServer.messageList
-								.add(new Message("PictureDBAntwort",
-										sqldata.user, antwort));
+						MultiThreadedServer.messageList.add(new Message(
+								"PictureDBAntwort", sqldata.user, antwort));
 					}
 				}
 				if (sqldata.typ == 'h') {
-					   // ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
-						ServerStart.SystemWriteLog("\n");
-						//if (sqldata.sqlBefehl.contains("Select * from user")) {
-							MultiThreadedServer.messageList
-									.add(new Message("HinzufuegenDBAntwort",
-											sqldata.user, antwort));
-						//}
-					}
-				
+					// ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
+					ServerStart.SystemWriteLog("\n");
+					// if (sqldata.sqlBefehl.contains("Select * from user")) {
+					MultiThreadedServer.messageList.add(new Message(
+							"HinzufuegenDBAntwort", sqldata.user, antwort));
+					// }
+				}
+
 				if (sqldata.typ == 'l') {
-					   // ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
-						ServerStart.SystemWriteLog("\n");
-						//if (sqldata.sqlBefehl.contains("Select * from user")) {
-							MultiThreadedServer.messageList
-									.add(new Message("LoeschenDBAntwort",
-											sqldata.user, antwort));
-						//}
-					}
+					// ServerStart.SystemWriteLogln(sqldata.sqlBefehl);
+					ServerStart.SystemWriteLog("\n");
+					// if (sqldata.sqlBefehl.contains("Select * from user")) {
+					MultiThreadedServer.messageList.add(new Message(
+							"LoeschenDBAntwort", sqldata.user, antwort));
+					// }
+				}
 				rs.close();
 			}
 		} catch (SQLException e) {
@@ -207,7 +214,7 @@ public class DBConnectorThread extends Thread {
 		}
 	}
 
-	public void SQLManipulation(String sql) {
+	public void sqlManipulation(String sql) {
 		try {
 			stmt.executeUpdate(sql);// .executeQuery(sql);
 			ServerStart.SystemWriteLogln("*DB<-* '" + sql + "'");
@@ -224,36 +231,41 @@ public class DBConnectorThread extends Thread {
 		try {
 			if (sql.contains("UPDATE user set status='")) {
 				for (WorkerRunnableRead w : MultiThreadedServer.AngemeldeteWorkerRunnableRead) {
-				    if(w.user.equalsIgnoreCase("Anmelder")==false){
-					
-					
-					if(w.user.equalsIgnoreCase("Admin")==false){
-					MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
-							/*"SELECT username,status from user where username not like '"
-									+ w.user + "' order by username", 'k',
-							w.user));*/
-						"SELECT c.contact,u.status, u.picture from user u, contacts c where c.contact=u.username and c.username like '"
-						+ w.user + "' order by c.contact", 'k',
-				w.user));
-					
-					}else{
-					MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
-						"SELECT username,status,picture from user where username not like '"
-								+ w.user + "' order by username", 'k',
-						w.user));
+					if (w.user.equalsIgnoreCase("Anmelder") == false) {
+
+						if (w.user.equalsIgnoreCase("Admin") == false) {
+							MultiThreadedServer.sqlBefehlsListe
+									.add(new SQLData(
+											/*
+											 * "SELECT username,status from user where username not like '"
+											 * + w.user + "' order by username",
+											 * 'k', w.user));
+											 */
+											"SELECT c.contact,u.status, u.picture from user u, contacts c where c.contact=u.username and c.username like '"
+													+ w.user
+													+ "' order by c.contact",
+											'k', w.user));
+
+						} else {
+							MultiThreadedServer.sqlBefehlsListe
+									.add(new SQLData(
+											"SELECT username,status,picture from user where username not like '"
+													+ w.user
+													+ "' order by username",
+											'k', w.user));
+						}
+
 					}
-					
-				    }
 
 				}
 			}
-			
-			/*if (sql.contains("INSERT INTO user (username,")){
-			    MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
-					"INSERT INTO contacts (username,contact) values ('"+ w.user + "' order by username", 'k',
-					w.user));
-				}
-			}*/
+
+			/*
+			 * if (sql.contains("INSERT INTO user (username,")){
+			 * MultiThreadedServer.sqlBefehlsListe.add(new SQLData(
+			 * "INSERT INTO contacts (username,contact) values ('"+ w.user +
+			 * "' order by username", 'k', w.user)); } }
+			 */
 
 		} catch (Exception e) {
 			ServerStart.SystemWriteLogln(e.getMessage());
@@ -261,7 +273,7 @@ public class DBConnectorThread extends Thread {
 
 	}
 
-	public void SQLCreate(String sql) {
+	public void sqlCreate(String sql) {
 		try {
 			stmt.execute(sql);// .executeQuery(sql);
 			ServerStart.SystemWriteLogln("*DB<-* '" + sql + "'");
@@ -277,7 +289,7 @@ public class DBConnectorThread extends Thread {
 		}
 	}
 
-	public void ConnectToDB() {
+	public void connectToDB() {
 		try {
 			// laden der Treiberklasse
 			Class.forName("com.mysql.jdbc.Driver");
@@ -287,7 +299,8 @@ public class DBConnectorThread extends Thread {
 			// password
 			con = DriverManager.getConnection(
 					"jdbc:mysql://46.163.119.64:3306/whatsup", "whatsup", pw);
-			ServerStart.SystemWriteLogln("*DB* MySql verbindung erfolgreich mit: //46.163.119.64:3306/whatsup");
+			ServerStart
+					.SystemWriteLogln("*DB* MySql verbindung erfolgreich mit: //46.163.119.64:3306/whatsup");
 
 			// Initialize the statement to be used, specify if rows are
 			// scrollable
@@ -295,7 +308,7 @@ public class DBConnectorThread extends Thread {
 					ResultSet.CONCUR_READ_ONLY);
 
 		} catch (Exception e) {
-		    ServerStart.SystemWriteErrorLogln(e);
+			ServerStart.SystemWriteErrorLogln(e);
 		}
 	}
 }
