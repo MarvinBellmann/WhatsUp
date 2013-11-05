@@ -41,11 +41,11 @@ public class ClientRead extends Thread {
 			} catch (Exception e) {
 				ServerAnwesend = false;
 				System.out.println("Client read Problem. " + e.getMessage());
-				MainFrame.statuslabel.setText("Offline");
-				MainFrame.statuslabel.setForeground(Color.RED);
+				MainFrame.statusLbl.setText("Offline");
+				MainFrame.statusLbl.setForeground(Color.RED);
 				MainFrame.statusTableServerLost();
-				for (ChatFrame CF : MainFrame.ChatFensterList) {
-					CF.UpdateStatusServerLost();
+				for (ChatFrame CF : MainFrame.chatFrameList) {
+					CF.updateStatusServerLost();
 				}
 			}
 
@@ -60,7 +60,7 @@ public class ClientRead extends Thread {
 
 	public void recieve() throws ClassNotFoundException, IOException {
 
-		if (MainFrame.byteUebertragungsBeschuetzer == false) {
+		if (MainFrame.byteSendingProtector == false) {
 			Object obj = ois.readObject();
 
 			if (obj instanceof Message) {
@@ -108,8 +108,8 @@ public class ClientRead extends Thread {
 							} else {
 
 								boolean checkopen = true;
-								for (ChatFrame CF : MainFrame.ChatFensterList) {
-									if (CF.nameGespraech
+								for (ChatFrame CF : MainFrame.chatFrameList) {
+									if (CF.nameChat
 											.equalsIgnoreCase(messageIGot.from)) {
 										checkopen = false;
 										break;
@@ -140,7 +140,7 @@ public class ClientRead extends Thread {
 									// ImageIcon i = new ImageIcon();
 									ChatFrame c = new ChatFrame(
 											messageIGot.from, statusfrom);
-									MainFrame.ChatFensterList.add(c);
+									MainFrame.chatFrameList.add(c);
 									System.out.println("### Chatfenster mit "
 											+ messageIGot.from + " geöffnet.");
 								}
@@ -153,7 +153,7 @@ public class ClientRead extends Thread {
 				}
 			}
 			if (obj instanceof ByteData) {
-				MainFrame.byteUebertragungsBeschuetzer = true;
+				MainFrame.byteSendingProtector = true;
 				ByteData bytedata = (ByteData) obj;
 				System.out.println("1");
 				byte[] mybytearray = new byte[1024];
@@ -217,7 +217,7 @@ public class ClientRead extends Thread {
 					//Desktop dt = Desktop.getDesktop();
 					//dt.open(ff);
 				}
-				MainFrame.byteUebertragungsBeschuetzer = false;
+				MainFrame.byteSendingProtector = false;
 			}
 		}
 	}

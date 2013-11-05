@@ -33,13 +33,11 @@ import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-//import java.io.IOException;
-
 public class ChatFrame {
 
 	public JFrame frame;
 	public JTextPane txtField;
-	public String nameGespraech;
+	public String nameChat;
 	public String status;
 	public JLabel name_lbl;
 	public JLabel online_lbl;
@@ -47,8 +45,8 @@ public class ChatFrame {
 	private static int height = 370;
 	public JTextArea txtPanel;
 	public JPanel panel_1;
-	JLabel ichbild_lbl;
-	JLabel label;
+	JLabel lblMyself;
+	JLabel lbl;
 	JButton dataSend_btn;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
@@ -67,25 +65,24 @@ public class ChatFrame {
 	 * Create the application.
 	 */
 	public ChatFrame(String name, String status) {
-		this.nameGespraech = name;
+		this.nameChat = name;
 		this.status = status;
 
 		initialize();
 		frame.setVisible(true);
-		UpdateStatus();
+		updateStatus();
 	}
 
-	public void UpdateStatus() {
+	public void updateStatus() {
 
 		ImageIcon avatar = null;
 		String statusneu = "";
 		String userInTabelle = "";
 		String avatarFile = "";
 		for (int row = 0; row <= MainFrame.table.getRowCount() - 1; row++) {
-			ContactCard card = (ContactCard) MainFrame.table.getValueAt(row,
-					0);
+			ContactCard card = (ContactCard) MainFrame.table.getValueAt(row, 0);
 			userInTabelle = card.getName();
-			if (userInTabelle.equalsIgnoreCase(nameGespraech)) {
+			if (userInTabelle.equalsIgnoreCase(nameChat)) {
 				statusneu = card.getStatus();
 				avatarFile = card
 						.getAvatar()
@@ -99,12 +96,12 @@ public class ChatFrame {
 				break;
 			}
 		}
-		if (this.nameGespraech.equalsIgnoreCase("ServerDB") == false
+		if (this.nameChat.equalsIgnoreCase("ServerDB") == false
 				&& avatarFile.equals("")) {
 
 		}
-		ichbild_lbl.setIcon(MainFrame.label_2.getIcon());
-		label.setIcon(avatar);
+		lblMyself.setIcon(MainFrame.label_2.getIcon());
+		lbl.setIcon(avatar);
 		this.status = statusneu;
 		online_lbl.setText(this.status);
 		if (status.equals("Online")) {
@@ -118,7 +115,7 @@ public class ChatFrame {
 		}
 
 		if (online_lbl.getText().equalsIgnoreCase("Online") == false
-				|| this.nameGespraech.equalsIgnoreCase("ServerDB")) {
+				|| this.nameChat.equalsIgnoreCase("ServerDB")) {
 			dataSend_btn.setEnabled(false);
 		} else {
 			dataSend_btn.setEnabled(true);
@@ -126,7 +123,7 @@ public class ChatFrame {
 
 	}
 
-	public void UpdateStatusServerLost() {
+	public void updateStatusServerLost() {
 
 		this.status = "Verb.Abbruch";
 		online_lbl.setText(this.status);
@@ -151,11 +148,11 @@ public class ChatFrame {
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
 				getClass().getClassLoader().getResource("data/Logo.png")));
-		frame.setTitle("Chat mit " + nameGespraech);
+		frame.setTitle("Chat mit " + nameChat);
 		if (MainFrame.frame.getX() - width - 7 <= 0) {
 			frame.setLocation(
-					MainFrame.frame.getX() + MainFrame.frame.getWidth()
-							+ 7, MainFrame.frame.getY());
+					MainFrame.frame.getX() + MainFrame.frame.getWidth() + 7,
+					MainFrame.frame.getY());
 		} else {
 			frame.setLocation(MainFrame.frame.getX() - width - 7,
 					MainFrame.frame.getY());
@@ -193,10 +190,10 @@ public class ChatFrame {
 		panel_1.add(sp, "span 2 4,grow");
 
 		// Image
-		label = new JLabel("");
-		label.setIcon(new ImageIcon(getClass().getClassLoader().getResource(
+		lbl = new JLabel("");
+		lbl.setIcon(new ImageIcon(getClass().getClassLoader().getResource(
 				"data/loading.gif")));
-		panel_1.add(label, "aligny top,wrap");
+		panel_1.add(lbl, "aligny top,wrap");
 
 		// Name
 		name_lbl = new JLabel("test");
@@ -204,7 +201,7 @@ public class ChatFrame {
 		name_lbl.setHorizontalAlignment(SwingConstants.LEFT);
 		name_lbl.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panel_1.add(name_lbl, "wrap");
-		name_lbl.setText(nameGespraech);
+		name_lbl.setText(nameChat);
 
 		// Online-Status
 		online_lbl = new JLabel("On");
@@ -245,7 +242,7 @@ public class ChatFrame {
 						System.out.println("TTT"
 								+ toTextString(txtField.getText()) + "TTT"
 								+ toTextString(txtField.getText()).length());
-						Client.send(MainFrame.username, nameGespraech,
+						Client.send(MainFrame.username, nameChat,
 								txtField.getText());
 						txtField.setText("");
 					}
@@ -257,10 +254,10 @@ public class ChatFrame {
 		panel_1.add(txtField, "cell 0 4, spanx 2,grow");
 
 		// Ich-Image
-		ichbild_lbl = new JLabel("");
-		ichbild_lbl.setIcon(new ImageIcon(getClass().getClassLoader()
+		lblMyself = new JLabel("");
+		lblMyself.setIcon(new ImageIcon(getClass().getClassLoader()
 				.getResource("data/loading.gif")));
-		panel_1.add(ichbild_lbl, "aligny top,wrap");
+		panel_1.add(lblMyself, "aligny top,wrap");
 
 		// Datei senden
 		dataSend_btn = new JButton("Datei senden");
@@ -277,7 +274,7 @@ public class ChatFrame {
 							.getAbsolutePath();
 					System.out.println("Die zu verschickende Datei ist: "
 							+ zuVerschickendeDatei);
-					Client.sendBytes(MainFrame.username, nameGespraech,
+					Client.sendBytes(MainFrame.username, nameChat,
 							zuVerschickendeDatei);
 
 					String zuVerschickendeDateiedit = zuVerschickendeDatei
@@ -285,10 +282,10 @@ public class ChatFrame {
 					String fileName = zuVerschickendeDateiedit.substring(
 							zuVerschickendeDateiedit.lastIndexOf('/') + 1,
 							zuVerschickendeDateiedit.length());
-					Client.send(MainFrame.username, nameGespraech,
+					Client.send(MainFrame.username, nameChat,
 							"### Die Datei " + fileName
 									+ " wird gesendet und auf dem Desktop von "
-									+ nameGespraech + " gespeichert. ###");
+									+ nameChat + " gespeichert. ###");
 				}
 			}
 
@@ -301,7 +298,7 @@ public class ChatFrame {
 		send_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (toTextString(txtField.getText()).length() > 0) {
-					Client.send(MainFrame.username, nameGespraech,
+					Client.send(MainFrame.username, nameChat,
 							txtField.getText());
 					txtField.setText("");
 				}
@@ -315,14 +312,14 @@ public class ChatFrame {
 
 			public void windowClosing(WindowEvent e) {
 				int index = 0;
-				for (ChatFrame CF : MainFrame.ChatFensterList) {
-					if (CF.nameGespraech.equals(nameGespraech)) {
+				for (ChatFrame CF : MainFrame.chatFrameList) {
+					if (CF.nameChat.equals(nameChat)) {
 						break;
 					}
 					index++;
 				}
-				MainFrame.ChatFensterList
-						.remove(MainFrame.ChatFensterList.get(index));
+				MainFrame.chatFrameList.remove(MainFrame.chatFrameList
+						.get(index));
 			}
 
 		});

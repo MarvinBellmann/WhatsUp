@@ -11,7 +11,6 @@ import java.nio.channels.FileChannel;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-//import java.net.ServerSocket;
 
 public class FileSenderThreadClient extends Thread {
 	static FileInputStream fis;
@@ -30,7 +29,7 @@ public class FileSenderThreadClient extends Thread {
 
 	@SuppressWarnings("deprecation")
 	public void run() {
-		MainFrame.byteUebertragungsBeschuetzer = true;
+		MainFrame.byteSendingProtector = true;
 
 		JFrame frame = new JFrame();
 		frame.setResizable(false);
@@ -94,6 +93,6 @@ public class FileSenderThreadClient extends Thread {
 		// }
 
 		// myFile.
-		MainFrame.byteUebertragungsBeschuetzer = false;
+		MainFrame.byteSendingProtector = false;
 	}
 }

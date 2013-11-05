@@ -67,16 +67,16 @@ public class MainFrame {
 	static String iDB = "data/database.png";
 	public static JLabel label_2;
 	JLabel lblUsername;
-	JButton btnKontaktSuche;
+	JButton btnContactSearch;
 	ImageIcon addIcon = new ImageIcon(MainFrame.class.getClassLoader()
 			.getResource("data/add.png"));
 	ImageIcon removeIcon = new ImageIcon(MainFrame.class.getClassLoader()
 			.getResource("data/remove.png"));
-	static boolean byteUebertragungsBeschuetzer = false;
+	static boolean byteSendingProtector = false;
 
 	private static JTextField txtSuche;
-	public static JLabel statuslabel;
-	public static ArrayList<ChatFrame> ChatFensterList = new ArrayList<ChatFrame>();
+	public static JLabel statusLbl;
+	public static ArrayList<ChatFrame> chatFrameList = new ArrayList<ChatFrame>();
 
 	static String serverIP = "localhost";
 
@@ -98,9 +98,9 @@ public class MainFrame {
 	}
 
 	public static void chatparser(String sfrom, String text) {
-		for (ChatFrame c : ChatFensterList) {
+		for (ChatFrame c : chatFrameList) {
 			System.out.println(c.txtPanel.getText());
-			if (c.nameGespraech.equalsIgnoreCase(sfrom)) {
+			if (c.nameChat.equalsIgnoreCase(sfrom)) {
 				if (c.txtPanel.getText().equals("")) {
 					c.txtPanel.setText(text);
 					final ChatFrame cstatic = c;
@@ -124,8 +124,8 @@ public class MainFrame {
 	}
 
 	public static void chatparserecho(String sto, String text) {
-		for (ChatFrame c : ChatFensterList) {
-			if (c.nameGespraech.equalsIgnoreCase(sto)) {
+		for (ChatFrame c : chatFrameList) {
+			if (c.nameChat.equalsIgnoreCase(sto)) {
 				if (c.txtPanel.getText().equals("")) {
 					c.txtPanel.setText(text);
 				} else {
@@ -203,8 +203,8 @@ public class MainFrame {
 			System.out
 					.println("### Tablelleneinträge inkl neuer Stati geladen aus DB!");
 
-			for (ChatFrame CF : ChatFensterList) {
-				CF.UpdateStatus();
+			for (ChatFrame CF : chatFrameList) {
+				CF.updateStatus();
 			}
 
 			for (int row = 0; row < table.getRowCount(); row++) {
@@ -241,18 +241,18 @@ public class MainFrame {
 	public static void statusChanger() throws InterruptedException {
 
 		Thread.sleep(1000);
-		statuslabel.setForeground(Color.GREEN);
-		statuslabel.setText("O");
+		statusLbl.setForeground(Color.GREEN);
+		statusLbl.setText("O");
 		Thread.sleep(120);
-		statuslabel.setText("On");
+		statusLbl.setText("On");
 		Thread.sleep(120);
-		statuslabel.setText("Onl");
+		statusLbl.setText("Onl");
 		Thread.sleep(120);
-		statuslabel.setText("Onli");
+		statusLbl.setText("Onli");
 		Thread.sleep(120);
-		statuslabel.setText("Onlin");
+		statusLbl.setText("Onlin");
 		Thread.sleep(120);
-		statuslabel.setText("Online");
+		statusLbl.setText("Online");
 
 	}
 
@@ -371,12 +371,12 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// btnKontaktSuche.setIcon(addIcon);
-				if (statuslabel.getText().equalsIgnoreCase("Offline") == false) {
+				if (statusLbl.getText().equalsIgnoreCase("Offline") == false) {
 					Client.sendSQL(new SQLData(
 							"UPDATE user set status='Online' where username like '"
 									+ username + "'", 'i'));
-					statuslabel.setText("Online");
-					statuslabel.setForeground(Color.green);
+					statusLbl.setText("Online");
+					statusLbl.setForeground(Color.green);
 				}
 			}
 		});
@@ -386,12 +386,12 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// btnKontaktSuche.setIcon(removeIcon);
-				if (statuslabel.getText().equalsIgnoreCase("Offline") == false) {
+				if (statusLbl.getText().equalsIgnoreCase("Offline") == false) {
 					Client.sendSQL(new SQLData(
 							"UPDATE user set status='Abwesend' where username like '"
 									+ username + "'", 'i'));
-					statuslabel.setText("Abwesend");
-					statuslabel.setForeground(Color.YELLOW);
+					statusLbl.setText("Abwesend");
+					statusLbl.setForeground(Color.YELLOW);
 				}
 			}
 		});
@@ -407,7 +407,7 @@ public class MainFrame {
 		mKontakteitem1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnKontaktSuche.setIcon(addIcon);
+				btnContactSearch.setIcon(addIcon);
 			}
 		});
 		mKontakte.add(mKontakteitem1);
@@ -415,7 +415,7 @@ public class MainFrame {
 		mKontakteitem2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnKontaktSuche.setIcon(removeIcon);
+				btnContactSearch.setIcon(removeIcon);
 			}
 		});
 		mKontakte.add(mKontakteitem2);
@@ -729,11 +729,11 @@ public class MainFrame {
 		lblUsername.setForeground(Color.white);
 		mainPanel.add(lblUsername, "wrap");
 
-		statuslabel = new JLabel("Offline");
-		statuslabel.setHorizontalAlignment(SwingConstants.LEFT);
-		statuslabel.setForeground(Color.RED);
-		statuslabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		mainPanel.add(statuslabel, "wrap");
+		statusLbl = new JLabel("Offline");
+		statusLbl.setHorizontalAlignment(SwingConstants.LEFT);
+		statusLbl.setForeground(Color.RED);
+		statusLbl.setFont(new Font("Tahoma", Font.BOLD, 14));
+		mainPanel.add(statusLbl, "wrap");
 
 		JLabel lblKontakte = new JLabel("Kontakte");
 		lblKontakte.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -747,9 +747,9 @@ public class MainFrame {
 		txtSuche.setHorizontalAlignment(SwingConstants.CENTER);
 		mainPanel.add(txtSuche, "growx, spanx 2, split2");
 
-		btnKontaktSuche = new JButton("");
-		btnKontaktSuche.setIcon(addIcon);
-		btnKontaktSuche.addActionListener(new ActionListener() {
+		btnContactSearch = new JButton("");
+		btnContactSearch.setIcon(addIcon);
+		btnContactSearch.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -757,7 +757,7 @@ public class MainFrame {
 				if (txtSuche.getText().equalsIgnoreCase(lblUsername.getText()) == false
 						&& txtSuche.getText().equalsIgnoreCase("admin") == false) {
 
-					if (btnKontaktSuche.getIcon().equals(addIcon)) {
+					if (btnContactSearch.getIcon().equals(addIcon)) {
 						Client.sendSQL(new SQLData(
 								"Select * From user where username like '"
 										+ txtSuche.getText() + "';", 'h',
@@ -774,11 +774,11 @@ public class MainFrame {
 			}
 
 		});
-		btnKontaktSuche.setFont(new Font("ARIAL BLACK", Font.BOLD, 10));
-		mainPanel.add(btnKontaktSuche, "wrap, w 50px::50px");
+		btnContactSearch.setFont(new Font("ARIAL BLACK", Font.BOLD, 10));
+		mainPanel.add(btnContactSearch, "wrap, w 50px::50px");
 
 		if (username.equalsIgnoreCase("Admin")) {
-			btnKontaktSuche.setEnabled(false);
+			btnContactSearch.setEnabled(false);
 			txtSuche.setText("Admin hat alle");
 			txtSuche.setEnabled(false);
 			txtSuche.setEditable(false);
@@ -837,15 +837,15 @@ public class MainFrame {
 						table.getSelectedRow(), 0);
 				boolean abbruch = false;
 
-				for (ChatFrame CF : ChatFensterList) {
-					if (CF.nameGespraech.equalsIgnoreCase(card.getName())) {
+				for (ChatFrame CF : chatFrameList) {
+					if (CF.nameChat.equalsIgnoreCase(card.getName())) {
 						abbruch = true;
 					}
 				}
 				if (abbruch == false) {
 					ChatFrame c = new ChatFrame(card.getName(), card
 							.getStatus());
-					ChatFensterList.add(c);
+					chatFrameList.add(c);
 					System.out.println("### Chatfenster mit " + card.getName()
 							+ " geöffnet.");
 				}
@@ -870,7 +870,7 @@ public class MainFrame {
 		if (ok == JOptionPane.YES_OPTION) {
 
 			Client.sendSQL(new SQLData("UPDATE user set status='"
-					+ statuslabel.getText() + "' where username like '"
+					+ statusLbl.getText() + "' where username like '"
 					+ username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
@@ -948,7 +948,7 @@ public class MainFrame {
 		if (ok == JOptionPane.YES_OPTION) {
 
 			Client.sendSQL(new SQLData("UPDATE user set status='"
-					+ MainFrame.statuslabel.getText()
+					+ MainFrame.statusLbl.getText()
 					+ "' where username like '" + username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
@@ -964,6 +964,6 @@ public class MainFrame {
 	}
 
 	public static void deleteCF(ChatFrame CFchatFenster) {
-		ChatFensterList.remove(CFchatFenster);
+		chatFrameList.remove(CFchatFenster);
 	}
 }

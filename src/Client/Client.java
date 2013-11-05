@@ -21,15 +21,15 @@ import SendData.StartData;
 public class Client extends Thread {
 
 	static String serverIP;
-	String anmeldeuser;
-	String anmeldepw;
+	String loginUser;
+	String loginPw;
 	public static ArrayList<Message> messageList = new ArrayList<Message>();
-	public static ArrayList<SQLData> sqlBefehlsListe = new ArrayList<SQLData>();
+	public static ArrayList<SQLData> sqlCommandsList = new ArrayList<SQLData>();
 	public static ArrayList<ByteData> byteList = new ArrayList<ByteData>();
-	static boolean verbindungscheck;
-	static String erfolg = "Noch ungewiss";
-	boolean nurAnmeldeClient = false;
-	static boolean amLaufen = true;
+	static boolean connection;
+	static String unknown = "Noch ungewiss";
+	boolean onlyLoginClient = false;
+	static boolean running = true;
 	static Socket socket;
 	static ObjectOutputStream oos = null;
 
@@ -38,7 +38,7 @@ public class Client extends Thread {
 	}
 
 	public static void sendSQL(SQLData sqldata) {
-		sqlBefehlsListe.add(sqldata);
+		sqlCommandsList.add(sqldata);
 	}
 
 	public Client(String sIP) {
@@ -47,9 +47,9 @@ public class Client extends Thread {
 
 	public Client(String sIP, String user, String pw) {
 		serverIP = sIP;
-		this.anmeldeuser = user;
-		this.anmeldepw = pw;
-		nurAnmeldeClient = true;
+		this.loginUser = user;
+		this.loginPw = pw;
+		onlyLoginClient = true;
 	}
 
 	public void run() {
@@ -69,9 +69,9 @@ public class Client extends Thread {
 
 		ObjectInputStream ois = null;
 
-		while (amLaufen == true) {
+		while (running == true) {
 
-			if (MainFrame.byteUebertragungsBeschuetzer == false) {
+			if (MainFrame.byteSendingProtector == false) {
 
 				try {
 
@@ -82,10 +82,10 @@ public class Client extends Thread {
 						ois = new ObjectInputStream(socket.getInputStream());
 					}
 
-					if (socket != null && verbindungscheck == false) {
+					if (socket != null && connection == false) {
 						System.out.println("*** Erfolgreich verbunden.");
 						MainFrame.statusChanger();
-						verbindungscheck = true;
+						connection = true;
 						oos.writeObject(new StartData(MainFrame.username));
 						ClientRead clientReaderThread = new ClientRead(socket,
 								ois);
@@ -111,10 +111,10 @@ public class Client extends Thread {
 						messageList.remove(messageList.size() - 1);
 					}
 
-					if (sqlBefehlsListe.size() > 0) {
-						oos.writeObject(sqlBefehlsListe.get(sqlBefehlsListe
+					if (sqlCommandsList.size() > 0) {
+						oos.writeObject(sqlCommandsList.get(sqlCommandsList
 								.size() - 1));
-						sqlBefehlsListe.remove(sqlBefehlsListe.size() - 1);
+						sqlCommandsList.remove(sqlCommandsList.size() - 1);
 					}
 
 					if (byteList.size() > 0) {
@@ -130,11 +130,11 @@ public class Client extends Thread {
 						fs.start();
 					}
 
-					erfolg = "Erfolg";
+					unknown = "Erfolg";
 				} catch (Exception e) {
-					erfolg = "Fehschlag";
-					MainFrame.statuslabel.setText("Offline");
-					MainFrame.statuslabel.setForeground(Color.RED);
+					unknown = "Fehschlag";
+					MainFrame.statusLbl.setText("Offline");
+					MainFrame.statusLbl.setForeground(Color.RED);
 					System.out
 							.println("Verbindungs Error! Server Offline? Neuversuch in 5 Sekunden. Error:"
 									+ e.getMessage());
