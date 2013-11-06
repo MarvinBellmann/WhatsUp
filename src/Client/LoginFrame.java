@@ -153,19 +153,7 @@ public class LoginFrame {
 
 		});
 
-		
-		
 		contentPane.add(textPW, "growx");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 		JLabel lblServerip = new JLabel("Server-IP");
 		lblServerip.setHorizontalAlignment(SwingConstants.LEFT);
@@ -191,7 +179,6 @@ public class LoginFrame {
 		JButton btnLogin = new JButton("Anmelden");
 		btnLogin.addActionListener(new ActionListener() {
 
-			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 
 				anmelden();
@@ -278,12 +265,12 @@ public class LoginFrame {
 		lblYourIp.setText(lblYourIp.getText() + yourip);
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void anmelden() {
 		boolean anmeldeDatenAkzeptiert = false;
 
 		try {
-			InetAddress host = InetAddress.getByName(textServer
-					.getText());// InetAddress.getLocalHost();
+			InetAddress host = InetAddress.getByName(textServer.getText());// InetAddress.getLocalHost();
 			System.out.println(host.getHostAddress());
 			socket = new Socket(host.getHostAddress(), 7866);
 			socket.setTcpNoDelay(true);
@@ -293,8 +280,7 @@ public class LoginFrame {
 			oos.writeObject(new StartData("Anmelder"));
 			oos.writeObject(new SQLData("AnmeldeDbChecker",
 					"Select * From user where username like '"
-							+ txtName.getText()
-							+ "' and password = SHA1('"
+							+ txtName.getText() + "' and password = SHA1('"
 							+ textPW.getText()
 							+ "') and status like 'Offline';"));
 			System.out.println("Warte auf ServerAntwort");
@@ -314,8 +300,7 @@ public class LoginFrame {
 			System.out.println("Verbindungen und Socket geschlossen");
 
 		} catch (Exception e) {
-			System.out.println("Anmeldung nich möglich: "
-					+ e.getMessage());
+			System.out.println("Anmeldung nich möglich: " + e.getMessage());
 			try {
 				oos.close();
 				ois.close();
@@ -328,8 +313,7 @@ public class LoginFrame {
 		}
 
 		if (anmeldeDatenAkzeptiert == true) {
-			System.out
-					.println("Anmeldung akzeptiert: Starte HauptFenster");
+			System.out.println("Anmeldung akzeptiert: Starte HauptFenster");
 
 			try {
 				new MainFrame(txtName.getText(), textPW.getText(),

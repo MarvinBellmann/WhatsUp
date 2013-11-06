@@ -54,7 +54,7 @@ public class MainFrame {
 	static String desktopPath;
 	public static int messagesLeft = 10;
 	private static int width = 250;
-	private static int height = 394+65+65;
+	private static int height = 394 + 65 + 65;
 	static JTable table;
 	static String i1 = "data/1.png";
 	static String i2 = "data/2.png";
@@ -82,7 +82,7 @@ public class MainFrame {
 
 	static String serverIP = "localhost";
 
-	public static boolean tableLoaded=false;
+	public static boolean tableLoaded = false;
 
 	/**
 	 * Create the application.
@@ -95,9 +95,7 @@ public class MainFrame {
 		Client client = new Client(serverIP);
 		client.setName("1A clientThread");
 		client.start();
-		
-		
-		
+
 	}
 
 	public MainFrame() {
@@ -110,17 +108,15 @@ public class MainFrame {
 			if (c.nameChat.equalsIgnoreCase(sfrom)) {
 				if (c.txtPanel.getText().equals("")) {
 					c.txtPanel.setText(text);
-					/*final ChatFrame cstatic = c;
-					EventQueue.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							cstatic.frame.setAlwaysOnTop(true);
-							cstatic.frame.toFront();
-							cstatic.frame.repaint();
-							cstatic.frame.setAlwaysOnTop(false);
-						}
-					});*/
+					/*
+					 * final ChatFrame cstatic = c; EventQueue.invokeLater(new
+					 * Runnable() {
+					 * 
+					 * @Override public void run() {
+					 * cstatic.frame.setAlwaysOnTop(true);
+					 * cstatic.frame.toFront(); cstatic.frame.repaint();
+					 * cstatic.frame.setAlwaysOnTop(false); } });
+					 */
 				} else {
 					c.txtPanel.setText(c.txtPanel.getText() + "\n" + text);
 					c.txtPanel.setCaretPosition(c.txtPanel.getDocument()
@@ -151,14 +147,12 @@ public class MainFrame {
 			String[] gesplittet = p.split(text);
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-			int rowCount = model.getRowCount();
-
-			//if (rowCount > 0) {
-				table.setModel(new DefaultTableModel(new Object[][] {,},
-						new String[] { "Kontakte" }));
-				model = (DefaultTableModel) table.getModel();
-				System.out.println("### Tablelleneinträge gelöscht!");
-		//	}
+			// if (rowCount > 0) {
+			table.setModel(new DefaultTableModel(new Object[][] {,},
+					new String[] { "Kontakte" }));
+			model = (DefaultTableModel) table.getModel();
+			System.out.println("### Tablelleneinträge gelöscht!");
+			// }
 
 			if (username.equals("Admin")) {
 				ImageIcon avatarDB = new ImageIcon(MainFrame.class
@@ -209,42 +203,39 @@ public class MainFrame {
 
 			System.out
 					.println("### Tablelleneinträge inkl neuer Stati geladen aus DB!");
-			
-			
+
 			for (int row = 0; row < table.getRowCount(); row++) {
 				int rowHeight = table.getRowHeight();
-//System.out.println(row);
+				// System.out.println(row);
 				Component comp = table.prepareRenderer(
 						table.getCellRenderer(row, 0), row, 0);
 				rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
 				table.setRowHeight(row, rowHeight);
 			}
-			
-			
 
 			for (ChatFrame CF : chatFrameList) {
 				CF.updateStatus();
 			}
 
-		
 			table.repaint();
 
 		} catch (Exception e) {
 			System.out
 					.println("KontaktListeUpdater-problem: " + e.getMessage());
-			if(table.getRowCount()>0){
-			try{
-				for (int row = 0; row < table.getRowCount(); row++) {
-					int rowHeight = table.getRowHeight();
-//System.out.println(table.getRowCount());
-					Component comp = table.prepareRenderer(
-							table.getCellRenderer(row, 0), row, 0);
-					rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
-					table.setRowHeight(row, rowHeight);
+			if (table.getRowCount() > 0) {
+				try {
+					for (int row = 0; row < table.getRowCount(); row++) {
+						int rowHeight = table.getRowHeight();
+						// System.out.println(table.getRowCount());
+						Component comp = table.prepareRenderer(
+								table.getCellRenderer(row, 0), row, 0);
+						rowHeight = Math.max(rowHeight,
+								comp.getPreferredSize().height);
+						table.setRowHeight(row, rowHeight);
+					}
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
-			}catch(Exception e2){
-				e2.printStackTrace();
-			}
 			}
 		}
 
@@ -350,7 +341,7 @@ public class MainFrame {
 		mEinstellungenitem2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 394+65;
+				height = 394 + 65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -360,7 +351,7 @@ public class MainFrame {
 		mEinstellungenitem3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 394+65+65;
+				height = 394 + 65 + 65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -370,7 +361,7 @@ public class MainFrame {
 		mEinstellungenitem4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 394+65+65+65;
+				height = 394 + 65 + 65 + 65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -380,7 +371,7 @@ public class MainFrame {
 		mEinstellungenitem5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 394+65+65+65+65;
+				height = 394 + 65 + 65 + 65 + 65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -529,7 +520,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -554,7 +547,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -579,7 +574,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -604,7 +601,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -629,7 +628,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -654,7 +655,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -679,7 +682,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -704,7 +709,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -729,7 +736,9 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
+									"UPDATE user set status='"
+											+ statusLbl.getText()
+											+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -967,11 +976,11 @@ public class MainFrame {
 			anotherIcon = new ImageIcon(where);
 			filename = "URL";
 		}
-		
+
 		avatarImage = new ImageIcon(MainFrame.class.getClassLoader()
 				.getResource(filename));
 		label_2.setIcon(avatarImage);
-		if(filename.equals("URL")){
+		if (filename.equals("URL")) {
 			label_2.setIcon(anotherIcon);
 		}
 
@@ -986,7 +995,8 @@ public class MainFrame {
 		if (ok == JOptionPane.YES_OPTION) {
 
 			Client.sendSQL(new SQLData("UPDATE user set status='"
-					+ MainFrame.statusLbl.getText()+ "' where username like '" + username + "'", 'i'));
+					+ MainFrame.statusLbl.getText() + "' where username like '"
+					+ username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
 					"DELETE from contacts where username like '" + username
