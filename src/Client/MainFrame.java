@@ -3,7 +3,6 @@ package Client;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -53,7 +54,7 @@ public class MainFrame {
 	static String desktopPath;
 	public static int messagesLeft = 10;
 	private static int width = 250;
-	private static int height = 573;
+	private static int height = 394+65+65;
 	static JTable table;
 	static String i1 = "data/1.png";
 	static String i2 = "data/2.png";
@@ -65,6 +66,7 @@ public class MainFrame {
 	static String i8 = "data/8.png";
 	static String i9 = "data/9.png";
 	static String iDB = "data/database.png";
+	static ImageIcon anotherIcon;
 	public static JLabel label_2;
 	JLabel lblUsername;
 	JButton btnContactSearch;
@@ -80,6 +82,8 @@ public class MainFrame {
 
 	static String serverIP = "localhost";
 
+	public static boolean tableLoaded=false;
+
 	/**
 	 * Create the application.
 	 */
@@ -91,6 +95,9 @@ public class MainFrame {
 		Client client = new Client(serverIP);
 		client.setName("1A clientThread");
 		client.start();
+		
+		
+		
 	}
 
 	public MainFrame() {
@@ -103,7 +110,7 @@ public class MainFrame {
 			if (c.nameChat.equalsIgnoreCase(sfrom)) {
 				if (c.txtPanel.getText().equals("")) {
 					c.txtPanel.setText(text);
-					final ChatFrame cstatic = c;
+					/*final ChatFrame cstatic = c;
 					EventQueue.invokeLater(new Runnable() {
 
 						@Override
@@ -113,7 +120,7 @@ public class MainFrame {
 							cstatic.frame.repaint();
 							cstatic.frame.setAlwaysOnTop(false);
 						}
-					});
+					});*/
 				} else {
 					c.txtPanel.setText(c.txtPanel.getText() + "\n" + text);
 					c.txtPanel.setCaretPosition(c.txtPanel.getDocument()
@@ -146,12 +153,12 @@ public class MainFrame {
 
 			int rowCount = model.getRowCount();
 
-			if (rowCount > 0) {
+			//if (rowCount > 0) {
 				table.setModel(new DefaultTableModel(new Object[][] {,},
 						new String[] { "Kontakte" }));
 				model = (DefaultTableModel) table.getModel();
 				System.out.println("### Tablelleneinträge gelöscht!");
-			}
+		//	}
 
 			if (username.equals("Admin")) {
 				ImageIcon avatarDB = new ImageIcon(MainFrame.class
@@ -202,24 +209,43 @@ public class MainFrame {
 
 			System.out
 					.println("### Tablelleneinträge inkl neuer Stati geladen aus DB!");
-
-			for (ChatFrame CF : chatFrameList) {
-				CF.updateStatus();
-			}
-
+			
+			
 			for (int row = 0; row < table.getRowCount(); row++) {
 				int rowHeight = table.getRowHeight();
-
+//System.out.println(row);
 				Component comp = table.prepareRenderer(
 						table.getCellRenderer(row, 0), row, 0);
 				rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
 				table.setRowHeight(row, rowHeight);
 			}
+			
+			
+
+			for (ChatFrame CF : chatFrameList) {
+				CF.updateStatus();
+			}
+
+		
 			table.repaint();
 
 		} catch (Exception e) {
 			System.out
 					.println("KontaktListeUpdater-problem: " + e.getMessage());
+			if(table.getRowCount()>0){
+			try{
+				for (int row = 0; row < table.getRowCount(); row++) {
+					int rowHeight = table.getRowHeight();
+//System.out.println(table.getRowCount());
+					Component comp = table.prepareRenderer(
+							table.getCellRenderer(row, 0), row, 0);
+					rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+					table.setRowHeight(row, rowHeight);
+				}
+			}catch(Exception e2){
+				e2.printStackTrace();
+			}
+			}
 		}
 
 	}
@@ -314,7 +340,7 @@ public class MainFrame {
 		mEinstellungenitem1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 494 - 80 - 7;
+				height = 394;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -324,7 +350,7 @@ public class MainFrame {
 		mEinstellungenitem2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 578 - 5 - 80;
+				height = 394+65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -334,7 +360,7 @@ public class MainFrame {
 		mEinstellungenitem3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 658 - 5 - 80;
+				height = 394+65+65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -344,7 +370,7 @@ public class MainFrame {
 		mEinstellungenitem4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 740 - 3 - 80;
+				height = 394+65+65+65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -354,7 +380,7 @@ public class MainFrame {
 		mEinstellungenitem5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				height = 820 - 80;
+				height = 394+65+65+65+65;
 				frame.setSize(frame.getWidth(), height);
 			}
 		});
@@ -503,7 +529,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -528,7 +554,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -553,7 +579,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -578,7 +604,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -603,7 +629,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -628,7 +654,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -653,7 +679,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -678,7 +704,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -703,7 +729,7 @@ public class MainFrame {
 						public void mouseClicked(MouseEvent e) {
 							// Datenbankeintrag
 							Client.sendSQL(new SQLData(
-									"UPDATE user set status='Online' where username like '"
+									"UPDATE user set status='" + statusLbl.getText()+ "' where username like '"
 											+ username + "'", 'i'));
 
 							Client.sendSQL(new SQLData(
@@ -930,12 +956,24 @@ public class MainFrame {
 			filename = i9;
 			break;
 		default:
-			System.out.println("pic1");
-			filename = i1;
+			System.out.println("picURL");
+			java.net.URL where = null;
+			try {
+				where = new URL("http://www.sportal.de/images/logo-header.png");
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			anotherIcon = new ImageIcon(where);
+			filename = "URL";
 		}
+		
 		avatarImage = new ImageIcon(MainFrame.class.getClassLoader()
 				.getResource(filename));
 		label_2.setIcon(avatarImage);
+		if(filename.equals("URL")){
+			label_2.setIcon(anotherIcon);
+		}
 
 	}
 
@@ -948,8 +986,7 @@ public class MainFrame {
 		if (ok == JOptionPane.YES_OPTION) {
 
 			Client.sendSQL(new SQLData("UPDATE user set status='"
-					+ MainFrame.statusLbl.getText()
-					+ "' where username like '" + username + "'", 'i'));
+					+ MainFrame.statusLbl.getText()+ "' where username like '" + username + "'", 'i'));
 
 			Client.sendSQL(new SQLData(
 					"DELETE from contacts where username like '" + username

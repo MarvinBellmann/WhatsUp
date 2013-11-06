@@ -9,7 +9,10 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.nio.channels.FileChannel;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 import SendData.ByteData;
 import SendData.Message;
@@ -71,6 +74,7 @@ public class ClientRead extends Thread {
 				if (messageIGot.from.equals("KontaktDBAntwort")) {
 					MainFrame.kontaktListeUpdater(messageIGot.text,
 							messageIGot.typ);
+					  MainFrame.tableLoaded =true;
 				} else {
 
 					if (messageIGot.from.equals("PictureDBAntwort")) {
@@ -106,6 +110,8 @@ public class ClientRead extends Thread {
 								// HauptFenster.PictureUpdater(picID);
 
 							} else {
+								
+								//if(MainFrame.tableLoaded ==true){
 
 								boolean checkopen = true;
 								for (ChatFrame CF : MainFrame.chatFrameList) {
@@ -147,12 +153,36 @@ public class ClientRead extends Thread {
 								MainFrame.chatparser(messageIGot.from,
 										messageIGot.toText());
 
+							
+							//}
+							
+							
+							
 							}
 						}
 					}
 				}
 			}
 			if (obj instanceof ByteData) {
+				
+				
+				
+				JFrame frame = new JFrame();
+				frame.setResizable(false);
+				frame.setBounds(MainFrame.ge.getMaximumWindowBounds().width/2-190,MainFrame.ge.getMaximumWindowBounds().height/2-100,380,70);//(10, 10, 210, 70);
+				frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				frame.setVisible(true);
+				JLabel label_2 = new JLabel("Übertragen");
+				label_2.setBounds(10, 10, 370, 30);
+				label_2.setHorizontalAlignment( SwingConstants.CENTER );
+				frame.getContentPane().add(label_2);
+				
+				frame.setAlwaysOnTop(true);
+				frame.toFront();
+				frame.repaint();
+				frame.setAlwaysOnTop(false);
+				
+				
 				MainFrame.byteSendingProtector = true;
 				ByteData bytedata = (ByteData) obj;
 				System.out.println("1");
@@ -167,8 +197,8 @@ public class ClientRead extends Thread {
 							bytedata.dateiname.length());
 
 					System.out
-							.println(desktopPath + "/" + "client_" + fileName);
-					ff = new File(desktopPath + "/" + "client_" + fileName);// receivedData.png");
+							.println(desktopPath + "/" + "WAKenger_received_file_" + fileName);
+					ff = new File(desktopPath + "/" + "WAKenger_received_file_" + fileName);// receivedData.png");
 					ff.createNewFile();
 					System.out.println("3");
 					System.out.println("Write Received Data to: "
@@ -186,6 +216,12 @@ public class ClientRead extends Thread {
 						System.out.println("Data Transferred: "
 								+ fileChannel.size() / 1024 + " KBytes / "
 								+ (bytedata.bytes / 1024));
+						
+						
+						label_2.setText("Empfangen von "+bytedata.from+": " 
+								+ fileChannel.size() / 1024 + " KBytes / "
+								+ (bytedata.bytes / 1024));
+						
 						// + df.format(fileChannel.size() / 1024.00 / 1024.00)
 						// + " MByte");
 						// System.out.println(ois.read(mybytearray));
@@ -197,6 +233,12 @@ public class ClientRead extends Thread {
 					}
 					System.out.println("Wrote Received Data to: "
 							+ ff.getAbsolutePath());
+					
+					
+					label_2.setText("Empfangen von "+bytedata.from+": " 
+							+ fileChannel.size() / 1024 + " KBytes / "
+							+ (bytedata.bytes / 1024) + ". Erfolgreich!");
+					
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 					fos.close();

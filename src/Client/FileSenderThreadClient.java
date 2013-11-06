@@ -11,6 +11,7 @@ import java.nio.channels.FileChannel;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class FileSenderThreadClient extends Thread {
 	static FileInputStream fis;
@@ -33,11 +34,12 @@ public class FileSenderThreadClient extends Thread {
 
 		JFrame frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(10, 10, 210, 70);
+		frame.setBounds(10, 10, 380, 70);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setVisible(true);
 		JLabel label_2 = new JLabel("Übertragen");
-		label_2.setBounds(10, 10, 199, 30);
+		label_2.setBounds(10, 10, 370, 30);
+		label_2.setHorizontalAlignment( SwingConstants.CENTER );
 		frame.getContentPane().add(label_2);
 
 		// System.out.println("$$$ SenderServer gestartet");

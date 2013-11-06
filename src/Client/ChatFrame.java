@@ -48,6 +48,7 @@ public class ChatFrame {
 	JLabel lblMyself;
 	JLabel lbl;
 	JButton dataSend_btn;
+	private JButton send_btn;
 
 	private Border raisedetched = BorderFactory.createEtchedBorder(
 			EtchedBorder.RAISED, Color.darkGray, Color.lightGray);
@@ -73,6 +74,8 @@ public class ChatFrame {
 		updateStatus();
 	}
 
+
+	//@SuppressWarnings("deprecation")
 	public void updateStatus() {
 
 		ImageIcon avatar = null;
@@ -98,7 +101,11 @@ public class ChatFrame {
 		}
 		if (this.nameChat.equalsIgnoreCase("ServerDB") == false
 				&& avatarFile.equals("")) {
+			
+			send_btn.setEnabled(false);
 
+		}else{
+			send_btn.setEnabled(true);
 		}
 		lblMyself.setIcon(MainFrame.label_2.getIcon());
 		lbl.setIcon(avatar);
@@ -126,6 +133,7 @@ public class ChatFrame {
 	public void updateStatusServerLost() {
 
 		this.status = "Verb.Abbruch";
+		send_btn.setEnabled(false);
 		online_lbl.setText(this.status);
 		if (status.equals("Online")) {
 			online_lbl.setForeground(Color.GREEN);
@@ -226,8 +234,8 @@ public class ChatFrame {
 						.getSize().width;
 			}
 		};
-		txtField.setContentType("text/html; charset=UTF-8");
-		txtField.setFont(new Font("Miriam", Font.PLAIN, 12));
+		txtField.setContentType("text/html;charset=UTF-8");
+		txtField.setFont(new Font("ARIAL", Font.PLAIN, 12));
 		txtField.setBorder(raisedetched);
 		// txtField.getDocument().putProperty("filterNewlines", Boolean.TRUE);
 		txtField.getInputMap()
@@ -236,7 +244,7 @@ public class ChatFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER &&  send_btn.isEnabled()==true) {
 					// if(txtField.getText().length()<1)
 					if (toTextString(txtField.getText()).length() > 0) {
 						System.out.println("TTT"
@@ -294,7 +302,7 @@ public class ChatFrame {
 		panel_1.add(dataSend_btn);
 
 		// Senden-Button
-		JButton send_btn = new JButton("Senden");
+		send_btn = new JButton("Senden");
 		send_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (toTextString(txtField.getText()).length() > 0) {

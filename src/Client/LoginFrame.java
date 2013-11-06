@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -21,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -137,7 +140,32 @@ public class LoginFrame {
 				});
 			}
 		});
+
+		textPW.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "doNothing");
+		textPW.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					anmelden();
+				}
+			}
+
+		});
+
+		
+		
 		contentPane.add(textPW, "growx");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		JLabel lblServerip = new JLabel("Server-IP");
 		lblServerip.setHorizontalAlignment(SwingConstants.LEFT);
@@ -166,72 +194,7 @@ public class LoginFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 
-				boolean anmeldeDatenAkzeptiert = false;
-
-				try {
-					InetAddress host = InetAddress.getByName(textServer
-							.getText());// InetAddress.getLocalHost();
-					System.out.println(host.getHostAddress());
-					socket = new Socket(host.getHostAddress(), 7866);
-					socket.setTcpNoDelay(true);
-					socket.setSoTimeout(5000);
-					oos = new ObjectOutputStream(socket.getOutputStream());
-					ois = new ObjectInputStream(socket.getInputStream());
-					oos.writeObject(new StartData("Anmelder"));
-					oos.writeObject(new SQLData("AnmeldeDbChecker",
-							"Select * From user where username like '"
-									+ txtName.getText()
-									+ "' and password like '"
-									+ textPW.getText()
-									+ "' and status like 'Offline';"));
-					System.out.println("Warte auf ServerAntwort");
-					Object obj = ois.readObject();
-					System.out.println("ServerAntwort bekommen");
-					if (obj instanceof Message) {
-						sqlMessage = (Message) obj;
-						System.out.println(sqlMessage.text);
-					}
-					if (sqlMessage.text.contains("DB->* Keine Einträge") == false) {
-						anmeldeDatenAkzeptiert = true;
-					}
-					System.out.println("Schließe Verbindungen und Socket");
-					oos.close();
-					ois.close();
-					socket.close();
-					System.out.println("Verbindungen und Socket geschlossen");
-
-				} catch (Exception e) {
-					System.out.println("Anmeldung nich möglich: "
-							+ e.getMessage());
-					try {
-						oos.close();
-						ois.close();
-						socket.close();
-					} catch (Exception e2) {
-						System.out
-								.println("Fehler nach Fehlerwiedergutmachungsversuch: "
-										+ e2.getMessage());
-					}
-				}
-
-				if (anmeldeDatenAkzeptiert == true) {
-					System.out
-							.println("Anmeldung akzeptiert: Starte HauptFenster");
-
-					try {
-						new MainFrame(txtName.getText(), textPW.getText(),
-								textServer.getText());
-						MainFrame.frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					frame.hide();
-				} else {
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"Anmeldung Fehlgeschlagen! Name oder Passwort vergessen? ServerIP falsch? Benutzer bereits angemeldet?");
-				}
+				anmelden();
 			}
 		});
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -268,9 +231,9 @@ public class LoginFrame {
 						System.out.println("darf inserten");
 						oos.writeObject(new SQLData("AnmeldeDbChecker",
 								"INSERT INTO user (username,password,create_time,status,picture) VALUES ('"
-										+ txtName.getText() + "','"
+										+ txtName.getText() + "', SHA1('"
 										+ textPW.getText()
-										+ "',now(),'Offline','1')"));
+										+ "'),now(),'Offline','1')"));
 						oos.writeObject(new SQLData("AnmeldeDbChecker",
 								"INSERT INTO contacts (username,contact) VALUES ('"
 										+ txtName.getText() + "','Admin')"));
@@ -313,5 +276,74 @@ public class LoginFrame {
 		}
 
 		lblYourIp.setText(lblYourIp.getText() + yourip);
+	}
+
+	protected void anmelden() {
+		boolean anmeldeDatenAkzeptiert = false;
+
+		try {
+			InetAddress host = InetAddress.getByName(textServer
+					.getText());// InetAddress.getLocalHost();
+			System.out.println(host.getHostAddress());
+			socket = new Socket(host.getHostAddress(), 7866);
+			socket.setTcpNoDelay(true);
+			socket.setSoTimeout(5000);
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
+			oos.writeObject(new StartData("Anmelder"));
+			oos.writeObject(new SQLData("AnmeldeDbChecker",
+					"Select * From user where username like '"
+							+ txtName.getText()
+							+ "' and password = SHA1('"
+							+ textPW.getText()
+							+ "') and status like 'Offline';"));
+			System.out.println("Warte auf ServerAntwort");
+			Object obj = ois.readObject();
+			System.out.println("ServerAntwort bekommen");
+			if (obj instanceof Message) {
+				sqlMessage = (Message) obj;
+				System.out.println(sqlMessage.text);
+			}
+			if (sqlMessage.text.contains("DB->* Keine Einträge") == false) {
+				anmeldeDatenAkzeptiert = true;
+			}
+			System.out.println("Schließe Verbindungen und Socket");
+			oos.close();
+			ois.close();
+			socket.close();
+			System.out.println("Verbindungen und Socket geschlossen");
+
+		} catch (Exception e) {
+			System.out.println("Anmeldung nich möglich: "
+					+ e.getMessage());
+			try {
+				oos.close();
+				ois.close();
+				socket.close();
+			} catch (Exception e2) {
+				System.out
+						.println("Fehler nach Fehlerwiedergutmachungsversuch: "
+								+ e2.getMessage());
+			}
+		}
+
+		if (anmeldeDatenAkzeptiert == true) {
+			System.out
+					.println("Anmeldung akzeptiert: Starte HauptFenster");
+
+			try {
+				new MainFrame(txtName.getText(), textPW.getText(),
+						textServer.getText());
+				MainFrame.frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			frame.hide();
+		} else {
+			JOptionPane
+					.showMessageDialog(
+							null,
+							"Anmeldung Fehlgeschlagen! Name oder Passwort vergessen? ServerIP falsch? Benutzer bereits angemeldet?");
+		}
 	}
 }
