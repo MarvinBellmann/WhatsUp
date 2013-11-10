@@ -86,6 +86,13 @@ public class Message implements Serializable {
 		return ("(From: " + from + " |To: " + to + " |Date: " + date + " |"
 				+ "Message: " + kurztext + ")");// +
 	}
+	
+	public String toStringSQL() {
+		
+		// rückgabe
+		return ("(From: " + from + " |To: " + to + " |Date: " + date + " |"
+				+ "Message: <<SQLDBAnswerMessage>>)");// +
+	}
 
 	public String toText() {
 		// html to string umformung der nachricht

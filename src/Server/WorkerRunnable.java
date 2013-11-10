@@ -66,16 +66,23 @@ public class WorkerRunnable implements Runnable {
 
 				for (Message m : messageListChecken) {
 
-					if (m.to.equalsIgnoreCase(this.user)) {
-						oos.writeObject(m);
-						ServerStart
-								.SystemWriteLogln("<<< Message weitergeleitet an "
-										+ this.user + "!");
-						MultiThreadedServer.messageList.remove(index);
-						break;
+				    if (m.to.equalsIgnoreCase(this.user)) {
+					oos.writeObject(m);
+					System.out.println(m.from);
+					if(m.from.contains("DBAntwort")==false && m.from.contains("ServerDB")==false){
+					    ServerStart.SystemWriteLogln("<<< Message weitergeleitet an "
+						    + this.user + "!" + m.toString());
 					}
+					else
+					{
+					    ServerStart.SystemWriteLogln("<<< Message weitergeleitet an "
+						    + this.user + "!" + m.toStringSQL());
+					}
+					MultiThreadedServer.messageList.remove(index);
+					break;
+				    }
 
-					index++;
+				    index++;
 				}
 
 				if (MultiThreadedServer.byteList.size() > 0) {

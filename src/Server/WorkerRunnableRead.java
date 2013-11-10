@@ -103,27 +103,27 @@ public class WorkerRunnableRead extends Thread {
 
 	public void recieve() throws ClassNotFoundException, IOException {
 		Object obj = ois.readObject();
-		// ServerStart.SystemWriteLogln("<<< Message erhalten");
-
+		
 		if (obj instanceof Message) {
-			ServerStart.SystemWriteLog("<<< Nachricht von Cl: ["
-					+ clientSocket.getInetAddress() + " |Port:"
-					+ clientSocket.getPort() + "] ");
-			messageIGot = (Message) obj;
+		    ServerStart.SystemWriteLog("<<< Nachricht von Cl: ["
+			    + clientSocket.getInetAddress() + " |Port:"
+			    + clientSocket.getPort() + "] ");
+		    messageIGot = (Message) obj;
 
-			if (messageIGot.from.equalsIgnoreCase("Admin")
-					&& messageIGot.to.equalsIgnoreCase("ServerDB")) {
-				ServerStart.SystemWriteLogln("|" + messageIGot.toText() + "");
-				MultiThreadedServer.sqlBefehlsListe.add(new SQLData(messageIGot
-						.toTextString(), 'n'));
+		    if (messageIGot.from.equalsIgnoreCase("Admin")
+			    && messageIGot.to.equalsIgnoreCase("ServerDB")) {
+			ServerStart.SystemWriteLogln("|" + messageIGot.toText() + "");
+			MultiThreadedServer.sqlBefehlsListe.add(new SQLData(messageIGot
+				.toTextString(), 'n'));
 
-			} else {
-				MultiThreadedServer.messageList.add(messageIGot);
-			}
+		    } else {
+			MultiThreadedServer.messageList.add(messageIGot);
+		    }
 
-			// ServerStart.SystemWriteLogln(messageIGot.toString());
-			// Thread.sleep(15);
+
 		}
+		
+		
 		if (obj instanceof StartData) {
 			startdata = (StartData) obj;
 			this.user = startdata.user;
