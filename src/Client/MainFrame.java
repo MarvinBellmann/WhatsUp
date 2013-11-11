@@ -857,7 +857,7 @@ public class MainFrame {
 				}
 				if ("Offline".equals(card.getStatus())) {
 					card.setColor1(new Color(245, 30, 30));
-					card.setColor2(new Color(220, 20, 20));
+					card.setColor2(new Color(180, 20, 20));
 					c.setFont(new Font("Miriam", Font.PLAIN, 14));
 				}
 
