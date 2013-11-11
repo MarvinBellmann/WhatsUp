@@ -1,6 +1,10 @@
 package Client;
 
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.nio.channels.FileChannel;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -74,7 +79,6 @@ public class ClientRead extends Thread {
 				if (messageIGot.from.equals("KontaktDBAntwort")) {
 					MainFrame.kontaktListeUpdater(messageIGot.text,
 							messageIGot.typ);
-					  MainFrame.tableLoaded =true;
 				} else {
 
 					if (messageIGot.from.equals("PictureDBAntwort")) {
@@ -169,13 +173,34 @@ public class ClientRead extends Thread {
 				
 				JFrame frame = new JFrame();
 				frame.setResizable(false);
-				frame.setBounds(MainFrame.ge.getMaximumWindowBounds().width/2-190,MainFrame.ge.getMaximumWindowBounds().height/2-100,380,70);//(10, 10, 210, 70);
+				frame.setBounds(MainFrame.ge.getMaximumWindowBounds().width/2-190,MainFrame.ge.getMaximumWindowBounds().height/2-100,380,130);//(10, 10, 210, 70);
 				frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				frame.setVisible(true);
 				JLabel label_2 = new JLabel("Übertragen");
-				label_2.setBounds(10, 10, 370, 30);
+				label_2.setBounds(5, 10, 370, 30);
 				label_2.setHorizontalAlignment( SwingConstants.CENTER );
 				frame.getContentPane().add(label_2);
+				frame.getContentPane().setLayout(null);
+				
+				JButton btnLogin = new JButton("Datei Öffnen");
+				btnLogin.setEnabled(false);
+				btnLogin.setBounds(20, 50, 330, 40);
+				btnLogin.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent arg0) {
+					    	try{
+					    	Desktop dt = Desktop.getDesktop();
+						dt.open(ff);
+					    	}catch(Exception e){
+					    	    e.printStackTrace();
+					    	}
+						
+					}
+				});
+				btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
+				frame.getContentPane().add(btnLogin);
+				
+				
 				
 				frame.setAlwaysOnTop(true);
 				frame.toFront();
@@ -258,6 +283,7 @@ public class ClientRead extends Thread {
 					}
 					//Desktop dt = Desktop.getDesktop();
 					//dt.open(ff);
+					btnLogin.setEnabled(true);
 				}
 				MainFrame.byteSendingProtector = false;
 			}
