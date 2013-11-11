@@ -252,15 +252,16 @@ public class LoginFrame {
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 12));
 		contentPane.add(btnRegister);
 
-		JLabel lblYourIp = new JLabel("Your WAN IP: ");
+		JLabel lblYourIp = new JLabel("WAN IP: ");
 		lblYourIp.setHorizontalAlignment(SwingConstants.LEFT);
 		lblYourIp.setFont(new Font("Tahoma", Font.PLAIN, 10));
 	
 		contentPane.add(lblYourIp, "span,alignx center,aligny center");
 
 		String yourip = null;
+		String internalip =null;
 		try {
-			//yourip = InetAddress.getLocalHost().getHostAddress();
+		    internalip = InetAddress.getLocalHost().getHostAddress();
 		    URL connection = new URL("http://checkip.amazonaws.com/");
 		    URLConnection con = connection.openConnection();
 		    String str = null;
@@ -275,7 +276,7 @@ public class LoginFrame {
 		
 		
 		
-		lblYourIp.setText(lblYourIp.getText() + yourip);
+		lblYourIp.setText(lblYourIp.getText() + yourip + " - (Intern: "+internalip+")");
 	}
 
 	@SuppressWarnings("deprecation")
