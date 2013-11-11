@@ -457,13 +457,20 @@ public class MainFrame {
 											+ "-Benutzer bannen: DELETE from user where username like 'XXX'\n"
 											+ "                                   DELETE from contacts where username like 'XXX' or contact like 'XXX'\n"
 											+ "\n"
-											+ "-Benutzer Pw ändern: UPDATE user set password = '????' where username like 'XXX'\n"
+											+ "-Benutzer Pw ändern: UPDATE user set password = SHA1('????') where username like 'XXX'\n"
 											+ "\n"
 											+ "-Kontakt anlegen: INSERT IGNORE INTO contacts (username, contact) values ('XXX','YYY')\n"
 											+ "                                  INSERT IGNORE INTO contacts (username, contact) values ('YYY','XXX')\n"
 											+ "\n"
-											+ "-Kontakt löschen: DELETE from contacts where username like 'XXX' and contact like 'YYY')\n"
-											+ "                                  DELETE from contacts where username like 'YYY' and contact like 'XXX')");
+											+ "-Kontakt löschen: DELETE from contacts where username like 'XXX' and contact like 'YYY'\n"
+											+ "                                  DELETE from contacts where username like 'YYY' and contact like 'XXX'\n"
+											+ "\n"
+											+ "-Freunde zählen: SELECT u.username, COUNT(c.contact) AS Freunde from user u, contacts c where u.username=c.username group by u.username\n"
+											+ "\n"
+											+ "\n"
+											+ "***** Wenn die SQL-Eingabe weniger als 11 Zeichen beeinhaltet, ist sie ungültig -> Standard Rückgabe: SELECT * from user *****"										
+
+											);
 				}
 			});
 			mSQL.add(item8);

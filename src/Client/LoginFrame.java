@@ -1,6 +1,7 @@
 package Client;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -158,7 +159,7 @@ public class LoginFrame {
 
 		contentPane.add(textPW, "growx");
 
-		JLabel lblServerip = new JLabel("Server-IP");
+		JLabel lblServerip = new JLabel("Server-IP (Bei Admin erfragen)");
 		lblServerip.setHorizontalAlignment(SwingConstants.LEFT);
 		lblServerip.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		contentPane.add(lblServerip);
@@ -281,14 +282,21 @@ public class LoginFrame {
 
 	@SuppressWarnings("deprecation")
 	protected void anmelden() {
+	    frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		boolean anmeldeDatenAkzeptiert = false;
-
+		boolean unknownHost=false;
 		try {
 			InetAddress host = InetAddress.getByName(textServer.getText());// InetAddress.getLocalHost();
 			System.out.println(host.getHostAddress());
-			socket = new Socket(host.getHostAddress(), 7866);
-			socket.setTcpNoDelay(true);
-			socket.setSoTimeout(5000);
+			try {	
+			    
+			    socket = new Socket(host.getHostAddress(), 7866);
+				socket.setTcpNoDelay(true);
+				socket.setSoTimeout(2400);
+				
+			}catch(Exception e2){
+			    unknownHost=true;
+			}
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			oos.writeObject(new StartData("Anmelder"));
@@ -338,10 +346,14 @@ public class LoginFrame {
 			}
 			frame.hide();
 		} else {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Anmeldung Fehlgeschlagen! Name oder Passwort vergessen? ServerIP falsch? Benutzer bereits angemeldet?");
-		}
+		    if(unknownHost==false){
+			JOptionPane.showMessageDialog(null,"Anmeldung Fehlgeschlagen! \nName oder Passwort vergessen? Benutzer bereits angemeldet?");
+		    }else{
+			JOptionPane.showMessageDialog(null,"Anmeldung Fehlgeschlagen! \nServerIP falsch!");
+			   
+		    }
+		    }
+		
+		 frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 }
