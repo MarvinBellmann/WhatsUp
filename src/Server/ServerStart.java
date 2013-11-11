@@ -2,7 +2,11 @@ package Server;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 
 import javax.swing.BoxLayout;
@@ -22,6 +26,7 @@ import javax.swing.text.DefaultCaret;
 public class ServerStart {
 
 	static String serverip = null;
+	static String wanip =null;
 	static int port = 7866;
 	private static JPanel contentPane;
 	static JTextPane textPane;
@@ -83,10 +88,22 @@ public class ServerStart {
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		
+		
+		try{
+		    URL connection = new URL("http://checkip.amazonaws.com/");
+		    URLConnection con = connection.openConnection();
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		    wanip = reader.readLine();
+		}catch(Exception e2){
+		    e2.printStackTrace();
+		}
+		
+		
 		MultiThreadedServer server = new MultiThreadedServer(port);
 		new Thread(server).start();
-		SystemWriteLogln("Server gestartet. Server IP ist: [" + serverip
-				+ " |Port:" + port + "]");
+		SystemWriteLogln("Server gestartet. Server IP ist: [WAN IP:" + wanip
+				+ " (Internal IP:"+serverip+") | Port:" + port + "]");
 		SystemWriteLogln("Warte auf Clients...");
 		frmWakengerServerConsole.setVisible(true);
 
