@@ -9,11 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -249,19 +252,29 @@ public class LoginFrame {
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 12));
 		contentPane.add(btnRegister);
 
-		JLabel lblYourIp = new JLabel("Your IP: ");
+		JLabel lblYourIp = new JLabel("Your WAN IP: ");
 		lblYourIp.setHorizontalAlignment(SwingConstants.LEFT);
 		lblYourIp.setFont(new Font("Tahoma", Font.PLAIN, 10));
+	
 		contentPane.add(lblYourIp, "span,alignx center,aligny center");
 
 		String yourip = null;
 		try {
-			yourip = InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
+			//yourip = InetAddress.getLocalHost().getHostAddress();
+		    URL connection = new URL("http://checkip.amazonaws.com/");
+		    URLConnection con = connection.openConnection();
+		    String str = null;
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		    str = reader.readLine();
+		    yourip=str;
+		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
 
+		
+		
+		
 		lblYourIp.setText(lblYourIp.getText() + yourip);
 	}
 
